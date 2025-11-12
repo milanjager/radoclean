@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, HelpCircle, Plus, Minus } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ReservationForm from "./ReservationForm";
 
 type PackageType = "small" | "medium" | "large";
 
@@ -21,6 +23,7 @@ interface ExtraOption {
 const PricingConfigurator = () => {
   const [selectedPackage, setSelectedPackage] = useState<PackageType>("medium");
   const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set());
+  const [isReservationOpen, setIsReservationOpen] = useState(false);
 
   const packages = {
     small: {
@@ -266,14 +269,33 @@ const PricingConfigurator = () => {
                   </p>
                 )}
               </div>
-              <Button
-                variant="premium"
-                size="lg"
-                className="text-lg px-8 h-14"
-                onClick={scrollToContact}
-              >
-                Objednat za tuto cenu
-              </Button>
+              <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="premium"
+                    size="lg"
+                    className="text-lg px-8 h-14"
+                  >
+                    Rezervovat termín
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-2xl">
+                      Dokončit rezervaci
+                    </DialogTitle>
+                  </DialogHeader>
+                  <ReservationForm
+                    packageType={selectedPackage}
+                    basePrice={packages[selectedPackage].basePrice}
+                    selectedExtras={Array.from(selectedExtras).map(id => {
+                      const extra = extraOptions.find(e => e.id === id);
+                      return { id, label: extra?.label || "", price: extra?.price || 0 };
+                    })}
+                    totalPrice={calculateTotalPrice()}
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>

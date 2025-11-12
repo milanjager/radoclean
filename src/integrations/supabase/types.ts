@@ -47,6 +47,69 @@ export type Database = {
         }
         Relationships: []
       }
+      reservations: {
+        Row: {
+          address: string
+          base_price: number
+          city: string
+          created_at: string
+          email: string
+          extras: Json | null
+          extras_price: number
+          id: string
+          name: string
+          notes: string | null
+          package_type: string
+          phone: string
+          postal_code: string | null
+          preferred_date: string
+          preferred_time: string
+          status: string
+          total_price: number
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          base_price: number
+          city?: string
+          created_at?: string
+          email: string
+          extras?: Json | null
+          extras_price?: number
+          id?: string
+          name: string
+          notes?: string | null
+          package_type: string
+          phone: string
+          postal_code?: string | null
+          preferred_date: string
+          preferred_time: string
+          status?: string
+          total_price: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          base_price?: number
+          city?: string
+          created_at?: string
+          email?: string
+          extras?: Json | null
+          extras_price?: number
+          id?: string
+          name?: string
+          notes?: string | null
+          package_type?: string
+          phone?: string
+          postal_code?: string | null
+          preferred_date?: string
+          preferred_time?: string
+          status?: string
+          total_price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
