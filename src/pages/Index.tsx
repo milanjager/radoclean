@@ -1,8 +1,9 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
+import StreetFinder from "@/components/StreetFinder";
 import Benefits from "@/components/Benefits";
-import Pricing from "@/components/Pricing";
+import PricingConfigurator from "@/components/PricingConfigurator";
 import Team from "@/components/Team";
 import Testimonials from "@/components/Testimonials";
 import Guarantee from "@/components/Guarantee";
@@ -18,8 +19,9 @@ const Index = () => {
       <Header />
       <Hero />
       <TrustBadges />
+      <StreetFinder />
       <Benefits />
-      <Pricing />
+      <PricingConfigurator />
       <Team />
       <Testimonials />
       <Guarantee />

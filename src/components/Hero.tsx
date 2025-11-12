@@ -18,15 +18,20 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[75vh] flex items-center pt-20">
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+    <section className="relative min-h-[85vh] flex items-center pt-20">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-black/40" />
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">
@@ -37,11 +42,11 @@ const Hero = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Vrátíme vám volné víkendy
+            Prémiový úklid pro Radotín a Černošice
           </h1>
           
           <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
-            Prémiový úklid pro váš domov. Bez fotobankovitých slibů – jen skutečné výsledky a transparentní ceny.
+            Bezpečný jako sousedská výpomoc, profesionální jako pětihvězdičkový hotel.
           </p>
           
           <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-lg">
