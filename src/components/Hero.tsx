@@ -36,13 +36,19 @@ const Hero = () => {
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             Vrátíme vám volné víkendy
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/95 mb-8 leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
             Prémiový úklid pro váš domov. Bez fotobankovitých slibů – jen skutečné výsledky a transparentní ceny.
           </p>
+          
+          <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-lg">
+            <p className="text-accent-foreground font-bold text-lg md:text-xl">
+              🏠 Od 1 800 Kč • ⏱️ Rezervace za 2 minuty • ✓ Garance spokojenosti
+            </p>
+          </div>
           
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 

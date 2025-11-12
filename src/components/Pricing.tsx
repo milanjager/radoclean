@@ -23,7 +23,8 @@ const Pricing = () => {
   };
   const packages = [
     {
-      name: "Byt 1+kk až 2+kk",
+      name: "Malý byt (1+kk, 2+kk)",
+      subtitle: "Do 60 m²",
       price: "1 800",
       features: [
         "Kompletní úklid všech místností",
@@ -35,7 +36,8 @@ const Pricing = () => {
       popular: false,
     },
     {
-      name: "Byt 3+kk až 4+kk",
+      name: "Střední byt (3+kk, 4+kk)",
+      subtitle: "60-100 m²",
       price: "2 500",
       features: [
         "Kompletní úklid všech místností",
@@ -49,6 +51,7 @@ const Pricing = () => {
     },
     {
       name: "Rodinný dům",
+      subtitle: "100-150 m²",
       price: "3 500",
       features: [
         "Kompletní úklid všech místností",
@@ -60,6 +63,7 @@ const Pricing = () => {
         "Schodiště",
       ],
       popular: false,
+      note: "Domy nad 150 m² - individuální cenová nabídka",
     },
   ];
 
@@ -89,9 +93,12 @@ const Pricing = () => {
                 </div>
               )}
               
-              <h3 className="text-2xl font-bold text-foreground mb-2">
+              <h3 className="text-2xl font-bold text-foreground mb-1">
                 {pkg.name}
               </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                {pkg.subtitle}
+              </p>
               
               <div className="mb-6">
                 <span className="text-5xl font-bold text-foreground">
@@ -129,6 +136,12 @@ const Pricing = () => {
               >
                 Objednat teď
               </Button>
+              
+              {pkg.note && (
+                <p className="text-xs text-muted-foreground text-center mt-3">
+                  {pkg.note}
+                </p>
+              )}
             </div>
           ))}
         </div>

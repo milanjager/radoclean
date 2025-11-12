@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Calendar, Loader2 } from "lucide-react";
+import { Phone, Mail, MapPin, Calendar, Loader2, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -32,6 +33,7 @@ const contactSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -49,14 +51,24 @@ const Contact = () => {
       // Validace
       const validatedData = contactSchema.parse(formData);
 
-      // Simulace odeslání (zde by byla integrace s emailovou službou nebo Supabase)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Uložení do databáze
+      const { error } = await supabase
+        .from('inquiries')
+        .insert([{
+          name: validatedData.name,
+          email: validatedData.email,
+          phone: validatedData.phone,
+          message: validatedData.message,
+        }]);
+
+      if (error) throw error;
 
       // Success
+      setIsSuccess(true);
       toast({
-        title: "Zpráva odeslána!",
-        description: "Ozveme se vám do 2 hodin ve všední dny. Děkujeme!",
-        duration: 5000,
+        title: "✅ Zpráva úspěšně odeslána!",
+        description: "Ozveme se vám do 2 hodin ve všední dny.",
+        duration: 7000,
       });
 
       // Reset formuláře
@@ -66,6 +78,9 @@ const Contact = () => {
         phone: "",
         message: "",
       });
+
+      // Reset success state after 10 seconds
+      setTimeout(() => setIsSuccess(false), 10000);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
@@ -77,14 +92,14 @@ const Contact = () => {
         setErrors(fieldErrors);
 
         toast({
-          title: "Chyba ve formuláři",
+          title: "❌ Chyba ve formuláři",
           description: "Zkontrolujte prosím vyplněné údaje",
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Chyba při odesílání",
-          description: "Zkuste to prosím znovu nebo nám zavolejte",
+          title: "❌ Chyba při odesílání",
+          description: "Zkuste to prosím znovu nebo nám zavolejte na +420 777 888 999",
           variant: "destructive",
         });
       }
@@ -133,7 +148,10 @@ const Contact = () => {
                     <Phone className="w-6 h-6 flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold mb-1">Telefon</p>
-                      <a href="tel:+420777888999" className="text-lg hover:underline">
+                      <a 
+                        href="tel:+420777888999" 
+                        className="text-lg hover:underline block"
+                      >
                         +420 777 888 999
                       </a>
                       <p className="text-sm text-primary-foreground/80 mt-1">
@@ -186,7 +204,32 @@ const Contact = () => {
             </div>
             
             <div>
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              {isSuccess ? (
+                <div className="flex flex-col items-center justify-center py-12 px-6 bg-primary/5 rounded-2xl border-2 border-primary/20">
+                  <CheckCircle2 className="w-16 h-16 text-primary mb-4" />
+                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                    Děkujeme za zprávu!
+                  </h3>
+                  <p className="text-muted-foreground text-center mb-6">
+                    Vaše poptávka byla úspěšně odeslána. Ozveme se vám do 2 hodin ve všední dny.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <a href="tel:+420777888999">
+                      <Button variant="premium">
+                        <Phone className="mr-2 h-5 w-5" />
+                        Zavolat teď
+                      </Button>
+                    </a>
+                    <Button 
+                      variant="outline"
+                      onClick={() => setIsSuccess(false)}
+                    >
+                      Odeslat další zprávu
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
                     Jméno a příjmení <span className="text-destructive">*</span>
@@ -278,9 +321,13 @@ const Contact = () => {
                 </Button>
                 
                 <p className="text-sm text-muted-foreground text-center">
-                  Odpovíme vám do 2 hodin ve všední dny
+                  Odpovíme vám do 2 hodin ve všední dny. Nebo nám rovnou zavolejte: 
+                  <a href="tel:+420777888999" className="text-primary hover:underline font-semibold ml-1">
+                    +420 777 888 999
+                  </a>
                 </p>
               </form>
+              )}
             </div>
           </div>
         </div>
