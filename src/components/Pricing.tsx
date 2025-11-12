@@ -1,7 +1,26 @@
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, HelpCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Pricing = () => {
+  const scrollToContact = () => {
+    const element = document.getElementById("contact");
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
   const packages = [
     {
       name: "Byt 1+kk až 2+kk",
@@ -45,7 +64,7 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section id="pricing" className="py-20 bg-background scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -86,6 +105,18 @@ const Pricing = () => {
                   <li key={idx} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     <span className="text-muted-foreground">{feature}</span>
+                    {feature.includes("základní") && (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <HelpCircle className="w-4 h-4 text-muted-foreground" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="max-w-xs">Úklid terasy/balkonu, zametení listí. Kompletní údržba zahrady za příplatek.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -94,6 +125,7 @@ const Pricing = () => {
                 variant={pkg.popular ? "premium" : "default"} 
                 className="w-full"
                 size="lg"
+                onClick={scrollToContact}
               >
                 Objednat teď
               </Button>
@@ -104,9 +136,12 @@ const Pricing = () => {
         <div className="text-center mt-12">
           <p className="text-muted-foreground">
             Potřebujete jiný typ úklidu?{" "}
-            <a href="#kontakt" className="text-primary hover:underline font-semibold">
+            <button 
+              onClick={scrollToContact}
+              className="text-primary hover:underline font-semibold"
+            >
               Napište nám
-            </a>
+            </button>
             {" "}a připravíme nabídku na míru.
           </p>
         </div>

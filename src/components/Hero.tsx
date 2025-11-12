@@ -1,10 +1,24 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-clean-room.jpg";
 
 const Hero = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <section className="relative min-h-[90vh] flex items-center">
+    <section className="relative min-h-[75vh] flex items-center pt-20">
       <div 
         className="absolute inset-0 z-0"
         style={{
@@ -31,15 +45,36 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="hero" size="lg" className="text-lg group">
+            <Button 
+              variant="hero" 
+              size="lg" 
+              className="text-lg group"
+              onClick={() => scrollToSection("pricing")}
+            >
               Zjistit cenu
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-            <Button variant="outline" size="lg" className="text-lg bg-white/95 hover:bg-white border-0">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="text-lg bg-white/95 hover:bg-white border-0"
+              onClick={() => scrollToSection("contact")}
+            >
               <Calendar className="mr-2" />
               Rezervovat termín
             </Button>
+            
+            <a href="tel:+420777888999" className="sm:hidden">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full text-lg bg-white/95 hover:bg-white border-0"
+              >
+                <Phone className="mr-2" />
+                Zavolat teď
+              </Button>
+            </a>
           </div>
           
           <div className="mt-8 flex flex-wrap gap-6 text-white/90">

@@ -1,11 +1,115 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Calendar } from "lucide-react";
+import { Phone, Mail, MapPin, Calendar, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Jméno musí mít alespoň 2 znaky" })
+    .max(100, { message: "Jméno je příliš dlouhé" }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Zadejte platnou emailovou adresu" })
+    .max(255, { message: "Email je příliš dlouhý" }),
+  phone: z
+    .string()
+    .trim()
+    .min(9, { message: "Zadejte platné telefonní číslo" })
+    .max(20, { message: "Telefonní číslo je příliš dlouhé" }),
+  message: z
+    .string()
+    .trim()
+    .min(10, { message: "Zpráva musí mít alespoň 10 znaků" })
+    .max(1000, { message: "Zpráva je příliš dlouhá (max 1000 znaků)" }),
+});
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+    setIsSubmitting(true);
+
+    try {
+      // Validace
+      const validatedData = contactSchema.parse(formData);
+
+      // Simulace odeslání (zde by byla integrace s emailovou službou nebo Supabase)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Success
+      toast({
+        title: "Zpráva odeslána!",
+        description: "Ozveme se vám do 2 hodin ve všední dny. Děkujeme!",
+        duration: 5000,
+      });
+
+      // Reset formuláře
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+
+        toast({
+          title: "Chyba ve formuláři",
+          description: "Zkontrolujte prosím vyplněné údaje",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Chyba při odesílání",
+          description: "Zkuste to prosím znovu nebo nám zavolejte",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+    // Vymazat chybu při psaní
+    if (errors[id]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[id];
+        return newErrors;
+      });
+    }
+  };
+
   return (
-    <section id="kontakt" className="py-20 bg-background">
+    <section id="contact" className="py-20 bg-background scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -82,51 +186,78 @@ const Contact = () => {
             </div>
             
             <div>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
-                    Jméno a příjmení
+                    Jméno a příjmení <span className="text-destructive">*</span>
                   </label>
                   <Input 
                     id="name" 
                     placeholder="Jan Novák"
-                    className="h-12"
+                    className={`h-12 ${errors.name ? "border-destructive" : ""}`}
+                    value={formData.name}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
                   />
+                  {errors.name && (
+                    <p className="text-destructive text-sm mt-1">{errors.name}</p>
+                  )}
                 </div>
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
-                    Email
+                    Email <span className="text-destructive">*</span>
                   </label>
                   <Input 
                     id="email" 
                     type="email" 
                     placeholder="jan.novak@email.cz"
-                    className="h-12"
+                    className={`h-12 ${errors.email ? "border-destructive" : ""}`}
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
                   />
+                  {errors.email && (
+                    <p className="text-destructive text-sm mt-1">{errors.email}</p>
+                  )}
                 </div>
                 
                 <div>
                   <label htmlFor="phone" className="block text-sm font-semibold text-foreground mb-2">
-                    Telefon
+                    Telefon <span className="text-destructive">*</span>
                   </label>
                   <Input 
                     id="phone" 
                     type="tel" 
                     placeholder="+420 777 888 999"
-                    className="h-12"
+                    className={`h-12 ${errors.phone ? "border-destructive" : ""}`}
+                    value={formData.phone}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
                   />
+                  {errors.phone && (
+                    <p className="text-destructive text-sm mt-1">{errors.phone}</p>
+                  )}
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
-                    Zpráva
+                    Zpráva <span className="text-destructive">*</span>
                   </label>
                   <Textarea 
                     id="message" 
                     placeholder="Napište nám, co potřebujete uklidit a kdy máte čas..."
-                    className="min-h-32"
+                    className={`min-h-32 ${errors.message ? "border-destructive" : ""}`}
+                    value={formData.message}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
                   />
+                  {errors.message && (
+                    <p className="text-destructive text-sm mt-1">{errors.message}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {formData.message.length}/1000 znaků
+                  </p>
                 </div>
                 
                 <Button 
@@ -134,8 +265,16 @@ const Contact = () => {
                   variant="premium" 
                   size="lg"
                   className="w-full text-lg"
+                  disabled={isSubmitting}
                 >
-                  Odeslat poptávku
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Odesílám...
+                    </>
+                  ) : (
+                    "Odeslat poptávku"
+                  )}
                 </Button>
                 
                 <p className="text-sm text-muted-foreground text-center">

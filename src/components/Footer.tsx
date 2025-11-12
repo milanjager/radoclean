@@ -1,4 +1,18 @@
 const Footer = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <footer className="bg-foreground text-background py-12">
       <div className="container mx-auto px-4">
@@ -14,24 +28,36 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Rychlé odkazy</h4>
             <ul className="space-y-2 text-background/80">
               <li>
-                <a href="#" className="hover:text-background transition-colors">
+                <button 
+                  onClick={() => scrollToSection("pricing")}
+                  className="hover:text-background transition-colors"
+                >
                   Ceník
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="hover:text-background transition-colors">
+                <button 
+                  onClick={() => scrollToSection("team")}
+                  className="hover:text-background transition-colors"
+                >
                   O nás
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#kontakt" className="hover:text-background transition-colors">
+                <button 
+                  onClick={() => scrollToSection("contact")}
+                  className="hover:text-background transition-colors"
+                >
                   Kontakt
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="hover:text-background transition-colors">
+                <button 
+                  onClick={() => scrollToSection("testimonials")}
+                  className="hover:text-background transition-colors"
+                >
                   Reference
-                </a>
+                </button>
               </li>
             </ul>
           </div>
