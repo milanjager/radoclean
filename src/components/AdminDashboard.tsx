@@ -17,11 +17,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText } from "lucide-react";
 
 type Reservation = {
   id: string;
@@ -48,6 +54,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("");
+  const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -212,6 +219,7 @@ const AdminDashboard = () => {
                   <TableHead>Price</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -282,6 +290,15 @@ const AdminDashboard = () => {
                         </SelectContent>
                       </Select>
                     </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setSelectedReservation(reservation)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -295,6 +312,128 @@ const AdminDashboard = () => {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Reservation Details</DialogTitle>
+          </DialogHeader>
+          
+          {selectedReservation && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Mail className="h-4 w-4" />
+                      Customer Information
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Name:</span> {selectedReservation.name}</p>
+                      <p><span className="font-medium">Email:</span> {selectedReservation.email}</p>
+                      <p><span className="font-medium">Phone:</span> {selectedReservation.phone}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Address
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <p>{selectedReservation.address}</p>
+                      <p>{selectedReservation.city}</p>
+                      {selectedReservation.postal_code && (
+                        <p>{selectedReservation.postal_code}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Schedule
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Date:</span> {format(new Date(selectedReservation.preferred_date), "MMMM dd, yyyy")}</p>
+                      <p><span className="font-medium">Time:</span> {selectedReservation.preferred_time}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Package className="h-4 w-4" />
+                      Package & Pricing
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Package:</span> <span className="capitalize">{selectedReservation.package_type}</span></p>
+                      <p><span className="font-medium">Base Price:</span> {selectedReservation.base_price} Kč</p>
+                      <p><span className="font-medium">Extras:</span> {selectedReservation.extras_price} Kč</p>
+                      <p className="text-lg font-bold"><span className="font-medium">Total:</span> {selectedReservation.total_price} Kč</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {selectedReservation.extras && Array.isArray(selectedReservation.extras) && selectedReservation.extras.length > 0 && (
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Package className="h-4 w-4" />
+                      Selected Extras
+                    </h3>
+                    <div className="space-y-2">
+                      {selectedReservation.extras.map((extra: any, index: number) => (
+                        <div key={index} className="flex justify-between items-center p-3 bg-muted rounded-md">
+                          <span className="font-medium">{extra.name}</span>
+                          <Badge variant="secondary">{extra.price} Kč</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {selectedReservation.notes && (
+                <Card>
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Customer Notes
+                    </h3>
+                    <p className="text-sm whitespace-pre-wrap bg-muted p-3 rounded-md">
+                      {selectedReservation.notes}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-semibold mb-1">Status</h3>
+                      <Badge className={getStatusColor(selectedReservation.status)}>
+                        {selectedReservation.status}
+                      </Badge>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground">Created</p>
+                      <p className="text-sm font-medium">{format(new Date(selectedReservation.created_at), "MMM dd, yyyy 'at' HH:mm")}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
