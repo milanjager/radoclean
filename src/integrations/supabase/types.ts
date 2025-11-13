@@ -47,6 +47,75 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_codes: {
+        Row: {
+          code: string
+          created_at: string
+          discount_activated: boolean
+          email: string
+          id: string
+          referrals_count: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount_activated?: boolean
+          email: string
+          id?: string
+          referrals_count?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount_activated?: boolean
+          email?: string
+          id?: string
+          referrals_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      referral_uses: {
+        Row: {
+          created_at: string
+          id: string
+          referral_code_id: string
+          reservation_id: string | null
+          user_email: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referral_code_id: string
+          reservation_id?: string | null
+          user_email: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referral_code_id?: string
+          reservation_id?: string | null
+          user_email?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_uses_referral_code_id_fkey"
+            columns: ["referral_code_id"]
+            isOneToOne: false
+            referencedRelation: "referral_codes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_uses_reservation_id_fkey"
+            columns: ["reservation_id"]
+            isOneToOne: false
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reservations: {
         Row: {
           address: string
@@ -64,6 +133,7 @@ export type Database = {
           postal_code: string | null
           preferred_date: string
           preferred_time: string
+          referral_code: string | null
           status: string
           total_price: number
           updated_at: string
@@ -84,6 +154,7 @@ export type Database = {
           postal_code?: string | null
           preferred_date: string
           preferred_time: string
+          referral_code?: string | null
           status?: string
           total_price: number
           updated_at?: string
@@ -104,11 +175,20 @@ export type Database = {
           postal_code?: string | null
           preferred_date?: string
           preferred_time?: string
+          referral_code?: string | null
           status?: string
           total_price?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "reservations_referral_code_fkey"
+            columns: ["referral_code"]
+            isOneToOne: false
+            referencedRelation: "referral_codes"
+            referencedColumns: ["code"]
+          },
+        ]
       }
       user_roles: {
         Row: {

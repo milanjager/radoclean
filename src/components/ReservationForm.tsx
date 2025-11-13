@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, CalendarIcon, CheckCircle2, MapPin } from "lucide-react";
+import { Loader2, CalendarIcon, CheckCircle2, MapPin, Gift } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { format } from "date-fns";
 import { cs } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const reservationSchema = z.object({
   name: z.string().min(2, "Jméno musí mít alespoň 2 znaky").max(100),
@@ -38,6 +39,8 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [date, setDate] = useState<Date>();
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralDiscount, setReferralDiscount] = useState<number>(0);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -49,6 +52,55 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     notes: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Check for referral code in URL on mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refCode = urlParams.get('ref');
+    
+    if (refCode) {
+      checkReferralCode(refCode);
+    }
+  }, []);
+
+  const checkReferralCode = async (code: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('referral_codes')
+        .select('*')
+        .eq('code', code)
+        .single();
+
+      if (error || !data) {
+        console.log('Invalid referral code');
+        return;
+      }
+
+      setReferralCode(code);
+      
+      // If referral code has 2+ referrals, apply 15% discount
+      if (data.discount_activated) {
+        setReferralDiscount(0.15);
+        toast({
+          title: "🎉 Sousedská sleva aktivována!",
+          description: "Dostáváte slevu 15% díky sousedskému programu",
+          duration: 5000,
+        });
+      } else {
+        toast({
+          title: "✓ Referral kód použit",
+          description: `Jste ${data.referrals_count + 1}. v seznamu. Sleva se aktivuje po 3 objednávkách.`,
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      console.error('Error checking referral code:', error);
+    }
+  };
+
+  const getFinalPrice = () => {
+    return Math.round(totalPrice * (1 - referralDiscount));
+  };
 
   const timeSlots = [
     "08:00 - 10:00",
@@ -71,7 +123,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
         preferredDate: date,
       });
 
-      const { error } = await supabase.from("reservations").insert([
+      const { data: reservationData, error } = await supabase.from("reservations").insert([
         {
           name: validatedData.name,
           email: validatedData.email,
@@ -83,14 +135,34 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
           extras: selectedExtras.map(e => ({ id: e.id, label: e.label, price: e.price })),
           base_price: basePrice,
           extras_price: extrasPrice,
-          total_price: totalPrice,
+          total_price: getFinalPrice(),
           preferred_date: format(validatedData.preferredDate, "yyyy-MM-dd"),
           preferred_time: validatedData.preferredTime,
           notes: validatedData.notes || null,
+          referral_code: referralCode || null,
         },
-      ]);
+      ]).select();
 
       if (error) throw error;
+
+      // Track referral use if referral code was used
+      if (referralCode && reservationData && reservationData[0]) {
+        const { data: referralCodeData } = await supabase
+          .from('referral_codes')
+          .select('id')
+          .eq('code', referralCode)
+          .single();
+
+        if (referralCodeData) {
+          await supabase.from('referral_uses').insert([
+            {
+              referral_code_id: referralCodeData.id,
+              user_email: validatedData.email,
+              reservation_id: reservationData[0].id,
+            }
+          ]);
+        }
+      }
 
       setIsSuccess(true);
       toast({
@@ -174,6 +246,16 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Referral Discount Alert */}
+      {referralCode && (
+        <Alert className="border-primary/50 bg-primary/5">
+          <Gift className="h-5 w-5 text-primary" />
+          <AlertDescription className="text-foreground ml-2">
+            <strong>Sousedská sleva použita!</strong> {referralDiscount > 0 ? "Dostáváte slevu 15%!" : "Jste v programu - sleva se aktivuje po 3 objednávkách."}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Price Summary */}
       <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-6 border-2 border-primary/30">
         {frequency && (
@@ -196,13 +278,24 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
             ))}
           </>
         )}
+        {referralDiscount > 0 && (
+          <div className="flex justify-between items-center mb-2 text-primary">
+            <span className="text-sm font-semibold">Sousedská sleva (15%)</span>
+            <span className="font-semibold">-{Math.round(totalPrice * referralDiscount).toLocaleString('cs-CZ')} Kč</span>
+          </div>
+        )}
         <div className="border-t border-primary/20 mt-3 pt-3">
           <div className="flex justify-between items-center">
             <span className="font-bold text-lg">Celková cena</span>
             <span className="font-bold text-2xl text-primary">
-              {totalPrice.toLocaleString('cs-CZ')} Kč
+              {getFinalPrice().toLocaleString('cs-CZ')} Kč
             </span>
           </div>
+          {referralDiscount > 0 && (
+            <p className="text-xs text-muted-foreground text-right mt-1">
+              Původní cena: <span className="line-through">{totalPrice.toLocaleString('cs-CZ')} Kč</span>
+            </p>
+          )}
         </div>
       </div>
 

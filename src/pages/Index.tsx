@@ -13,6 +13,8 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
+import StickyCalculator from "@/components/StickyCalculator";
+import NeighborhoodDiscount from "@/components/NeighborhoodDiscount";
 
 const Index = () => {
   return (
@@ -23,6 +25,7 @@ const Index = () => {
       <StreetFinder />
       <Benefits />
       <PricingConfigurator />
+      <NeighborhoodDiscount />
       <Team />
       <Testimonials />
       <Guarantee />
@@ -32,6 +35,7 @@ const Index = () => {
       <WhatsAppButton />
       <ScrollToTop />
       <StickyMobileCTA />
+      <StickyCalculator />
     </div>
   );
 };
