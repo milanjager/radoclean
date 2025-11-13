@@ -12,6 +12,7 @@ import {
 import ReservationForm from "./ReservationForm";
 
 type PackageType = "small" | "medium" | "large";
+type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
 
 interface ExtraOption {
   id: string;
@@ -20,10 +21,57 @@ interface ExtraOption {
   tooltip?: string;
 }
 
+interface Category {
+  id: CategoryType;
+  name: string;
+  description: string;
+  priceMultiplier: number;
+  icon: string;
+}
+
 const PricingConfigurator = () => {
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>("standard");
   const [selectedPackage, setSelectedPackage] = useState<PackageType>("medium");
   const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set());
   const [isReservationOpen, setIsReservationOpen] = useState(false);
+
+  const categories: Category[] = [
+    {
+      id: "standard",
+      name: "Běžný úklid",
+      description: "Pravidelný úklid pro udržení čistoty",
+      priceMultiplier: 1,
+      icon: "🏠"
+    },
+    {
+      id: "general",
+      name: "Generální úklid",
+      description: "Hloubkové čištění všech prostorů",
+      priceMultiplier: 1.5,
+      icon: "✨"
+    },
+    {
+      id: "post-construction",
+      name: "Úklid po rekonstrukci",
+      description: "Odstranění stavebního prachu a nečistot",
+      priceMultiplier: 2,
+      icon: "🔨"
+    },
+    {
+      id: "post-moving",
+      name: "Úklid po stěhování",
+      description: "Kompletní úklid vyprázdněných prostor",
+      priceMultiplier: 1.7,
+      icon: "📦"
+    },
+    {
+      id: "regular",
+      name: "Pravidelný úklid",
+      description: "Týdenní nebo měsíční servis se slevou",
+      priceMultiplier: 0.85,
+      icon: "📅"
+    }
+  ];
 
   const packages = {
     small: {
@@ -109,12 +157,18 @@ const PricingConfigurator = () => {
   };
 
   const calculateTotalPrice = () => {
-    const basePrice = packages[selectedPackage].basePrice;
+    const category = categories.find(c => c.id === selectedCategory);
+    const basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
     const extrasPrice = Array.from(selectedExtras).reduce((sum, extraId) => {
       const extra = extraOptions.find(e => e.id === extraId);
       return sum + (extra?.price || 0);
     }, 0);
-    return basePrice + extrasPrice;
+    return Math.round(basePrice + extrasPrice);
+  };
+
+  const getBasePriceWithCategory = () => {
+    const category = categories.find(c => c.id === selectedCategory);
+    return Math.round(packages[selectedPackage].basePrice * (category?.priceMultiplier || 1));
   };
 
   const scrollToContact = () => {
@@ -138,11 +192,55 @@ const PricingConfigurator = () => {
             Interaktivní kalkulačka ceny
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Vyberte balíček a přidejte extras. Finální cenu vidíte okamžitě – bez čekání na nabídku.
+            Vyberte typ úklidu, balíček a přidejte extras. Finální cenu vidíte okamžitě – bez čekání na nabídku.
           </p>
         </div>
 
+        {/* Category Selection */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+            1. Vyberte typ úklidu
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {categories.map((category) => {
+              const isSelected = selectedCategory === category.id;
+              
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`text-center bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${
+                    isSelected 
+                      ? 'border-primary bg-primary/5 shadow-md' 
+                      : 'border-border hover:border-primary/50'
+                  }`}
+                >
+                  <div className="text-4xl mb-3">{category.icon}</div>
+                  <h4 className="font-bold text-foreground mb-2">
+                    {category.name}
+                  </h4>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {category.description}
+                  </p>
+                  {category.priceMultiplier !== 1 && (
+                    <p className="text-xs font-semibold text-primary">
+                      {category.priceMultiplier < 1 
+                        ? `Sleva ${Math.round((1 - category.priceMultiplier) * 100)}%`
+                        : `+${Math.round((category.priceMultiplier - 1) * 100)}%`
+                      }
+                    </p>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Package Selection */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+            2. Vyberte velikost prostoru
+          </h3>
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
           {(Object.keys(packages) as PackageType[]).map((key) => {
             const pkg = packages[key];
@@ -165,11 +263,17 @@ const PricingConfigurator = () => {
                   {pkg.subtitle}
                 </p>
                 <div className="text-3xl font-bold text-foreground">
-                  {pkg.basePrice} <span className="text-lg text-muted-foreground">Kč</span>
+                  {Math.round(pkg.basePrice * (categories.find(c => c.id === selectedCategory)?.priceMultiplier || 1))} <span className="text-lg text-muted-foreground">Kč</span>
                 </div>
+                {categories.find(c => c.id === selectedCategory)?.priceMultiplier !== 1 && (
+                  <p className="text-xs text-muted-foreground mt-1 line-through">
+                    Základ: {pkg.basePrice} Kč
+                  </p>
+                )}
               </button>
             );
           })}
+          </div>
         </div>
 
         {/* Selected Package Details */}
@@ -192,7 +296,7 @@ const PricingConfigurator = () => {
         {/* Extra Options */}
         <div className="max-w-4xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            Přidat extras (volitelné)
+            3. Přidat extras (volitelné)
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {extraOptions.map((extra) => {
@@ -260,7 +364,7 @@ const PricingConfigurator = () => {
                 </div>
                 {selectedExtras.size > 0 && (
                   <p className="text-sm text-muted-foreground mt-2">
-                    Základ: {packages[selectedPackage].basePrice} Kč + Extras: {
+                    Základ: {getBasePriceWithCategory()} Kč + Extras: {
                       Array.from(selectedExtras).reduce((sum, extraId) => {
                         const extra = extraOptions.find(e => e.id === extraId);
                         return sum + (extra?.price || 0);
@@ -286,8 +390,8 @@ const PricingConfigurator = () => {
                     </DialogTitle>
                   </DialogHeader>
                   <ReservationForm
-                    packageType={selectedPackage}
-                    basePrice={packages[selectedPackage].basePrice}
+                    packageType={`${categories.find(c => c.id === selectedCategory)?.name} - ${selectedPackage}`}
+                    basePrice={getBasePriceWithCategory()}
                     selectedExtras={Array.from(selectedExtras).map(id => {
                       const extra = extraOptions.find(e => e.id === id);
                       return { id, label: extra?.label || "", price: extra?.price || 0 };

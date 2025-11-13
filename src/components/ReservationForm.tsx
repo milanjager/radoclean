@@ -26,7 +26,7 @@ const reservationSchema = z.object({
 });
 
 interface ReservationFormProps {
-  packageType: "small" | "medium" | "large";
+  packageType: string;
   basePrice: number;
   selectedExtras: { id: string; label: string; price: number }[];
   totalPrice: number;
