@@ -12,10 +12,11 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-20 md:pb-0">
       <Header />
       <Hero />
       <TrustBadges />
@@ -30,6 +31,7 @@ const Index = () => {
       <Footer />
       <WhatsAppButton />
       <ScrollToTop />
+      <StickyMobileCTA />
     </div>
   );
 };

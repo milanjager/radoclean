@@ -29,10 +29,10 @@ const Benefits = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Proč si vybrat nás
+            Jak vám můžeme pomoci?
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Zjistili jsme, co ostatní úklidové firmy v oblasti dělají špatně. A dělame to jinak.
+            Zjistili jsme, co ostatní úklidové firmy v oblasti dělají špatně. A děláme to jinak.
           </p>
         </div>
         
@@ -40,7 +40,7 @@ const Benefits = () => {
           {benefits.map((benefit, index) => (
             <div 
               key={index}
-              className="bg-card p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-border"
+              className="bg-card p-8 rounded-2xl shadow-sm hover:shadow-warm transition-shadow border border-border"
             >
               <div className="mb-4">{benefit.icon}</div>
               <h3 className="text-xl font-bold text-foreground mb-3">

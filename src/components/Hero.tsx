@@ -26,6 +26,7 @@ const Hero = () => {
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
@@ -42,16 +43,16 @@ const Hero = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Prémiový úklid pro Radotín a Černošice
+            Prémiový úklid pro Radotín, Černošice a Zbraslav
           </h1>
           
           <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
             Bezpečný jako sousedská výpomoc, profesionální jako pětihvězdičkový hotel.
           </p>
           
-          <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-lg">
+          <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-2xl">
             <p className="text-accent-foreground font-bold text-lg md:text-xl">
-              🏠 Od 1 800 Kč • ⏱️ Rezervace za 2 minuty • ✓ Garance spokojenosti
+              🏠 Od 1 800 Kč • ⏱️ Rezervace za 2 minuty • ✓ Záruka spokojenosti
             </p>
           </div>
           
@@ -62,7 +63,7 @@ const Hero = () => {
               className="text-lg group"
               onClick={() => scrollToSection("pricing")}
             >
-              Zjistit cenu
+              Spočítat cenu úklidu
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
@@ -73,7 +74,7 @@ const Hero = () => {
               onClick={() => scrollToSection("contact")}
             >
               <Calendar className="mr-2" />
-              Rezervovat termín
+              Nezávazná kalkulace
             </Button>
             
             <a href="tel:+420777888999" className="sm:hidden">

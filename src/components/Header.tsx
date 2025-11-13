@@ -58,7 +58,7 @@ const Header = () => {
                 isScrolled ? "text-foreground" : "text-white"
               }`}
             >
-              Ceník
+              Spočítat cenu
             </button>
             <button
               onClick={() => scrollToSection("team")}
@@ -66,7 +66,7 @@ const Header = () => {
                 isScrolled ? "text-foreground" : "text-white"
               }`}
             >
-              Náš tým
+              Seznamte se s námi
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
@@ -82,22 +82,22 @@ const Header = () => {
                 isScrolled ? "text-foreground" : "text-white"
               }`}
             >
-              FAQ
+              Časté otázky
             </button>
             <a
               href="tel:+420777888999"
-              className={`flex items-center gap-2 font-semibold transition-colors hover:text-primary ${
+              className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${
                 isScrolled ? "text-foreground" : "text-white"
               }`}
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-5 h-5" />
               +420 777 888 999
             </a>
             <Button
               variant={isScrolled ? "premium" : "hero"}
               onClick={() => scrollToSection("contact")}
             >
-              Objednat
+              Rezervovat
             </Button>
           </nav>
 
@@ -116,18 +116,18 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 bg-background rounded-lg p-4 shadow-lg">
+          <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 bg-background rounded-xl p-4 shadow-lg">
             <button
               onClick={() => scrollToSection("pricing")}
               className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors"
             >
-              Ceník
+              Spočítat cenu
             </button>
             <button
               onClick={() => scrollToSection("team")}
               className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors"
             >
-              Náš tým
+              Seznamte se s námi
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
@@ -139,21 +139,21 @@ const Header = () => {
               onClick={() => scrollToSection("faq")}
               className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors"
             >
-              FAQ
+              Časté otázky
             </button>
             <a
               href="tel:+420777888999"
-              className="flex items-center gap-2 text-foreground font-semibold py-2 hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-foreground font-semibold py-3 px-4 rounded-xl bg-accent/10 hover:bg-accent/20 transition-colors"
             >
-              <Phone className="w-4 h-4" />
-              +420 777 888 999
+              <Phone className="w-5 h-5" />
+              <span className="text-lg">+420 777 888 999</span>
             </a>
             <Button
               variant="premium"
               className="mt-2"
               onClick={() => scrollToSection("contact")}
             >
-              Objednat
+              Rezervovat termín
             </Button>
           </nav>
         )}

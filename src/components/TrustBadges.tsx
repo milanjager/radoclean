@@ -5,7 +5,7 @@ const TrustBadges = () => {
     {
       icon: <Users className="w-6 h-6 text-primary" />,
       value: "150+",
-      label: "Spokojených zákazníků",
+      label: "Spokojených sousedů v Poberouní",
     },
     {
       icon: <Clock className="w-6 h-6 text-primary" />,
@@ -20,20 +20,25 @@ const TrustBadges = () => {
     {
       icon: <Award className="w-6 h-6 text-primary" />,
       value: "100%",
-      label: "Garance spokojenosti",
+      label: "Záruka spokojenosti",
     },
   ];
 
   return (
-    <section className="py-12 bg-muted/30">
+    <section className="py-12 bg-gradient-to-r from-secondary/50 via-secondary/30 to-secondary/50 border-y border-border">
       <div className="container mx-auto px-4">
+        <div className="text-center mb-8">
+          <p className="text-2xl md:text-3xl font-bold text-foreground">
+            ✓ Už <span className="text-primary">150+ spokojených sousedů</span> v Poberouní
+          </p>
+        </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {badges.map((badge, index) => (
             <div 
               key={index}
               className="flex flex-col items-center text-center p-4"
             >
-              <div className="mb-3 p-3 bg-primary/10 rounded-full">
+              <div className="mb-3 p-3 bg-primary/10 rounded-2xl">
                 {badge.icon}
               </div>
               <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
