@@ -30,9 +30,10 @@ interface ReservationFormProps {
   basePrice: number;
   selectedExtras: { id: string; label: string; price: number }[];
   totalPrice: number;
+  frequency?: string;
 }
 
-const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice }: ReservationFormProps) => {
+const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, frequency }: ReservationFormProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -78,7 +79,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice }:
           address: validatedData.address,
           city: validatedData.city,
           postal_code: validatedData.postalCode || null,
-          package_type: packageType,
+          package_type: frequency ? `${packageType} (${frequency})` : packageType,
           extras: selectedExtras.map(e => ({ id: e.id, label: e.label, price: e.price })),
           base_price: basePrice,
           extras_price: extrasPrice,
@@ -175,6 +176,12 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice }:
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Price Summary */}
       <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-6 border-2 border-primary/30">
+        {frequency && (
+          <div className="flex justify-between items-center mb-3 pb-3 border-b border-primary/20">
+            <span className="text-sm font-semibold text-foreground">Frekvence</span>
+            <span className="font-bold text-primary">{frequency}</span>
+          </div>
+        )}
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm text-muted-foreground">Základní balíček</span>
           <span className="font-semibold">{basePrice.toLocaleString('cs-CZ')} Kč</span>

@@ -13,6 +13,7 @@ import ReservationForm from "./ReservationForm";
 
 type PackageType = "small" | "medium" | "large";
 type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
+type FrequencyType = "weekly" | "biweekly" | "monthly" | null;
 
 interface ExtraOption {
   id: string;
@@ -29,11 +30,44 @@ interface Category {
   icon: string;
 }
 
+interface FrequencyOption {
+  id: FrequencyType;
+  name: string;
+  description: string;
+  discount: number;
+  icon: string;
+}
+
 const PricingConfigurator = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("standard");
   const [selectedPackage, setSelectedPackage] = useState<PackageType>("medium");
   const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set());
+  const [selectedFrequency, setSelectedFrequency] = useState<FrequencyType>(null);
   const [isReservationOpen, setIsReservationOpen] = useState(false);
+
+  const frequencyOptions: FrequencyOption[] = [
+    {
+      id: "weekly",
+      name: "Týdenní",
+      description: "1x týdně - maximální úspora",
+      discount: 0.20,
+      icon: "📆"
+    },
+    {
+      id: "biweekly",
+      name: "Každé 2 týdny",
+      description: "2x měsíčně - ideální volba",
+      discount: 0.15,
+      icon: "📅"
+    },
+    {
+      id: "monthly",
+      name: "Měsíční",
+      description: "1x měsíčně - základní servis",
+      discount: 0.10,
+      icon: "🗓️"
+    }
+  ];
 
   const categories: Category[] = [
     {
@@ -158,7 +192,16 @@ const PricingConfigurator = () => {
 
   const calculateTotalPrice = () => {
     const category = categories.find(c => c.id === selectedCategory);
-    const basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
+    let basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
+    
+    // Apply frequency discount if regular category and frequency is selected
+    if (selectedCategory === "regular" && selectedFrequency) {
+      const frequency = frequencyOptions.find(f => f.id === selectedFrequency);
+      if (frequency) {
+        basePrice = basePrice * (1 - frequency.discount);
+      }
+    }
+    
     const extrasPrice = Array.from(selectedExtras).reduce((sum, extraId) => {
       const extra = extraOptions.find(e => e.id === extraId);
       return sum + (extra?.price || 0);
@@ -168,7 +211,35 @@ const PricingConfigurator = () => {
 
   const getBasePriceWithCategory = () => {
     const category = categories.find(c => c.id === selectedCategory);
-    return Math.round(packages[selectedPackage].basePrice * (category?.priceMultiplier || 1));
+    let basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
+    
+    // Apply frequency discount if regular category and frequency is selected
+    if (selectedCategory === "regular" && selectedFrequency) {
+      const frequency = frequencyOptions.find(f => f.id === selectedFrequency);
+      if (frequency) {
+        basePrice = basePrice * (1 - frequency.discount);
+      }
+    }
+    
+    return Math.round(basePrice);
+  };
+
+  const getTotalDiscountPercentage = () => {
+    const category = categories.find(c => c.id === selectedCategory);
+    let totalDiscount = 0;
+    
+    if (category && category.priceMultiplier < 1) {
+      totalDiscount += (1 - category.priceMultiplier);
+    }
+    
+    if (selectedCategory === "regular" && selectedFrequency) {
+      const frequency = frequencyOptions.find(f => f.id === selectedFrequency);
+      if (frequency) {
+        totalDiscount += frequency.discount;
+      }
+    }
+    
+    return totalDiscount;
   };
 
   const scrollToContact = () => {
@@ -208,7 +279,13 @@ const PricingConfigurator = () => {
               return (
                 <button
                   key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    // Reset frequency when changing category
+                    if (category.id !== "regular") {
+                      setSelectedFrequency(null);
+                    }
+                  }}
                   className={`text-center bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${
                     isSelected 
                       ? 'border-primary bg-primary/5 shadow-md' 
@@ -236,10 +313,52 @@ const PricingConfigurator = () => {
           </div>
         </div>
 
+        {/* Frequency Selection - Only for Regular Cleaning */}
+        {selectedCategory === "regular" && (
+          <div className="max-w-6xl mx-auto mb-12">
+            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+              2. Vyberte frekvenci úklidu
+            </h3>
+            <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+              {frequencyOptions.map((frequency) => {
+                const isSelected = selectedFrequency === frequency.id;
+                
+                return (
+                  <button
+                    key={frequency.id}
+                    onClick={() => setSelectedFrequency(frequency.id)}
+                    className={`text-center bg-card rounded-xl p-6 border-2 transition-all hover:shadow-md ${
+                      isSelected 
+                        ? 'border-primary bg-primary/5 shadow-md' 
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <div className="text-4xl mb-3">{frequency.icon}</div>
+                    <h4 className="font-bold text-foreground mb-2">
+                      {frequency.name}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      {frequency.description}
+                    </p>
+                    <p className="text-sm font-bold text-primary">
+                      Extra sleva {Math.round(frequency.discount * 100)}%
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+            {!selectedFrequency && (
+              <p className="text-center text-sm text-muted-foreground mt-4">
+                Vyberte frekvenci pro zobrazení ceny
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Package Selection */}
         <div className="max-w-6xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            2. Vyberte velikost prostoru
+            {selectedCategory === "regular" ? "3" : "2"}. Vyberte velikost prostoru
           </h3>
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
           {(Object.keys(packages) as PackageType[]).map((key) => {
@@ -263,11 +382,29 @@ const PricingConfigurator = () => {
                   {pkg.subtitle}
                 </p>
                 <div className="text-3xl font-bold text-foreground">
-                  {Math.round(pkg.basePrice * (categories.find(c => c.id === selectedCategory)?.priceMultiplier || 1))} <span className="text-lg text-muted-foreground">Kč</span>
+                  {(() => {
+                    const category = categories.find(c => c.id === selectedCategory);
+                    let price = pkg.basePrice * (category?.priceMultiplier || 1);
+                    
+                    if (selectedCategory === "regular" && selectedFrequency) {
+                      const frequency = frequencyOptions.find(f => f.id === selectedFrequency);
+                      if (frequency) {
+                        price = price * (1 - frequency.discount);
+                      }
+                    }
+                    
+                    return Math.round(price);
+                  })()} <span className="text-lg text-muted-foreground">Kč</span>
                 </div>
-                {categories.find(c => c.id === selectedCategory)?.priceMultiplier !== 1 && (
+                {(categories.find(c => c.id === selectedCategory)?.priceMultiplier !== 1 || 
+                  (selectedCategory === "regular" && selectedFrequency)) && (
                   <p className="text-xs text-muted-foreground mt-1 line-through">
                     Základ: {pkg.basePrice} Kč
+                  </p>
+                )}
+                {getTotalDiscountPercentage() > 0 && (
+                  <p className="text-xs font-semibold text-primary mt-1">
+                    Celkem sleva: {Math.round(getTotalDiscountPercentage() * 100)}%
                   </p>
                 )}
               </button>
@@ -296,7 +433,7 @@ const PricingConfigurator = () => {
         {/* Extra Options */}
         <div className="max-w-4xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            3. Přidat extras (volitelné)
+            {selectedCategory === "regular" ? "4" : "3"}. Přidat extras (volitelné)
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {extraOptions.map((extra) => {
@@ -362,16 +499,23 @@ const PricingConfigurator = () => {
                 <div className="text-5xl font-bold text-foreground">
                   {calculateTotalPrice().toLocaleString('cs-CZ')} <span className="text-2xl text-muted-foreground">Kč</span>
                 </div>
-                {selectedExtras.size > 0 && (
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Základ: {getBasePriceWithCategory()} Kč + Extras: {
+                <div className="text-sm text-muted-foreground mt-2 space-y-1">
+                  <p>Základ: {getBasePriceWithCategory()} Kč</p>
+                  {selectedExtras.size > 0 && (
+                    <p>Extras: +{
                       Array.from(selectedExtras).reduce((sum, extraId) => {
                         const extra = extraOptions.find(e => e.id === extraId);
                         return sum + (extra?.price || 0);
                       }, 0)
-                    } Kč
-                  </p>
-                )}
+                    } Kč</p>
+                  )}
+                  {getTotalDiscountPercentage() > 0 && (
+                    <p className="text-primary font-semibold">
+                      Ušetříte: {Math.round(getTotalDiscountPercentage() * 100)}% 
+                      ({Math.round(packages[selectedPackage].basePrice * getTotalDiscountPercentage())} Kč)
+                    </p>
+                  )}
+                </div>
               </div>
               <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
                 <DialogTrigger asChild>
@@ -397,6 +541,7 @@ const PricingConfigurator = () => {
                       return { id, label: extra?.label || "", price: extra?.price || 0 };
                     })}
                     totalPrice={calculateTotalPrice()}
+                    frequency={selectedFrequency ? frequencyOptions.find(f => f.id === selectedFrequency)?.name : undefined}
                   />
                 </DialogContent>
               </Dialog>
