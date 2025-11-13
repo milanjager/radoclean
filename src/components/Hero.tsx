@@ -43,11 +43,11 @@ const Hero = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Prémiový úklid pro Radotín, Černošice a Zbraslav
+            Vrátíme vám volné víkendy
           </h1>
           
           <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
-            Bezpečný jako sousedská výpomoc, profesionální jako pětihvězdičkový hotel.
+            Prémiový úklid pro Radotín, Černošice a Zbraslav od místního týmu
           </p>
           
           <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-2xl">

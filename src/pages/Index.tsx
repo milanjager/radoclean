@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
+import QuickPricing from "@/components/QuickPricing";
 import StreetFinder from "@/components/StreetFinder";
 import Benefits from "@/components/Benefits";
 import PricingConfigurator from "@/components/PricingConfigurator";
@@ -22,6 +23,7 @@ const Index = () => {
       <Header />
       <Hero />
       <TrustBadges />
+      <QuickPricing />
       <StreetFinder />
       <Benefits />
       <PricingConfigurator />
