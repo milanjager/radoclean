@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle, Plus, Minus } from "lucide-react";
+import { Check, HelpCircle, Plus, Minus, AlertCircle } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import ReservationForm from "./ReservationForm";
 
 type PackageType = "small" | "medium" | "large";
@@ -255,16 +256,53 @@ const PricingConfigurator = () => {
     }
   };
 
+  const isConfigurationComplete = () => {
+    // For regular category, frequency must be selected
+    if (selectedCategory === "regular" && !selectedFrequency) {
+      return false;
+    }
+    return true;
+  };
+
+  const getProgressPercentage = () => {
+    let steps = 3; // category, package, extras
+    let completed = 1; // category always selected
+    
+    if (selectedCategory === "regular") {
+      steps = 4; // add frequency step
+      if (selectedFrequency) completed++;
+    }
+    
+    completed++; // package always selected
+    if (selectedExtras.size > 0) completed++;
+    
+    return Math.round((completed / steps) * 100);
+  };
+
   return (
     <section id="pricing" className="py-20 bg-background scroll-mt-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Interaktivní kalkulačka ceny
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
             Vyberte typ úklidu, balíček a přidejte extras. Finální cenu vidíte okamžitě – bez čekání na nabídku.
           </p>
+          
+          {/* Progress Bar */}
+          <div className="max-w-md mx-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-muted-foreground">Dokončeno</span>
+              <span className="text-sm font-semibold text-primary">{getProgressPercentage()}%</span>
+            </div>
+            <div className="h-2 bg-muted rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-500 ease-out"
+                style={{ width: `${getProgressPercentage()}%` }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Category Selection */}
@@ -316,9 +354,24 @@ const PricingConfigurator = () => {
         {/* Frequency Selection - Only for Regular Cleaning */}
         {selectedCategory === "regular" && (
           <div className="max-w-6xl mx-auto mb-12">
-            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-              2. Vyberte frekvenci úklidu
-            </h3>
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <h3 className="text-2xl font-bold text-foreground text-center">
+                2. Vyberte frekvenci úklidu
+              </h3>
+              <span className="bg-primary/10 text-primary text-xs font-semibold px-2 py-1 rounded-full">
+                Povinné
+              </span>
+            </div>
+            
+            {!selectedFrequency && (
+              <Alert className="mb-6 max-w-2xl mx-auto border-primary/50 bg-primary/5">
+                <AlertCircle className="h-4 w-4 text-primary" />
+                <AlertDescription className="text-foreground">
+                  Pro pravidelný úklid musíte vybrat frekvenci pro výpočet ceny a pokračování.
+                </AlertDescription>
+              </Alert>
+            )}
+            
             <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
               {frequencyOptions.map((frequency) => {
                 const isSelected = selectedFrequency === frequency.id;
@@ -329,7 +382,7 @@ const PricingConfigurator = () => {
                     onClick={() => setSelectedFrequency(frequency.id)}
                     className={`text-center bg-card rounded-xl p-6 border-2 transition-all hover:shadow-md ${
                       isSelected 
-                        ? 'border-primary bg-primary/5 shadow-md' 
+                        ? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20' 
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
@@ -340,18 +393,13 @@ const PricingConfigurator = () => {
                     <p className="text-xs text-muted-foreground mb-3">
                       {frequency.description}
                     </p>
-                    <p className="text-sm font-bold text-primary">
+                    <div className="inline-block bg-primary/10 text-primary text-sm font-bold px-3 py-1 rounded-full">
                       Extra sleva {Math.round(frequency.discount * 100)}%
-                    </p>
+                    </div>
                   </button>
                 );
               })}
             </div>
-            {!selectedFrequency && (
-              <p className="text-center text-sm text-muted-foreground mt-4">
-                Vyberte frekvenci pro zobrazení ceny
-              </p>
-            )}
           </div>
         )}
 
@@ -490,61 +538,85 @@ const PricingConfigurator = () => {
 
         {/* Total Price & CTA */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 rounded-2xl p-8 border-2 border-primary/30">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  Celková cena
+          <div className="bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 rounded-2xl p-6 md:p-8 border-2 border-primary/30 shadow-lg">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+              <div className="flex-1 w-full">
+                <p className="text-sm text-muted-foreground mb-2 uppercase tracking-wide">
+                  Celková cena za úklid
                 </p>
-                <div className="text-5xl font-bold text-foreground">
-                  {calculateTotalPrice().toLocaleString('cs-CZ')} <span className="text-2xl text-muted-foreground">Kč</span>
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+                  {calculateTotalPrice().toLocaleString('cs-CZ')} <span className="text-xl md:text-2xl text-muted-foreground">Kč</span>
                 </div>
-                <div className="text-sm text-muted-foreground mt-2 space-y-1">
-                  <p>Základ: {getBasePriceWithCategory()} Kč</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                  <div className="bg-background/50 rounded-lg p-3">
+                    <p className="text-muted-foreground mb-1">Základní cena</p>
+                    <p className="font-semibold text-foreground">{getBasePriceWithCategory()} Kč</p>
+                  </div>
                   {selectedExtras.size > 0 && (
-                    <p>Extras: +{
-                      Array.from(selectedExtras).reduce((sum, extraId) => {
-                        const extra = extraOptions.find(e => e.id === extraId);
-                        return sum + (extra?.price || 0);
-                      }, 0)
-                    } Kč</p>
+                    <div className="bg-background/50 rounded-lg p-3">
+                      <p className="text-muted-foreground mb-1">Extras</p>
+                      <p className="font-semibold text-foreground">+{
+                        Array.from(selectedExtras).reduce((sum, extraId) => {
+                          const extra = extraOptions.find(e => e.id === extraId);
+                          return sum + (extra?.price || 0);
+                        }, 0)
+                      } Kč</p>
+                    </div>
                   )}
                   {getTotalDiscountPercentage() > 0 && (
-                    <p className="text-primary font-semibold">
-                      Ušetříte: {Math.round(getTotalDiscountPercentage() * 100)}% 
-                      ({Math.round(packages[selectedPackage].basePrice * getTotalDiscountPercentage())} Kč)
-                    </p>
+                    <div className="bg-primary/10 rounded-lg p-3 sm:col-span-2">
+                      <p className="text-primary mb-1 font-medium">💰 Vaše úspora</p>
+                      <p className="font-bold text-primary text-lg">
+                        {Math.round(getTotalDiscountPercentage() * 100)}% 
+                        <span className="text-sm font-normal ml-2">
+                          ({Math.round(packages[selectedPackage].basePrice * getTotalDiscountPercentage())} Kč)
+                        </span>
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
-              <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="premium"
-                    size="lg"
-                    className="text-lg px-8 h-14"
-                  >
-                    Rezervovat termín
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl">
-                      Dokončit rezervaci
-                    </DialogTitle>
-                  </DialogHeader>
-                  <ReservationForm
-                    packageType={`${categories.find(c => c.id === selectedCategory)?.name} - ${selectedPackage}`}
-                    basePrice={getBasePriceWithCategory()}
-                    selectedExtras={Array.from(selectedExtras).map(id => {
-                      const extra = extraOptions.find(e => e.id === id);
-                      return { id, label: extra?.label || "", price: extra?.price || 0 };
-                    })}
-                    totalPrice={calculateTotalPrice()}
-                    frequency={selectedFrequency ? frequencyOptions.find(f => f.id === selectedFrequency)?.name : undefined}
-                  />
-                </DialogContent>
-              </Dialog>
+              
+              <div className="flex flex-col gap-3 w-full lg:w-auto">
+                <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="premium"
+                      size="lg"
+                      className="text-lg px-8 h-14 w-full lg:w-auto min-w-[200px] shadow-lg"
+                      disabled={!isConfigurationComplete()}
+                    >
+                      Rezervovat termín
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl">
+                        Dokončit rezervaci
+                      </DialogTitle>
+                      <DialogDescription>
+                        Vyplňte prosím kontaktní údaje a upřesněte požadavky na úklid.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <ReservationForm
+                      packageType={`${categories.find(c => c.id === selectedCategory)?.name} - ${selectedPackage}`}
+                      basePrice={getBasePriceWithCategory()}
+                      selectedExtras={Array.from(selectedExtras).map(id => {
+                        const extra = extraOptions.find(e => e.id === id);
+                        return { id, label: extra?.label || "", price: extra?.price || 0 };
+                      })}
+                      totalPrice={calculateTotalPrice()}
+                      frequency={selectedFrequency ? frequencyOptions.find(f => f.id === selectedFrequency)?.name : undefined}
+                    />
+                  </DialogContent>
+                </Dialog>
+                
+                {!isConfigurationComplete() && (
+                  <p className="text-xs text-muted-foreground text-center lg:text-right">
+                    ⚠️ Dokončete výběr frekvence
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
