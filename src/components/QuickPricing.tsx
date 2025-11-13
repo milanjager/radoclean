@@ -19,39 +19,41 @@ const QuickPricing = () => {
     {
       name: "Start",
       subtitle: "Byt 1+kk, 2+kk",
-      price: "1 800",
+      price: "1 890",
       features: [
         "Koupelna + kuchyň",
         "Mytí oken zevnitř",
-        "Prostředky v ceně",
-        "Doprava zdarma",
+        "Doprava a prostředky v ceně",
+        "Fixní cena bez skrytých poplatků",
       ],
       popular: false,
     },
     {
       name: "Standard",
       subtitle: "Byt 3+kk, 4+kk",
-      price: "2 500",
+      price: "2 890",
       features: [
         "Všechny místnosti",
         "Koupelna + kuchyň",
         "Mytí oken zevnitř",
         "Balkon/terasa",
-        "Prostředky v ceně",
+        "Doprava a prostředky v ceně",
+        "Místní firma - bez dojezdných poplatků",
       ],
       popular: true,
     },
     {
       name: "Premium",
-      subtitle: "Rodinný dům",
-      price: "3 500",
+      subtitle: "Rodinný dům / Generální",
+      price: "4 990",
       features: [
         "Celý dům do 150 m²",
         "2 koupelny",
-        "Všechny místnosti",
-        "Mytí oken",
+        "Všechny místnosti včetně oken",
         "Schodiště",
+        "Vyčištění trouby",
         "Zahrada (základní)",
+        "Kompletní servis bez starostí",
       ],
       popular: false,
     },
@@ -62,10 +64,10 @@ const QuickPricing = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Transparentní ceny bez překvapení
+            Fixní ceny bez skrytých poplatků
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Žádné "cena na dotaz". Vidíte přesně, kolik zaplatíte. Vždy.
+            Jsme místní firma z Radotína. Žádné dojezdné, žádné "cena od...". Konečná cena hned.
           </p>
         </div>
 
