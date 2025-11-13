@@ -67,20 +67,20 @@ const Hero = () => {
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="text-lg bg-white/95 hover:bg-white border-0"
-              onClick={() => scrollToSection("contact")}
-            >
-              <Calendar className="mr-2" />
-              Nezávazná kalkulace
-            </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-lg bg-white/95 hover:bg-white border-0"
+                onClick={() => scrollToSection("contact")}
+              >
+                <Calendar className="mr-2" />
+                Získat termín úklidu
+              </Button>
             
             <a href="tel:+420777888999" className="sm:hidden">
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 className="w-full text-lg bg-white/95 hover:bg-white border-0"
               >
                 <Phone className="mr-2" />
@@ -109,6 +109,10 @@ const Hero = () => {
               <span>Místní tým, který znáte</span>
             </div>
           </div>
+
+          <p className="text-white/80 text-sm mt-4">
+            📞 <strong>Volat můžete i o víkendu</strong> - odpovídáme 7 dní v týdnu
+          </p>
         </div>
       </div>
     </section>

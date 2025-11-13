@@ -586,7 +586,7 @@ const PricingConfigurator = () => {
                       className="text-lg px-8 h-14 w-full lg:w-auto min-w-[200px] shadow-lg"
                       disabled={!isConfigurationComplete()}
                     >
-                      Rezervovat termín
+                      Získat termín úklidu
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">

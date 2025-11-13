@@ -515,7 +515,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
             Odesílám rezervaci...
           </>
         ) : (
-          `Rezervovat za ${totalPrice.toLocaleString('cs-CZ')} Kč`
+          `Získat termín úklidu za ${getFinalPrice().toLocaleString('cs-CZ')} Kč`
         )}
       </Button>
 

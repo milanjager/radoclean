@@ -16,12 +16,17 @@ const Footer = () => {
   return (
     <footer className="bg-foreground text-background py-12">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-2xl font-bold mb-4">Prémiový Úklid</h3>
-            <p className="text-background/80">
+            <p className="text-background/80 mb-3">
               Profesionální úklidové služby pro Černošice, Radotín a Zbraslav.
             </p>
+            <div className="text-background/70 text-sm space-y-1">
+              <p><strong>IČO:</strong> 12345678</p>
+              <p><strong>Sídlo:</strong> Radotín, Praha-západ</p>
+              <p><strong>Tel:</strong> +420 777 888 999</p>
+            </div>
           </div>
           
           <div>
@@ -63,6 +68,17 @@ const Footer = () => {
           </div>
           
           <div>
+            <h4 className="font-semibold mb-4">Služby</h4>
+            <ul className="space-y-2 text-background/80 text-sm">
+              <li>• Běžný úklid domácností</li>
+              <li>• Generální úklid</li>
+              <li>• Úklid po rekonstrukci</li>
+              <li>• Úklid po stěhování</li>
+              <li>• Pravidelný úklid se slevou</li>
+            </ul>
+          </div>
+          
+          <div>
             <h4 className="font-semibold mb-4">Právní informace</h4>
             <ul className="space-y-2 text-background/80">
               <li>
@@ -84,8 +100,13 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="pt-8 border-t border-background/20 text-center text-background/60">
-          <p>© 2024 Prémiový Úklid. Všechna práva vyhrazena.</p>
+        <div className="pt-8 border-t border-background/20 text-center">
+          <p className="text-background/60 text-sm">
+            © 2024 Prémiový Úklid • Černošice, Radotín, Zbraslav
+          </p>
+          <p className="text-background/50 text-xs mt-2">
+            Vytvořeno s 💚 pro sousedy v Poberouní
+          </p>
         </div>
       </div>
     </footer>

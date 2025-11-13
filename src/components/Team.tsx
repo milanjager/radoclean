@@ -25,6 +25,12 @@ const Team = () => {
               </div>
               
               <div className="p-8 md:p-12 flex flex-col justify-center">
+                <div className="mb-6 bg-primary/5 rounded-xl p-4 border-l-4 border-primary">
+                  <p className="text-foreground font-semibold text-lg italic">
+                    "Dobrý den, jsem Jana a ručím za to, že váš domov bude zářit."
+                  </p>
+                </div>
+                
                 <h3 className="text-3xl font-bold text-foreground mb-2">
                   Jana Nováková
                 </h3>
