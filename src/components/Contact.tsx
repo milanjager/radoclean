@@ -191,6 +191,18 @@ const Contact = () => {
                       variant="outline" 
                       size="lg" 
                       className="w-full bg-white/10 border-white/20 hover:bg-white hover:text-primary text-white"
+                      onClick={() => {
+                        const element = document.getElementById("pricing");
+                        if (element) {
+                          const offset = 80;
+                          const elementPosition = element.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - offset;
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth",
+                          });
+                        }
+                      }}
                     >
                       <Calendar className="mr-2" />
                       Online rezervace termínu

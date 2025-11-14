@@ -66,9 +66,37 @@ const QuickPricing = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Fixní ceny bez skrytých poplatků
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
             Jsme místní firma z Radotína. Žádné dojezdné, žádné "cena od...". Konečná cena hned.
           </p>
+          
+          {/* Comparison Alert */}
+          <div className="max-w-3xl mx-auto bg-primary/5 border-l-4 border-primary rounded-xl p-4 mb-8">
+            <div className="grid md:grid-cols-2 gap-4 text-left">
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-2">
+                  ❌ Klasické firmy (+ 30-40% nákladů):
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• "Cena od 250 Kč/hod" (nejistá konečná částka)</li>
+                  <li>• +400-600 Kč za dopravu</li>
+                  <li>• +300 Kč za čistící prostředky</li>
+                  <li>• Neznámá konečná cena</li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-primary mb-2">
+                  ✅ U nás:
+                </p>
+                <ul className="text-xs text-foreground space-y-1">
+                  <li>• <strong>Fixní cena</strong> - vidíte ji hned</li>
+                  <li>• <strong>Doprava ZDARMA</strong> (jsme místní)</li>
+                  <li>• <strong>Prostředky ZDARMA</strong> (profesionální)</li>
+                  <li>• <strong>Bez překvapení</strong> na faktuře</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
