@@ -4,6 +4,7 @@ import TrustBadges from "@/components/TrustBadges";
 import QuickPricing from "@/components/QuickPricing";
 import StreetFinder from "@/components/StreetFinder";
 import Benefits from "@/components/Benefits";
+import HowItWorks from "@/components/HowItWorks";
 import PricingConfigurator from "@/components/PricingConfigurator";
 import Team from "@/components/Team";
 import Testimonials from "@/components/Testimonials";
@@ -27,6 +28,7 @@ const Index = () => {
       <Hero />
       <TrustBadges />
       <CertificationBadges />
+      <HowItWorks />
       <QuickPricing />
       <StreetFinder />
       <Benefits />
