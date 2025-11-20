@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -27,7 +28,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock } from "lucide-react";
+import AvailabilityManager from "./AvailabilityManager";
 
 type Reservation = {
   id: string;
@@ -135,11 +137,24 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Reservations Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Tabs defaultValue="reservations" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 max-w-md">
+          <TabsTrigger value="reservations">
+            <Calendar className="w-4 h-4 mr-2" />
+            Rezervace
+          </TabsTrigger>
+          <TabsTrigger value="availability">
+            <Clock className="w-4 h-4 mr-2" />
+            Dostupnost termínů
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="reservations" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Přehled rezervací</CardTitle>
+            </CardHeader>
+            <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <Card>
               <CardContent className="pt-6">
@@ -312,6 +327,12 @@ const AdminDashboard = () => {
           )}
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="availability" className="mt-6">
+          <AvailabilityManager />
+        </TabsContent>
+      </Tabs>
 
       <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
