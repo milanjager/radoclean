@@ -16,6 +16,9 @@ import ScrollToTop from "@/components/ScrollToTop";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import StickyCalculator from "@/components/StickyCalculator";
 import NeighborhoodDiscount from "@/components/NeighborhoodDiscount";
+import CertificationBadges from "@/components/CertificationBadges";
+import RealtimeSocialProof from "@/components/RealtimeSocialProof";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 
 const Index = () => {
   return (
@@ -23,6 +26,7 @@ const Index = () => {
       <Header />
       <Hero />
       <TrustBadges />
+      <CertificationBadges />
       <QuickPricing />
       <StreetFinder />
       <Benefits />
@@ -38,6 +42,8 @@ const Index = () => {
       <ScrollToTop />
       <StickyMobileCTA />
       <StickyCalculator />
+      <RealtimeSocialProof />
+      <ExitIntentPopup />
     </div>
   );
 };

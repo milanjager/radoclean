@@ -151,7 +151,7 @@ const QuickPricing = () => {
                 className="w-full"
                 size="lg"
               >
-                Vybrat balíček
+                🔥 Rezervovat • {pkg.popular ? 'Pouze 3 volná místa' : 'Omezená kapacita'}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
