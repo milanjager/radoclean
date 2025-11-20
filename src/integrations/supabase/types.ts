@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      availability_slots: {
+        Row: {
+          blocked_by: string | null
+          blocked_reason: string | null
+          created_at: string
+          current_bookings: number
+          date: string
+          id: string
+          is_available: boolean
+          max_bookings: number
+          time_slot: string
+          updated_at: string
+        }
+        Insert: {
+          blocked_by?: string | null
+          blocked_reason?: string | null
+          created_at?: string
+          current_bookings?: number
+          date: string
+          id?: string
+          is_available?: boolean
+          max_bookings?: number
+          time_slot: string
+          updated_at?: string
+        }
+        Update: {
+          blocked_by?: string | null
+          blocked_reason?: string | null
+          created_at?: string
+          current_bookings?: number
+          date?: string
+          id?: string
+          is_available?: boolean
+          max_bookings?: number
+          time_slot?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       inquiries: {
         Row: {
           created_at: string | null

@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { Loader2, CalendarIcon, CheckCircle2, MapPin, Gift } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,6 +53,12 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     notes: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [availableSlots, setAvailableSlots] = useState<Array<{
+    time_slot: string;
+    available_capacity: number;
+    is_available: boolean;
+  }>>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   // Check for referral code in URL on mount
   useEffect(() => {
@@ -62,6 +69,72 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       checkReferralCode(refCode);
     }
   }, []);
+
+  // Load available slots when date changes
+  useEffect(() => {
+    if (date) {
+      loadAvailableSlots();
+    }
+
+    // Setup realtime subscription for availability updates
+    const channel = supabase
+      .channel('reservation-availability')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'availability_slots',
+        },
+        () => {
+          if (date) {
+            loadAvailableSlots();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [date]);
+
+  const loadAvailableSlots = async () => {
+    if (!date) return;
+
+    setLoadingSlots(true);
+    try {
+      const dateStr = format(date, "yyyy-MM-dd");
+      const { data, error } = await supabase
+        .from("availability_slots")
+        .select("time_slot, max_bookings, current_bookings, is_available")
+        .eq("date", dateStr)
+        .eq("is_available", true)
+        .order("time_slot");
+
+      if (error) throw error;
+
+      const slots = (data || []).map((slot) => ({
+        time_slot: slot.time_slot,
+        available_capacity: slot.max_bookings - slot.current_bookings,
+        is_available: slot.is_available && slot.current_bookings < slot.max_bookings,
+      }));
+
+      setAvailableSlots(slots);
+    } catch (error) {
+      console.error("Error loading available slots:", error);
+      // Fallback to default slots if error
+      setAvailableSlots(
+        timeSlots.map((slot) => ({
+          time_slot: slot.value,
+          available_capacity: 2,
+          is_available: true,
+        }))
+      );
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
 
   const checkReferralCode = async (code: string) => {
     try {
@@ -530,24 +603,45 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
                   });
                 }
               }}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !date || loadingSlots}
             >
               <SelectTrigger className={cn("h-12", errors.preferredTime && "border-destructive")}>
-                <SelectValue placeholder="Vyberte čas" />
+                <SelectValue placeholder={loadingSlots ? "Načítání..." : !date ? "Nejdříve vyberte datum" : "Vyberte čas"} />
               </SelectTrigger>
               <SelectContent>
-                {timeSlots.map((slot) => (
-                  <SelectItem key={slot.value} value={slot.value}>
-                    <div className="flex items-center justify-between w-full">
-                      <span>{slot.label}</span>
-                      {slot.popular && (
-                        <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                          Oblíbený
-                        </span>
-                      )}
-                    </div>
-                  </SelectItem>
-                ))}
+                {loadingSlots ? (
+                  <div className="p-4 text-center text-muted-foreground">
+                    Načítání dostupných časů...
+                  </div>
+                ) : availableSlots.length === 0 ? (
+                  <div className="p-4 text-center text-muted-foreground">
+                    Pro tento den nejsou dostupné žádné termíny
+                  </div>
+                ) : (
+                  availableSlots.map((slot) => (
+                    <SelectItem 
+                      key={slot.time_slot} 
+                      value={slot.time_slot}
+                      disabled={!slot.is_available}
+                    >
+                      <div className="flex items-center justify-between w-full gap-4">
+                        <span>{slot.time_slot}</span>
+                        <div className="flex items-center gap-2">
+                          {slot.available_capacity > 0 && (
+                            <Badge variant="outline" className="text-xs">
+                              {slot.available_capacity} {slot.available_capacity === 1 ? "místo" : "místa"}
+                            </Badge>
+                          )}
+                          {!slot.is_available && (
+                            <Badge variant="destructive" className="text-xs">
+                              Obsazeno
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
             {errors.preferredTime && (
