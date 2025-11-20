@@ -103,11 +103,11 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
   };
 
   const timeSlots = [
-    "08:00 - 10:00",
-    "10:00 - 12:00",
-    "12:00 - 14:00",
-    "14:00 - 16:00",
-    "16:00 - 18:00",
+    { value: "08:00 - 10:00", label: "08:00 - 10:00", popular: false },
+    { value: "10:00 - 12:00", label: "10:00 - 12:00", popular: true },
+    { value: "12:00 - 14:00", label: "12:00 - 14:00", popular: false },
+    { value: "14:00 - 16:00", label: "14:00 - 16:00", popular: true },
+    { value: "16:00 - 18:00", label: "16:00 - 18:00", popular: false },
   ];
 
   const extrasPrice = selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
@@ -145,6 +145,31 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
       if (error) throw error;
 
+      // Send confirmation email
+      try {
+        const emailData = {
+          name: validatedData.name,
+          email: validatedData.email,
+          phone: validatedData.phone,
+          address: validatedData.address,
+          city: validatedData.city,
+          packageType: frequency ? `${packageType} (${frequency})` : packageType,
+          preferredDate: format(validatedData.preferredDate, "yyyy-MM-dd"),
+          preferredTime: validatedData.preferredTime,
+          totalPrice: getFinalPrice(),
+          extras: selectedExtras.map(e => e.label),
+        };
+
+        await supabase.functions.invoke('send-reservation-confirmation', {
+          body: emailData,
+        });
+        
+        console.log("Confirmation email sent successfully");
+      } catch (emailError) {
+        console.error("Error sending confirmation email:", emailError);
+        // Don't fail the reservation if email fails
+      }
+
       // Track referral use if referral code was used
       if (referralCode && reservationData && reservationData[0]) {
         const { data: referralCodeData } = await supabase
@@ -167,7 +192,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       setIsSuccess(true);
       toast({
         title: "✅ Rezervace úspěšně odeslána!",
-        description: "Potvrzení obdržíte emailem do 2 hodin.",
+        description: "Potvrzovací email byl odeslán na vaši adresu.",
         duration: 7000,
       });
 
@@ -234,8 +259,8 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
           Rezervace přijata!
         </h3>
         <p className="text-muted-foreground text-center mb-6 max-w-md">
-          Vaše rezervace za <span className="font-bold text-primary">{totalPrice.toLocaleString('cs-CZ')} Kč</span> byla
-          úspěšně odeslána. Potvrzení obdržíte emailem do 2 hodin.
+          Vaše rezervace za <span className="font-bold text-primary">{getFinalPrice().toLocaleString('cs-CZ')} Kč</span> byla
+          úspěšně odeslána. Potvrzovací email byl odeslán na vaši adresu.
         </p>
         <Button variant="premium" onClick={() => setIsSuccess(false)}>
           Vytvořit další rezervaci
@@ -246,6 +271,32 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Info Panel */}
+      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800">
+        <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+          <CalendarIcon className="w-5 h-5 text-blue-600" />
+          Jak funguje online rezervace?
+        </h3>
+        <ul className="space-y-2 text-sm text-muted-foreground">
+          <li className="flex items-start gap-2">
+            <span className="text-blue-600 font-bold mt-0.5">1.</span>
+            <span>Vyberte preferované datum a čas v kalendáři níže</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-600 font-bold mt-0.5">2.</span>
+            <span>Vyplňte kontaktní údaje a případné poznámky</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-600 font-bold mt-0.5">3.</span>
+            <span>Okamžitě obdržíte potvrzovací email s detaily rezervace</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-600 font-bold mt-0.5">4.</span>
+            <span>Do 24 hodin vás kontaktujeme pro finální potvrzení termínu</span>
+          </li>
+        </ul>
+      </div>
+
       {/* Referral Discount Alert */}
       {referralCode && (
         <Alert className="border-primary/50 bg-primary/5">
@@ -436,9 +487,25 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  disabled={(date) => date < new Date() || date < new Date(new Date().setHours(0, 0, 0, 0))}
+                  disabled={(date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return date < today;
+                  }}
                   initialFocus
-                  className="pointer-events-auto"
+                  className="pointer-events-auto rounded-md border"
+                  modifiers={{
+                    booked: (date) => {
+                      // Example: Mark weekends as busy (can be replaced with real data)
+                      return date.getDay() === 0 || date.getDay() === 6;
+                    }
+                  }}
+                  modifiersStyles={{
+                    booked: {
+                      color: '#9ca3af',
+                      textDecoration: 'line-through'
+                    }
+                  }}
                 />
               </PopoverContent>
             </Popover>
@@ -470,8 +537,15 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
               </SelectTrigger>
               <SelectContent>
                 {timeSlots.map((slot) => (
-                  <SelectItem key={slot} value={slot}>
-                    {slot}
+                  <SelectItem key={slot.value} value={slot.value}>
+                    <div className="flex items-center justify-between w-full">
+                      <span>{slot.label}</span>
+                      {slot.popular && (
+                        <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                          Oblíbený
+                        </span>
+                      )}
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
