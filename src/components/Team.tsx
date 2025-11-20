@@ -72,6 +72,7 @@ const Team = () => {
                     src={member.image} 
                     alt={`${member.name} - ${member.role} ${member.location}`}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 

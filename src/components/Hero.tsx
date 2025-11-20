@@ -60,22 +60,22 @@ const Hero = () => {
             <Button 
               variant="hero" 
               size="lg" 
-              className="text-lg group"
+              className="text-lg group shadow-lg hover:shadow-xl transition-all"
               onClick={() => scrollToSection("pricing")}
             >
-              Spočítat cenu úklidu
+              🔥 Rezervovat úklid TEĎ
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg bg-white/95 hover:bg-white border-0"
-                onClick={() => scrollToSection("contact")}
-              >
-                <Calendar className="mr-2" />
-                Získat termín úklidu
-              </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-lg bg-white/95 hover:bg-white border-0 shadow-md hover:shadow-lg transition-all"
+              onClick={() => scrollToSection("contact")}
+            >
+              <Calendar className="mr-2" />
+              Spočítat cenu za 30 sekund
+            </Button>
             
             <a href="tel:+420777888999" className="sm:hidden">
               <Button
