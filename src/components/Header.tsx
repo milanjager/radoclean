@@ -46,7 +46,7 @@ const Header = () => {
                 isScrolled ? "text-foreground" : "text-white"
               }`}
             >
-              Prémiový Úklid
+              🏠 Super Úklid Radotín
             </h2>
           </div>
 

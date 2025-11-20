@@ -18,9 +18,9 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold mb-4">Prémiový Úklid</h3>
+            <h3 className="text-2xl font-bold mb-4">🏠 Super Úklid Radotín</h3>
             <p className="text-background/80 mb-3">
-              Profesionální úklidové služby pro Černošice, Radotín a Zbraslav.
+              Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
             </p>
             <div className="text-background/70 text-sm space-y-1">
               <p><strong>IČO:</strong> 12345678</p>
@@ -102,10 +102,10 @@ const Footer = () => {
         
         <div className="pt-8 border-t border-background/20 text-center">
           <p className="text-background/60 text-sm">
-            © 2024 Prémiový Úklid • Černošice, Radotín, Zbraslav
+            © 2024 Super Úklid Radotín • Radotín, Černošice, Zbraslav
           </p>
           <p className="text-background/50 text-xs mt-2">
-            Vytvořeno s 💚 pro sousedy v Poberouní
+            Vytvořeno s 💙💚 pro rodiny a sousedy v Poberouní
           </p>
         </div>
       </div>

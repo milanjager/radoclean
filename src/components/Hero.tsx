@@ -38,16 +38,16 @@ const Hero = () => {
         <div className="max-w-3xl">
           <div className="inline-block mb-4 px-4 py-2 bg-accent/90 backdrop-blur-sm rounded-full">
             <span className="text-accent-foreground font-semibold text-sm">
-              Působíme v Černošicích, Radotíně a Zbraslavi
+              🏡 Váš místní úklidový partner v Radotíně a okolí
             </span>
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Vrátíme vám volné víkendy
+            Více času pro rodinu
           </h1>
           
           <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
-            Prémiový úklid pro Radotín, Černošice a Zbraslav od místního týmu
+            Super úklid pro sousedy v Radotíně, Černošicích a Zbraslavi
           </p>
           
           <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-2xl">
