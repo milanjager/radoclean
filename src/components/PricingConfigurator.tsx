@@ -283,7 +283,7 @@ const PricingConfigurator = () => {
   };
 
   return (
-    <section id="pricing" className="py-20 bg-background scroll-mt-20">
+    <section id="pricing" className="py-20 bg-calculator scroll-mt-20" style={{ background: 'var(--calculator-gradient)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
