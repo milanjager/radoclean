@@ -24,6 +24,7 @@ import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 import LocalService from "@/components/LocalService";
 import VideoTestimonials from "@/components/VideoTestimonials";
 import GoogleReviews from "@/components/GoogleReviews";
+import CertificationsAwards from "@/components/CertificationsAwards";
 
 const Index = () => {
   return (
@@ -40,6 +41,7 @@ const Index = () => {
       <Benefits />
       <PricingConfigurator />
       <NeighborhoodDiscount />
+      <CertificationsAwards />
       <Team />
       <VideoTestimonials />
       <Testimonials />
