@@ -6,10 +6,13 @@ interface SkeletonCardProps {
   hasAvatar?: boolean;
   textLines?: number;
   className?: string;
+  /** Describe what card content is loading */
+  contentType?: string;
 }
 
 /**
  * Skeleton loader for card components
+ * Accessible with structured content hints
  */
 export const SkeletonCard = ({
   hasImage = true,
@@ -17,12 +20,26 @@ export const SkeletonCard = ({
   hasAvatar = false,
   textLines = 3,
   className = "",
+  contentType = "card",
 }: SkeletonCardProps) => {
   return (
-    <div className={`bg-card rounded-2xl border overflow-hidden ${className}`}>
+    <article 
+      className={`bg-card rounded-2xl border overflow-hidden ${className}`}
+      role="status"
+      aria-busy="true"
+      aria-label={`Loading ${contentType}`}
+    >
+      <span className="sr-only">
+        Loading {contentType} with {hasImage ? "image, " : ""}{hasAvatar ? "author information, " : ""}title and description
+      </span>
+
       {/* Image */}
       {hasImage && (
-        <Skeleton className={`w-full ${imageAspect} rounded-none`} />
+        <Skeleton 
+          className={`w-full ${imageAspect} rounded-none`}
+          ariaLabel={`Loading ${contentType} image`}
+          announce={false}
+        />
       )}
 
       {/* Content */}
@@ -30,23 +47,41 @@ export const SkeletonCard = ({
         {/* Avatar + Name */}
         {hasAvatar && (
           <div className="flex items-center gap-3">
-            <Skeleton className="w-10 h-10 rounded-full" />
+            <Skeleton 
+              className="w-10 h-10 rounded-full"
+              ariaLabel="Loading author avatar"
+              announce={false}
+            />
             <div className="flex-1 space-y-2">
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-3 w-24" />
+              <Skeleton 
+                className="h-4 w-32"
+                ariaLabel="Loading author name"
+                announce={false}
+              />
+              <Skeleton 
+                className="h-3 w-24"
+                ariaLabel="Loading author role"
+                announce={false}
+              />
             </div>
           </div>
         )}
 
         {/* Title */}
-        <Skeleton className="h-6 w-3/4" />
+        <Skeleton 
+          className="h-6 w-3/4"
+          ariaLabel={`Loading ${contentType} title`}
+          announce={false}
+        />
 
         {/* Text Lines */}
-        <div className="space-y-2">
+        <div className="space-y-2" role="group" aria-label="Loading description">
           {Array.from({ length: textLines }).map((_, i) => (
             <Skeleton
               key={i}
               className="h-4"
+              ariaLabel={`Loading description line ${i + 1}`}
+              announce={false}
               style={{
                 width: i === textLines - 1 ? "60%" : "100%",
               }}
@@ -55,8 +90,12 @@ export const SkeletonCard = ({
         </div>
 
         {/* Button */}
-        <Skeleton className="h-10 w-28" />
+        <Skeleton 
+          className="h-10 w-28"
+          ariaLabel="Loading action button"
+          announce={false}
+        />
       </div>
-    </div>
+    </article>
   );
 };
