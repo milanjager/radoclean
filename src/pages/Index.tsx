@@ -20,6 +20,10 @@ import NeighborhoodDiscount from "@/components/NeighborhoodDiscount";
 import CertificationBadges from "@/components/CertificationBadges";
 import RealtimeSocialProof from "@/components/RealtimeSocialProof";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import BeforeAfterGallery from "@/components/BeforeAfterGallery";
+import LocalService from "@/components/LocalService";
+import VideoTestimonials from "@/components/VideoTestimonials";
+import GoogleReviews from "@/components/GoogleReviews";
 
 const Index = () => {
   return (
@@ -28,6 +32,8 @@ const Index = () => {
       <Hero />
       <TrustBadges />
       <CertificationBadges />
+      <LocalService />
+      <BeforeAfterGallery />
       <HowItWorks />
       <QuickPricing />
       <StreetFinder />
@@ -35,7 +41,9 @@ const Index = () => {
       <PricingConfigurator />
       <NeighborhoodDiscount />
       <Team />
+      <VideoTestimonials />
       <Testimonials />
+      <GoogleReviews />
       <Guarantee />
       <FAQ />
       <Contact />
