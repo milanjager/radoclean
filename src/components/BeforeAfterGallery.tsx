@@ -7,6 +7,7 @@ import afterBathroom from "@/assets/after-bathroom.jpg";
 import beforeLiving from "@/assets/before-living.jpg";
 import afterLiving from "@/assets/after-living.jpg";
 import { Button } from "@/components/ui/button";
+import ProgressiveImage from "@/components/ProgressiveImage";
 
 interface BeforeAfter {
   id: number;
@@ -85,12 +86,12 @@ const BeforeAfterGallery = () => {
           <div className="relative bg-card rounded-3xl shadow-2xl overflow-hidden mb-8">
             {/* Image Container */}
             <div className="relative aspect-video">
-              <img
+              <ProgressiveImage
                 src={showBefore ? currentItem.beforeImage : currentItem.afterImage}
                 alt={`${showBefore ? 'Před' : 'Po'} - ${currentItem.title}`}
-                className="w-full h-full object-cover"
+                className=""
                 loading="eager"
-                decoding="async"
+                aspectRatio="aspect-video"
               />
               
               {/* Before/After Toggle Overlay */}
@@ -193,21 +194,21 @@ const BeforeAfterGallery = () => {
                   setSelectedImage(index);
                   setShowBefore(true);
                 }}
-                className={`relative aspect-video rounded-xl overflow-hidden transition-all hover:scale-105 ${
+                className={`relative rounded-xl overflow-hidden transition-all hover:scale-105 ${
                   selectedImage === index 
                     ? 'ring-4 ring-primary shadow-lg' 
                     : 'opacity-60 hover:opacity-100'
                 }`}
               >
-                <img
+                <ProgressiveImage
                   src={item.beforeImage}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  className=""
                   loading="lazy"
-                  decoding="async"
+                  aspectRatio="aspect-video"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 right-2">
+                <div className="absolute bottom-2 left-2 right-2 z-10">
                   <p className="text-white text-xs font-semibold truncate">
                     {item.title}
                   </p>

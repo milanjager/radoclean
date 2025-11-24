@@ -3,6 +3,7 @@ import teamLucie from "@/assets/team-lucie.jpg";
 import teamPetra from "@/assets/team-petra.jpg";
 import teamHana from "@/assets/team-hana.jpg";
 import { Phone } from "lucide-react";
+import ProgressiveImage from "@/components/ProgressiveImage";
 
 const Team = () => {
   const teamMembers = [
@@ -67,12 +68,13 @@ const Team = () => {
               className="bg-card rounded-2xl shadow-warm border border-border overflow-hidden hover:shadow-xl transition-shadow"
             >
               <div className="grid sm:grid-cols-5 gap-0">
-                <div className="sm:col-span-2 aspect-square sm:aspect-auto">
-                  <img 
+                <div className="sm:col-span-2">
+                  <ProgressiveImage
                     src={member.image} 
                     alt={`${member.name} - ${member.role} ${member.location}`}
-                    className="w-full h-full object-cover"
+                    className="sm:rounded-l-2xl"
                     loading="lazy"
+                    aspectRatio="aspect-square sm:aspect-auto"
                   />
                 </div>
                 
