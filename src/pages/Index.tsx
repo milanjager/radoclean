@@ -25,6 +25,7 @@ import LocalService from "@/components/LocalService";
 import VideoTestimonials from "@/components/VideoTestimonials";
 import GoogleReviews from "@/components/GoogleReviews";
 import CertificationsAwards from "@/components/CertificationsAwards";
+import LiveChatWidget from "@/components/LiveChatWidget";
 
 const Index = () => {
   return (
@@ -56,6 +57,7 @@ const Index = () => {
       <StickyCalculator />
       <RealtimeSocialProof />
       <ExitIntentPopup />
+      <LiveChatWidget />
     </div>
   );
 };
