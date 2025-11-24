@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLQIP } from "@/hooks/useLQIP";
 
 interface ProgressiveImageProps {
   src: string;
@@ -6,6 +7,8 @@ interface ProgressiveImageProps {
   className?: string;
   loading?: "lazy" | "eager";
   aspectRatio?: string;
+  lqip?: string; // Optional pre-generated LQIP
+  enableAutoLQIP?: boolean; // Auto-generate LQIP if not provided
 }
 
 const ProgressiveImage = ({ 
@@ -13,11 +16,17 @@ const ProgressiveImage = ({
   alt, 
   className = "", 
   loading = "lazy",
-  aspectRatio = "aspect-video"
+  aspectRatio = "aspect-video",
+  lqip: providedLqip,
+  enableAutoLQIP = true
 }: ProgressiveImageProps) => {
   const [imgSrc, setImgSrc] = useState<string>("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  
+  // Auto-generate LQIP if not provided and enabled
+  const { lqip: autoLqip } = useLQIP(src, enableAutoLQIP && !providedLqip);
+  const lqip = providedLqip || autoLqip;
 
   useEffect(() => {
     // Create observer for lazy loading
@@ -61,17 +70,29 @@ const ProgressiveImage = ({
       id={`img-${src}`}
       className={`relative overflow-hidden bg-muted ${aspectRatio} ${className}`}
     >
-      {/* Blur placeholder */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br from-muted via-muted/50 to-muted transition-opacity duration-500 ${
-          isLoaded ? "opacity-0" : "opacity-100"
-        }`}
-        style={{
-          backgroundImage: `linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 100%)`,
-        }}
-      >
-        <div className="absolute inset-0 animate-pulse" />
-      </div>
+      {/* LQIP Blur placeholder */}
+      {lqip ? (
+        <div
+          className={`absolute inset-0 transition-opacity duration-700 ${
+            isLoaded ? "opacity-0" : "opacity-100"
+          }`}
+          style={{
+            backgroundImage: `url(${lqip})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(20px)",
+            transform: "scale(1.1)",
+          }}
+        />
+      ) : (
+        <div
+          className={`absolute inset-0 bg-gradient-to-br from-muted via-muted/50 to-muted transition-opacity duration-500 ${
+            isLoaded ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <div className="absolute inset-0 animate-pulse" />
+        </div>
+      )}
 
       {/* Actual image */}
       {imgSrc && (
