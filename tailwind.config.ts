@@ -118,12 +118,24 @@ export default {
           opacity: "0",
         },
       },
+      "gradient-move": {
+        "0%": {
+          backgroundPosition: "0% 50%",
+        },
+        "50%": {
+          backgroundPosition: "100% 50%",
+        },
+        "100%": {
+          backgroundPosition: "0% 50%",
+        },
+      },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       shimmer: "shimmer 2s infinite",
       "shimmer-3d": "shimmer-3d 2.5s ease-in-out infinite",
+      "gradient-move": "gradient-move 4s ease infinite",
       },
     },
   },
