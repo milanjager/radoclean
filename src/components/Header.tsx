@@ -45,7 +45,7 @@ const Header = () => {
             <img 
               src={radoCleanLogo} 
               alt="Rado Clean" 
-              className="h-15 md:h-18 w-auto transition-all duration-300"
+              className="h-15 md:h-18 w-auto max-w-[30%] transition-all duration-300 animate-fade-in"
             />
           </div>
 

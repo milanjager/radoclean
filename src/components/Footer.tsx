@@ -23,7 +23,7 @@ const Footer = () => {
             <img 
               src={radoCleanLogo} 
               alt="Rado Clean" 
-              className="h-16 w-auto mb-4"
+              className="h-16 w-auto max-w-[30%] mb-4"
             />
             <p className="text-background/80 mb-3">
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
