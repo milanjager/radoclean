@@ -147,7 +147,7 @@ const Contact = () => {
                     <Phone className="w-6 h-6 flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold mb-1">Telefon</p>
-                      <a href="tel:+420777888999" className="text-lg hover:underline block">+420  580 935</a>
+                      <a href="tel:+420777888999" className="text-lg hover:underline block">+420 739 580 935</a>
                       <p className="text-sm text-primary-foreground/80 mt-1">
                         Po–Pá 8:00–18:00
                       </p>
