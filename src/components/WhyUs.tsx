@@ -68,7 +68,13 @@ const WhyUs = () => {
                 className="group relative bg-card rounded-2xl p-8 shadow-sm border border-border hover:border-primary/50 transition-all hover:shadow-lg"
               >
                 <div className="absolute -top-4 -right-4">
-                  <div className="inline-flex items-center text-2xl font-bold text-primary bg-gradient-to-br from-primary/20 to-primary/10 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border-2 border-primary/30 animate-pulse">
+                  <div 
+                    className="inline-flex items-center text-2xl font-bold text-primary backdrop-blur-sm px-6 py-4 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/30 via-primary-glow/20 to-primary/10 animate-gradient-move"
+                    style={{ 
+                      backgroundSize: '200% 200%',
+                      boxShadow: '0 0 30px hsl(var(--primary-glow) / 0.5), 0 0 60px hsl(var(--primary) / 0.3), inset 0 0 20px hsl(var(--primary) / 0.1)'
+                    }}
+                  >
                     {advantage.isCounter ? (
                       <AnimatedCounter value={advantage.highlight} duration={2500} />
                     ) : (
