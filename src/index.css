@@ -33,20 +33,20 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 210 25% 15%;
 
-    /* Fresh sky blue primary - trust & cleanliness */
-    --primary: 200 85% 45%;
+    /* Fresh sky blue primary - trust & cleanliness - darkened for WCAG AA compliance */
+    --primary: 200 85% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 200 85% 55%;
+    --primary-glow: 200 85% 45%;
 
     /* Soft mint green secondary */
     --secondary: 150 35% 88%;
     --secondary-foreground: 210 25% 20%;
 
-    --muted: 200 25% 94%;
-    --muted-foreground: 210 15% 45%;
+    --muted: 200 25% 92%;
+    --muted-foreground: 210 20% 35%;
 
-    /* Vibrant green accent for CTAs */
-    --accent: 145 70% 45%;
+    /* Vibrant green accent for CTAs - darkened for WCAG AA compliance */
+    --accent: 145 75% 35%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
@@ -59,9 +59,9 @@ All colors MUST be HSL.
     --radius: 1rem;
     
     /* Fresh gradients for family feel */
-    --gradient-hero: linear-gradient(135deg, hsl(200 85% 45%) 0%, hsl(145 70% 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(200 85% 35%) 0%, hsl(145 75% 35%) 100%);
     --gradient-warm: linear-gradient(135deg, hsl(150 35% 88%), hsl(200 30% 92%));
-    --shadow-warm: 0 10px 40px -10px hsl(200 85% 45% / 0.2);
+    --shadow-warm: 0 10px 40px -10px hsl(200 85% 35% / 0.2);
     
     /* Calculator section background */
     --calculator-bg: 200 90% 96%;
@@ -87,17 +87,17 @@ All colors MUST be HSL.
     --popover: 210 20% 12%;
     --popover-foreground: 200 20% 95%;
 
-    --primary: 200 75% 50%;
+    --primary: 200 75% 55%;
     --primary-foreground: 210 25% 8%;
-    --primary-glow: 200 75% 60%;
+    --primary-glow: 200 75% 65%;
 
     --secondary: 210 20% 18%;
     --secondary-foreground: 200 20% 95%;
 
     --muted: 210 20% 18%;
-    --muted-foreground: 200 10% 60%;
+    --muted-foreground: 200 15% 65%;
 
-    --accent: 145 65% 45%;
+    --accent: 145 70% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 45%;
