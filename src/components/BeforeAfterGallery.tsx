@@ -8,7 +8,6 @@ import beforeLiving from "@/assets/before-living.jpg";
 import afterLiving from "@/assets/after-living.jpg";
 import { Button } from "@/components/ui/button";
 import ProgressiveImage from "@/components/ProgressiveImage";
-
 interface BeforeAfter {
   id: number;
   title: string;
@@ -19,63 +18,50 @@ interface BeforeAfter {
   afterImage: string;
   description: string;
 }
-
 const BeforeAfterGallery = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showBefore, setShowBefore] = useState(true);
-
-  const gallery: BeforeAfter[] = [
-    {
-      id: 1,
-      title: "Generální úklid kuchyně",
-      location: "Černošice",
-      date: "Únor 2024",
-      category: "Kuchyň",
-      beforeImage: beforeKitchen,
-      afterImage: afterKitchen,
-      description: "Odstranění mastnoty, čištění spotřebičů, mytí obkladů"
-    },
-    {
-      id: 2,
-      title: "Úklid koupelny po rekonstrukci",
-      location: "Radotín",
-      date: "Leden 2024",
-      category: "Koupelna",
-      beforeImage: beforeBathroom,
-      afterImage: afterBathroom,
-      description: "Odstranění stavebního prachu, leštění armatur, čištění spár"
-    },
-    {
-      id: 3,
-      title: "Příprava obývacího pokoje na prodej",
-      location: "Zbraslav",
-      date: "Březen 2024",
-      category: "Obývací pokoj",
-      beforeImage: beforeLiving,
-      afterImage: afterLiving,
-      description: "Kompletní úklid, organizace prostoru, mytí oken"
-    }
-  ];
-
+  const gallery: BeforeAfter[] = [{
+    id: 1,
+    title: "Generální úklid kuchyně",
+    location: "Černošice",
+    date: "Únor 2024",
+    category: "Kuchyň",
+    beforeImage: beforeKitchen,
+    afterImage: afterKitchen,
+    description: "Odstranění mastnoty, čištění spotřebičů, mytí obkladů"
+  }, {
+    id: 2,
+    title: "Úklid koupelny po rekonstrukci",
+    location: "Radotín",
+    date: "Leden 2024",
+    category: "Koupelna",
+    beforeImage: beforeBathroom,
+    afterImage: afterBathroom,
+    description: "Odstranění stavebního prachu, leštění armatur, čištění spár"
+  }, {
+    id: 3,
+    title: "Příprava obývacího pokoje na prodej",
+    location: "Zbraslav",
+    date: "Březen 2024",
+    category: "Obývací pokoj",
+    beforeImage: beforeLiving,
+    afterImage: afterLiving,
+    description: "Kompletní úklid, organizace prostoru, mytí oken"
+  }];
   const currentItem = gallery[selectedImage];
-
   const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % gallery.length);
+    setSelectedImage(prev => (prev + 1) % gallery.length);
     setShowBefore(true);
   };
-
   const prevImage = () => {
-    setSelectedImage((prev) => (prev - 1 + gallery.length) % gallery.length);
+    setSelectedImage(prev => (prev - 1 + gallery.length) % gallery.length);
     setShowBefore(true);
   };
-
-  return (
-    <section className="py-20 bg-muted/30">
+  return <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Před & Po • Naše práce mluví za sebe
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Před & Po</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Skutečné výsledky u vašich sousedů v Poberouní. Žádné stock fotografie.
           </p>
@@ -86,37 +72,17 @@ const BeforeAfterGallery = () => {
           <div className="relative bg-card rounded-3xl shadow-2xl overflow-hidden mb-8">
             {/* Image Container */}
             <div className="relative aspect-video">
-              <ProgressiveImage
-                src={showBefore ? currentItem.beforeImage : currentItem.afterImage}
-                alt={`${showBefore ? 'Před' : 'Po'} - ${currentItem.title}`}
-                className=""
-                loading="eager"
-                aspectRatio="aspect-video"
-              />
+              <ProgressiveImage src={showBefore ? currentItem.beforeImage : currentItem.afterImage} alt={`${showBefore ? 'Před' : 'Po'} - ${currentItem.title}`} className="" loading="eager" aspectRatio="aspect-video" />
               
               {/* Before/After Toggle Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-background/90 backdrop-blur-sm rounded-full px-8 py-4 shadow-lg">
                   <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setShowBefore(true)}
-                      className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                        showBefore 
-                          ? 'bg-destructive text-destructive-foreground shadow-md' 
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
+                    <button onClick={() => setShowBefore(true)} className={`px-6 py-2 rounded-full font-semibold transition-all ${showBefore ? 'bg-destructive text-destructive-foreground shadow-md' : 'text-muted-foreground hover:text-foreground'}`}>
                       Před
                     </button>
                     <div className="w-px h-8 bg-border" />
-                    <button
-                      onClick={() => setShowBefore(false)}
-                      className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                        !showBefore 
-                          ? 'bg-accent text-accent-foreground shadow-md' 
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
+                    <button onClick={() => setShowBefore(false)} className={`px-6 py-2 rounded-full font-semibold transition-all ${!showBefore ? 'bg-accent text-accent-foreground shadow-md' : 'text-muted-foreground hover:text-foreground'}`}>
                       Po
                     </button>
                   </div>
@@ -124,18 +90,10 @@ const BeforeAfterGallery = () => {
               </div>
 
               {/* Navigation Arrows */}
-              <button
-                onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
-                aria-label="Předchozí obrázek"
-              >
+              <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110" aria-label="Předchozí obrázek">
                 <ChevronLeft className="w-6 h-6 text-foreground" />
               </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
-                aria-label="Další obrázek"
-              >
+              <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110" aria-label="Další obrázek">
                 <ChevronRight className="w-6 h-6 text-foreground" />
               </button>
 
@@ -171,14 +129,12 @@ const BeforeAfterGallery = () => {
                     </div>
                   </div>
                 </div>
-                <Button 
-                  variant="premium" 
-                  size="lg"
-                  onClick={() => {
-                    const element = document.getElementById("pricing");
-                    element?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                >
+                <Button variant="premium" size="lg" onClick={() => {
+                const element = document.getElementById("pricing");
+                element?.scrollIntoView({
+                  behavior: "smooth"
+                });
+              }}>
                   Chci stejný výsledek
                 </Button>
               </div>
@@ -187,26 +143,11 @@ const BeforeAfterGallery = () => {
 
           {/* Thumbnail Navigation */}
           <div className="grid grid-cols-3 gap-4">
-            {gallery.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setSelectedImage(index);
-                  setShowBefore(true);
-                }}
-                className={`relative rounded-xl overflow-hidden transition-all hover:scale-105 ${
-                  selectedImage === index 
-                    ? 'ring-4 ring-primary shadow-lg' 
-                    : 'opacity-60 hover:opacity-100'
-                }`}
-              >
-                <ProgressiveImage
-                  src={item.beforeImage}
-                  alt={item.title}
-                  className=""
-                  loading="lazy"
-                  aspectRatio="aspect-video"
-                />
+            {gallery.map((item, index) => <button key={item.id} onClick={() => {
+            setSelectedImage(index);
+            setShowBefore(true);
+          }} className={`relative rounded-xl overflow-hidden transition-all hover:scale-105 ${selectedImage === index ? 'ring-4 ring-primary shadow-lg' : 'opacity-60 hover:opacity-100'}`}>
+                <ProgressiveImage src={item.beforeImage} alt={item.title} className="" loading="lazy" aspectRatio="aspect-video" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-2 left-2 right-2 z-10">
                   <p className="text-white text-xs font-semibold truncate">
@@ -216,8 +157,7 @@ const BeforeAfterGallery = () => {
                     {item.location}
                   </p>
                 </div>
-              </button>
-            ))}
+              </button>)}
           </div>
 
           {/* Trust Badge */}
@@ -228,8 +168,6 @@ const BeforeAfterGallery = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default BeforeAfterGallery;
