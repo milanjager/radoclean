@@ -4,53 +4,45 @@ import teamPetra from "@/assets/team-petra.jpg";
 import teamHana from "@/assets/team-hana.jpg";
 import { Phone } from "lucide-react";
 import ProgressiveImage from "@/components/ProgressiveImage";
-
 const Team = () => {
-  const teamMembers = [
-    {
-      name: "Jana Nováková",
-      role: "Vedoucí týmu",
-      location: "Černošice",
-      experience: "8 let v Černošicích",
-      image: teamMember,
-      quote: "Dobrý den, jsem Jana a ručím za to, že váš domov bude zářit.",
-      description: "Vím, jak se tady vypořádat s tvrdou vodou a jak vyčistit prach ze staveb z Radotína.",
-      specialty: "Osobní přístup: U každého zákazníka začínám sama, abych poznala vaše preference.",
-    },
-    {
-      name: "Lucie Kratochvílová",
-      role: "Specialistka na kuchyně",
-      location: "Radotín",
-      experience: "6 let zkušeností",
-      image: teamLucie,
-      quote: "Vaše kuchyň bude zářit jako nová.",
-      description: "Žiju v Radotíně a specializuji se na důkladné čištění kuchyní a koupelen.",
-      specialty: "Expert na odstranění mastnoty a vodního kamene typického pro naši oblast.",
-    },
-    {
-      name: "Petra Malá",
-      role: "Specialistka na okna",
-      location: "Zbraslav",
-      experience: "5 let zkušeností",
-      image: teamPetra,
-      quote: "Okna bez šmouh jsou mou vizitkou.",
-      description: "Pocházím ze Zbraslavi a mám ráda práci s okny a detailní čištění.",
-      specialty: "Perfekcionistka, která zanechává každý roh dokonale čistý.",
-    },
-    {
-      name: "Hana Dvořáková",
-      role: "Specialistka na rodinné domy",
-      location: "Dobřichovice",
-      experience: "4 roky zkušeností",
-      image: teamHana,
-      quote: "I velké domy si zaslouží osobní péči.",
-      description: "Specializuji se na úklid větších domů a mám zkušenosti s domácími mazlíčky.",
-      specialty: "Rychlá, efektivní a vždy s úsměvem. Klienti si mě žádají zpět.",
-    },
-  ];
-
-  return (
-    <section id="team" className="py-20 bg-secondary/30 scroll-mt-20">
+  const teamMembers = [{
+    name: "Jana Nováková",
+    role: "Vedoucí týmu",
+    location: "Černošice",
+    experience: "8 let v Černošicích",
+    image: teamMember,
+    quote: "Dobrý den, jsem Jana a ručím za to, že váš domov bude zářit.",
+    description: "Vím, jak se tady vypořádat s tvrdou vodou a jak vyčistit prach ze staveb z Radotína.",
+    specialty: "Osobní přístup: U každého zákazníka začínám sama, abych poznala vaše preference."
+  }, {
+    name: "Lucie Kratochvílová",
+    role: "Specialistka na kuchyně",
+    location: "Radotín",
+    experience: "6 let zkušeností",
+    image: teamLucie,
+    quote: "Vaše kuchyň bude zářit jako nová.",
+    description: "Žiju v Radotíně a specializuji se na důkladné čištění kuchyní a koupelen.",
+    specialty: "Expert na odstranění mastnoty a vodního kamene typického pro naši oblast."
+  }, {
+    name: "Petra Malá",
+    role: "Specialistka na okna",
+    location: "Zbraslav",
+    experience: "5 let zkušeností",
+    image: teamPetra,
+    quote: "Okna bez šmouh jsou mou vizitkou.",
+    description: "Pocházím ze Zbraslavi a mám ráda práci s okny a detailní čištění.",
+    specialty: "Perfekcionistka, která zanechává každý roh dokonale čistý."
+  }, {
+    name: "Hana Dvořáková",
+    role: "Specialistka na rodinné domy",
+    location: "Dobřichovice",
+    experience: "4 roky zkušeností",
+    image: teamHana,
+    quote: "I velké domy si zaslouží osobní péči.",
+    description: "Specializuji se na úklid větších domů a mám zkušenosti s domácími mazlíčky.",
+    specialty: "Rychlá, efektivní a vždy s úsměvem. Klienti si mě žádají zpět."
+  }];
+  return <section id="team" className="py-20 bg-secondary/30 scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -62,20 +54,10 @@ const Team = () => {
         </div>
         
         <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-12">
-          {teamMembers.map((member, index) => (
-            <div 
-              key={index}
-              className="bg-card rounded-2xl shadow-warm border border-border overflow-hidden hover:shadow-xl transition-shadow"
-            >
+          {teamMembers.map((member, index) => <div key={index} className="bg-card rounded-2xl shadow-warm border border-border overflow-hidden hover:shadow-xl transition-shadow">
               <div className="grid sm:grid-cols-5 gap-0">
                 <div className="sm:col-span-2">
-                  <ProgressiveImage
-                    src={member.image} 
-                    alt={`${member.name} - ${member.role} ${member.location}`}
-                    className="sm:rounded-l-2xl"
-                    loading="lazy"
-                    aspectRatio="aspect-square sm:aspect-auto"
-                  />
+                  <ProgressiveImage src={member.image} alt={`${member.name} - ${member.role} ${member.location}`} className="sm:rounded-l-2xl" loading="lazy" aspectRatio="aspect-square sm:aspect-auto" />
                 </div>
                 
                 <div className="sm:col-span-3 p-6 flex flex-col justify-center">
@@ -105,8 +87,7 @@ const Team = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         {/* Bottom CTA */}
@@ -118,11 +99,7 @@ const Team = () => {
             <p className="text-lg mb-6 opacity-95">
               Volejte přímo Janě a domluvte si první schůzku
             </p>
-            <a 
-              href="tel:+420777888999"
-              className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-white/90 transition-colors shadow-lg"
-            >
-              <Phone className="w-5 h-5" />
+            <a href="tel:+420777888999" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-white/90 transition-colors shadow-lg">+420 739 580 935<Phone className="w-5 h-5" />
               +420 777 888 999
             </a>
             <p className="text-sm mt-4 opacity-90">
@@ -131,8 +108,6 @@ const Team = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Team;
