@@ -1,5 +1,4 @@
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
-
 const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -7,31 +6,24 @@ const Footer = () => {
       const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     }
   };
-
-  return (
-    <footer className="bg-foreground text-background py-12">
+  return <footer className="bg-foreground text-background py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <img 
-              src={radoCleanLogo} 
-              alt="Rado Clean" 
-              className="h-16 w-auto max-w-[30%] mb-4"
-            />
+            <img src={radoCleanLogo} alt="Rado Clean" className="h-16 w-auto max-w-[30%] mb-4" />
             <p className="text-background/80 mb-3">
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
             </p>
             <div className="text-background/70 text-sm space-y-1">
               <p><strong>IČO:</strong> 12345678</p>
               <p><strong>Sídlo:</strong> Radotín, Praha-západ</p>
-              <p><strong>Tel:</strong> +420 777 888 999</p>
+              <p><strong>Tel:</strong>Tel: +420 739 580 935</p>
             </div>
           </div>
           
@@ -39,34 +31,22 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Rychlé odkazy</h4>
             <ul className="space-y-2 text-background/80">
               <li>
-                <button 
-                  onClick={() => scrollToSection("pricing")}
-                  className="hover:text-background transition-colors"
-                >
+                <button onClick={() => scrollToSection("pricing")} className="hover:text-background transition-colors">
                   Ceník
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection("team")}
-                  className="hover:text-background transition-colors"
-                >
+                <button onClick={() => scrollToSection("team")} className="hover:text-background transition-colors">
                   O nás
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection("contact")}
-                  className="hover:text-background transition-colors"
-                >
+                <button onClick={() => scrollToSection("contact")} className="hover:text-background transition-colors">
                   Kontakt
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection("testimonials")}
-                  className="hover:text-background transition-colors"
-                >
+                <button onClick={() => scrollToSection("testimonials")} className="hover:text-background transition-colors">
                   Reference
                 </button>
               </li>
@@ -115,8 +95,6 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;

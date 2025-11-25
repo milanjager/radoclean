@@ -267,9 +267,7 @@ const Contact = () => {
                 
                 <p className="text-sm text-muted-foreground text-center">
                   Odpovíme vám do 2 hodin ve všední dny. Nebo nám rovnou zavolejte: 
-                  <a href="tel:+420777888999" className="text-primary hover:underline font-semibold ml-1">
-                    +420 777 888 999
-                  </a>
+                  <a href="tel:+420777888999" className="text-primary hover:underline font-semibold ml-1">+420 739 580 935</a>
                 </p>
               </form>}
             </div>
