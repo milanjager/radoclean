@@ -20,18 +20,19 @@ function Skeleton({
       aria-label={ariaLabel}
       aria-live={announce ? "polite" : "off"}
       className={cn(
-        "animate-pulse rounded-md bg-muted/50",
+        "animate-pulse rounded-md",
         "relative overflow-hidden",
         "backdrop-blur-md",
+        "bg-gradient-to-r from-muted/30 via-primary/10 to-muted/30",
+        "bg-[length:200%_100%]",
+        "animate-gradient-move",
+        "[transform-style:preserve-3d]",
         "before:absolute before:inset-0",
         "before:-translate-x-full",
-        "before:animate-[shimmer_2.5s_ease-in-out_infinite]",
+        "before:animate-shimmer-3d",
         "before:bg-gradient-to-r",
         "before:from-transparent before:via-primary/20 before:to-transparent",
         "before:blur-xl",
-        "before:[transform:translateX(-100%)_rotateY(-15deg)_scale(1.2)]",
-        "before:animate-shimmer-3d",
-        "[transform-style:preserve-3d]",
         className
       )}
       {...props}
