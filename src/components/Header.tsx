@@ -49,7 +49,7 @@ const Header = () => {
             <button onClick={() => scrollToSection("faq")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
               Časté otázky
             </button>
-            <a href="tel:+420777888999" className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>+420 739 580 935<Phone className="w-5 h-5" />
+            <a href="tel:+420777888999" className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>+420 777 888 999<Phone className="w-5 h-5" />
               +420 777 888 999
             </a>
             <Button variant={isScrolled ? "premium" : "hero"} onClick={() => scrollToSection("contact")}>
