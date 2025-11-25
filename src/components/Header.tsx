@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
+import radotinLogo from "@/assets/radotin-logo.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,11 +42,19 @@ const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <img 
               src={radoCleanLogo} 
               alt="Rado Clean" 
-              className={`h-15 md:h-18 w-auto max-w-[30%] transition-all duration-300 animate-fade-in ${
+              className={`h-15 md:h-18 w-auto transition-all duration-300 animate-fade-in ${
+                isScrolled ? "brightness-0" : ""
+              }`}
+            />
+            <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
+            <img 
+              src={radotinLogo} 
+              alt="Radotín" 
+              className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${
                 isScrolled ? "brightness-0" : ""
               }`}
             />
