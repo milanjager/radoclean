@@ -7,6 +7,7 @@ import LocalService from "@/components/LocalService";
 import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 import PricingConfigurator from "@/components/PricingConfigurator";
 import WhyUs from "@/components/WhyUs";
+import PriceComparison from "@/components/PriceComparison";
 import CertificationsAwards from "@/components/CertificationsAwards";
 import Team from "@/components/Team";
 import GoogleReviews from "@/components/GoogleReviews";
@@ -33,6 +34,7 @@ const Index = () => {
       <HowItWorks />
       <PricingConfigurator />
       <WhyUs />
+      <PriceComparison />
       <CertificationsAwards />
       <Team />
       <GoogleReviews />
