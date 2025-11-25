@@ -46,7 +46,7 @@ const Header = () => {
             <img 
               src={radoCleanLogo} 
               alt="Rado Clean" 
-              className={`h-15 md:h-18 w-auto transition-all duration-300 animate-fade-in ${
+              className={`h-15 md:h-18 w-auto max-w-[20%] transition-all duration-300 animate-fade-in ${
                 isScrolled ? "brightness-0" : ""
               }`}
             />
@@ -55,7 +55,7 @@ const Header = () => {
               src={radotinLogo} 
               alt="Radotín" 
               className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${
-                isScrolled ? "brightness-0" : ""
+                isScrolled ? "brightness-0" : "brightness-0 invert"
               }`}
             />
           </div>
