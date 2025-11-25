@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
+import radoCleanLogo from "@/assets/rado-clean-logo.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,13 +42,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2
-              className={`text-xl md:text-2xl font-bold transition-colors ${
-                isScrolled ? "text-foreground" : "text-white"
-              }`}
-            >
-              🏠 Super Úklid Radotín
-            </h2>
+            <img 
+              src={radoCleanLogo} 
+              alt="Rado Clean" 
+              className="h-10 md:h-12 w-auto transition-all duration-300"
+            />
           </div>
 
           {/* Desktop Navigation */}
