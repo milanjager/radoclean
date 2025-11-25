@@ -1,3 +1,5 @@
+import radoCleanLogo from "@/assets/rado-clean-logo.png";
+
 const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -18,7 +20,11 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold mb-4">🏠 Super Úklid Radotín</h3>
+            <img 
+              src={radoCleanLogo} 
+              alt="Rado Clean" 
+              className="h-16 w-auto mb-4"
+            />
             <p className="text-background/80 mb-3">
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
             </p>
@@ -102,7 +108,7 @@ const Footer = () => {
         
         <div className="pt-8 border-t border-background/20 text-center">
           <p className="text-background/60 text-sm">
-            © 2024 Super Úklid Radotín • Radotín, Černošice, Zbraslav
+            © 2024 Rado Clean • Radotín, Černošice, Zbraslav
           </p>
           <p className="text-background/50 text-xs mt-2">
             Vytvořeno s 💙💚 pro rodiny a sousedy v Poberouní
