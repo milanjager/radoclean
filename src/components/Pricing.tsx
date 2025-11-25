@@ -25,7 +25,7 @@ const Pricing = () => {
     {
       name: "Malý byt (1+kk, 2+kk)",
       subtitle: "Do 60 m²",
-      price: "1 800",
+      price: "2 800",
       features: [
         "Kompletní úklid všech místností",
         "Koupelna včetně vany/sprchy",
@@ -38,7 +38,7 @@ const Pricing = () => {
     {
       name: "Střední byt (3+kk, 4+kk)",
       subtitle: "60-100 m²",
-      price: "2 500",
+      price: "3 500",
       features: [
         "Kompletní úklid všech místností",
         "Koupelna včetně vany/sprchy",
@@ -52,7 +52,7 @@ const Pricing = () => {
     {
       name: "Rodinný dům",
       subtitle: "100-150 m²",
-      price: "3 500",
+      price: "4 500",
       features: [
         "Kompletní úklid všech místností",
         "2 koupelny včetně vany/sprchy",
