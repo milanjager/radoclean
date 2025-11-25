@@ -93,19 +93,37 @@ export default {
             height: "0",
           },
         },
-        shimmer: {
-          "0%": {
-            transform: "translateX(-100%)",
-          },
-          "100%": {
-            transform: "translateX(100%)",
-          },
+      shimmer: {
+        "0%": {
+          transform: "translateX(-100%)",
         },
+        "100%": {
+          transform: "translateX(100%)",
+        },
+      },
+      "shimmer-3d": {
+        "0%": {
+          transform: "translateX(-100%) rotateY(-15deg) scale(1.2)",
+          filter: "blur(20px)",
+          opacity: "0",
+        },
+        "50%": {
+          transform: "translateX(0%) rotateY(0deg) scale(1.1)",
+          filter: "blur(10px)",
+          opacity: "0.8",
+        },
+        "100%": {
+          transform: "translateX(100%) rotateY(15deg) scale(1.2)",
+          filter: "blur(20px)",
+          opacity: "0",
+        },
+      },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        shimmer: "shimmer 2s infinite",
+      shimmer: "shimmer 2s infinite",
+      "shimmer-3d": "shimmer-3d 2.5s ease-in-out infinite",
       },
     },
   },

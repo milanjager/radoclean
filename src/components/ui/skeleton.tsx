@@ -22,11 +22,16 @@ function Skeleton({
       className={cn(
         "animate-pulse rounded-md bg-muted/50",
         "relative overflow-hidden",
+        "backdrop-blur-md",
         "before:absolute before:inset-0",
         "before:-translate-x-full",
-        "before:animate-[shimmer_2s_infinite]",
+        "before:animate-[shimmer_2.5s_ease-in-out_infinite]",
         "before:bg-gradient-to-r",
-        "before:from-transparent before:via-muted/80 before:to-transparent",
+        "before:from-transparent before:via-primary/20 before:to-transparent",
+        "before:blur-xl",
+        "before:[transform:translateX(-100%)_rotateY(-15deg)_scale(1.2)]",
+        "before:animate-shimmer-3d",
+        "[transform-style:preserve-3d]",
         className
       )}
       {...props}
