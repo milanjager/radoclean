@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle } from "lucide-react";
+import { Check, HelpCircle, BadgeCheck } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 const Pricing = () => {
   const scrollToContact = () => {
@@ -77,6 +78,12 @@ const Pricing = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Žádné kalkulačky za m². Žádné dohadování. Jen jasná cena, kterou vidíte hned.
           </p>
+          <div className="flex items-center justify-center gap-2 mt-6">
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              <BadgeCheck className="w-4 h-4 mr-2" />
+              Férové tržní ceny ověřené konkurencí
+            </Badge>
+          </div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">

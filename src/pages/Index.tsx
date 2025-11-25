@@ -6,6 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import LocalService from "@/components/LocalService";
 import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 import PricingConfigurator from "@/components/PricingConfigurator";
+import WhyUs from "@/components/WhyUs";
 import CertificationsAwards from "@/components/CertificationsAwards";
 import Team from "@/components/Team";
 import GoogleReviews from "@/components/GoogleReviews";
@@ -31,6 +32,7 @@ const Index = () => {
       <BeforeAfterGallery />
       <HowItWorks />
       <PricingConfigurator />
+      <WhyUs />
       <CertificationsAwards />
       <Team />
       <GoogleReviews />
