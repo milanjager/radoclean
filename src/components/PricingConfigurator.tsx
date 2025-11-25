@@ -182,6 +182,48 @@ const PricingConfigurator = () => {
       price: 600,
       tooltip: "Sekání trávy, hrabání listí, údržba květinových záhonů"
     },
+    { 
+      id: "carpet-cleaning", 
+      label: "Čištění koberců a čalouněného nábytku", 
+      price: 500,
+      tooltip: "Profesionální hloubkové čištění koberců a sedací soupravy"
+    },
+    { 
+      id: "oven-cleaning", 
+      label: "Vyčištění trouby a grilu", 
+      price: 350,
+      tooltip: "Důkladné odmastění a dezinfekce trouby"
+    },
+    { 
+      id: "fridge-cleaning", 
+      label: "Čištění lednice a mrazáku", 
+      price: 250,
+      tooltip: "Kompletní vyčištění, odmrazení a dezinfekce"
+    },
+    { 
+      id: "balcony-terrace", 
+      label: "Velký balkon nebo terasa (nad 10 m²)", 
+      price: 450,
+      tooltip: "Vymetení, umytí podlahy a čištění zábradlí"
+    },
+    { 
+      id: "laundry", 
+      label: "Praní a sušení prádla", 
+      price: 400,
+      tooltip: "Vypraní jedné várky prádla včetně sušení"
+    },
+    { 
+      id: "organizing", 
+      label: "Organizace šatníku nebo skříní", 
+      price: 550,
+      tooltip: "Přeskládání a uspořádání oblečení nebo kuchyňských skříní"
+    },
+    { 
+      id: "walls-cleaning", 
+      label: "Čištění stěn a stropů", 
+      price: 600,
+      tooltip: "Odstranění pavučin, skvrn a otisků ze stěn"
+    },
   ];
 
   const toggleExtra = (extraId: string) => {
