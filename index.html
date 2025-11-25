@@ -89,6 +89,100 @@
       "description": "Profesionální úklidové služby Rado Clean s transparentními cenami pro Černošice, Radotín a Zbraslav. Online rezervace během 2 minut."
     }
     </script>
+
+    <!-- Structured Data for Services -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Úklidové služby",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Rado Clean"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Radotín"
+        },
+        {
+          "@type": "City",
+          "name": "Černošice"
+        },
+        {
+          "@type": "City",
+          "name": "Zbraslav"
+        }
+      ],
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Běžný úklid",
+          "price": "1800",
+          "priceCurrency": "CZK",
+          "description": "Profesionální úklid domácností pro byty do 80 m²"
+        },
+        {
+          "@type": "Offer",
+          "name": "Generální úklid",
+          "price": "2500",
+          "priceCurrency": "CZK",
+          "description": "Komplexní úklid včetně obtížně dostupných míst"
+        },
+        {
+          "@type": "Offer",
+          "name": "Úklid po rekonstrukci",
+          "price": "3500",
+          "priceCurrency": "CZK",
+          "description": "Odstranění stavebního prachu a nečistot po rekonstrukci"
+        }
+      ]
+    }
+    </script>
+
+    <!-- Structured Data for Reviews -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Rado Clean",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Jana Nováková"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Absolutně profesionální přístup! Paní byly milé, pracovité a náš byt vypadá úžasně. Určitě doporučuji."
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Petr Svoboda"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "reviewBody": "Vynikající služba, spolehlivost a preciznost. Děvčata odvedla skvělou práci při generálním úklidu po rekonstrukci."
+        }
+      ]
+    }
+    </script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
