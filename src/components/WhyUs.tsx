@@ -100,27 +100,6 @@ const WhyUs = () => {
             );
           })}
         </div>
-
-        <div className="mt-16 max-w-4xl mx-auto">
-          <div className="bg-card rounded-2xl p-8 border border-primary/20 shadow-lg">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <CheckCircle2 className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-foreground mb-3">
-                  Férová cena = Kvalita + Vybavení + Záruka
-                </h3>
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  Naše ceny jsou o 40% vyšší než před aktualizací, protože jsme je srovnali s trhem. 
-                  Ale na rozdíl od konkurence dostáváte <strong className="text-foreground">vše v jedné ceně</strong>: 
-                  profesionální vybavení, dopřavku, certifikovaný tým a záruku kvality. 
-                  Jiné firmy tyto položky účtují zvlášť - a jejich celková cena pak bývá vyšší než naše.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
