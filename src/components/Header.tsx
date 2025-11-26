@@ -49,8 +49,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("faq")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
               Časté otázky
             </button>
-            <a href="tel:+420777888999" className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>+420 739 580 935<Phone className="w-5 h-5" />
-              +420 777 888 999
+            <a href="tel:+420739580935" className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+              <Phone className="w-5 h-5" />
+              +420 739 580 935
             </a>
             <Button variant={isScrolled ? "premium" : "hero"} onClick={() => scrollToSection("contact")}>
               Rezervovat
@@ -77,9 +78,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("faq")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Časté otázky
             </button>
-            <a href="tel:+420777888999" className="flex items-center gap-2 text-foreground font-semibold py-3 px-4 rounded-xl bg-accent/10 hover:bg-accent/20 transition-colors">
+            <a href="tel:+420739580935" className="flex items-center gap-2 text-foreground font-semibold py-3 px-4 rounded-xl bg-accent/10 hover:bg-accent/20 transition-colors">
               <Phone className="w-5 h-5" />
-              <span className="text-lg">+420 777 888 999</span>
+              <span className="text-lg">+420 739 580 935</span>
             </a>
             <Button variant="premium" className="mt-2" onClick={() => scrollToSection("contact")}>
               Rezervovat termín
