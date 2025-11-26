@@ -7,7 +7,7 @@ const LocalService = () => {
       name: "Černošice",
       distance: "5 km",
       responseTime: "15 min",
-      customers: "180+",
+      customers: "18+",
       highlight: true
     },
     {
