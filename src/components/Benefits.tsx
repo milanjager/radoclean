@@ -4,7 +4,7 @@ const Benefits = () => {
   const benefits = [
     {
       icon: <CheckCircle2 className="w-8 h-8 text-primary" />,
-      title: "Žádné fotobankové kecy",
+      title: "Žádné kecy",
       description: "Ukazujeme reálné výsledky u reálných českých domovů. Ne dokonalé modely v neexistujících bytech.",
     },
     {
