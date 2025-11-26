@@ -32,7 +32,7 @@ const Header = () => {
           <div className="flex items-center gap-3">
             <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[20%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
-            <img src={radotinLogo} alt="Radotín" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : "brightness-0 invert"}`} />
+            <img src={radotinLogo} alt="Radotín" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "" : "brightness-0 invert"}`} />
           </div>
 
           {/* Desktop Navigation */}
