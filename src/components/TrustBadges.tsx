@@ -2,7 +2,7 @@ import { Shield, Users, Award, Clock } from "lucide-react";
 const TrustBadges = () => {
   const badges = [{
     icon: <Users className="w-6 h-6 text-primary" />,
-    value: "150+",
+    value: "50+",
     label: "Domácností v Poberouní"
   }, {
     icon: <Clock className="w-6 h-6 text-primary" />,
