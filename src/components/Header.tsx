@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 import radotinLogo from "@/assets/radotin-logo.png";
 const Header = () => {
@@ -30,7 +31,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[20%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+            <h1 className="m-0">
+              <Link to="/" className="inline-block">
+                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[20%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+              </Link>
+            </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
             <img src={radotinLogo} alt="Radotín" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "" : "brightness-0 invert"}`} />
           </div>
