@@ -38,7 +38,7 @@ const Header = () => {
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
             <button onClick={() => scrollToSection("local-service")} className="inline-block">
-              <img src={radotinLogo} alt="Radotín - místní služby" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
+              <img src={radotinLogo} alt="Radotín - místní služby" className={`h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
             </button>
           </div>
 
