@@ -33,7 +33,7 @@ const Header = () => {
           <div className="flex items-center gap-2">
             <h1 className="m-0">
               <Link to="/" className="inline-block">
-                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[35%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
               </Link>
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
