@@ -30,14 +30,16 @@ const Header = () => {
   return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/95 backdrop-blur-md shadow-md py-3" : "bg-transparent py-4"}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <h1 className="m-0">
               <Link to="/" className="inline-block">
-                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[20%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
               </Link>
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
-            <img src={radotinLogo} alt="Radotín" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "" : "brightness-0 invert"}`} />
+            <button onClick={() => scrollToSection("local-service")} className="inline-block">
+              <img src={radotinLogo} alt="Radotín - místní služby" className={`h-8 md:h-10 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
+            </button>
           </div>
 
           {/* Desktop Navigation */}

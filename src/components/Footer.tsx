@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <Link to="/" className="inline-block mb-4">
-              <img src={radoCleanLogo} alt="Rado Clean" className="h-16 w-auto max-w-[30%]" />
+              <img src={radoCleanLogo} alt="Rado Clean" className="h-16 w-auto" />
             </Link>
             <p className="text-background/80 mb-3">
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
