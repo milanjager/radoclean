@@ -1,13 +1,21 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
 Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
   try {
     const { conversationId, visitorId } = await req.json()
     
     if (!conversationId || !visitorId) {
       return new Response(
         JSON.stringify({ error: 'Conversation ID and Visitor ID are required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
@@ -25,14 +33,14 @@ Deno.serve(async (req) => {
     if (convError || !conversation) {
       return new Response(
         JSON.stringify({ error: 'Conversation not found' }),
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
     if (conversation.visitor_id !== visitorId) {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
-        { status: 403, headers: { 'Content-Type': 'application/json' } }
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
@@ -49,13 +57,13 @@ Deno.serve(async (req) => {
 
     return new Response(
       JSON.stringify({ data }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return new Response(
       JSON.stringify({ error: errorMessage }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
 })
