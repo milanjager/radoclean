@@ -14,7 +14,7 @@ const FAQ = () => {
     answer: "Ne. Doprava i profesionální čistící prostředky jsou zahrnuty v ceně. Používáme ekologické prostředky, které jsou šetrné k životnímu prostředí i k vašemu domovu."
   }, {
     question: "Jak si rezervuji termín?",
-    answer: "Můžete nás kontaktovat přes formulář na webu, zavolat na +420 777 888 999, nebo poslat email. Plánujeme brzy spustit online kalendář, kde si budete moci vybrat termín přímo."
+    answer: "Můžete nás kontaktovat přes formulář na webu, zavolat na +420 739 580 935, nebo poslat email. Plánujeme brzy spustit online kalendář, kde si budete moci vybrat termín přímo."
   }, {
     question: "Jak platím za úklid?",
     answer: "Platbu můžete provést hotově, kartou nebo bankovním převodem. Po dokončení úklidu vám vystavíme fakturu. U pravidelných úklidů nabízíme výhodné měsíční platby."
@@ -58,7 +58,7 @@ const FAQ = () => {
             <p className="text-muted-foreground mb-4">
               Nenašli jste odpověď na vaši otázku?
             </p>
-            <a href="tel:+420777888999" className="text-primary hover:underline font-semibold text-lg">Zavolejte nám na +420 739 580 935</a>
+            <a href="tel:+420739580935" className="text-primary hover:underline font-semibold text-lg">Zavolejte nám na +420 739 580 935</a>
           </div>
         </div>
       </div>
