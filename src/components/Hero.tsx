@@ -51,7 +51,7 @@ const Hero = () => {
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-            <Button variant="outline" size="lg" className="text-lg bg-white/95 hover:bg-white border-0 shadow-md hover:shadow-lg transition-all" onClick={() => scrollToSection("contact")}>
+            <Button variant="outline" size="lg" className="text-lg bg-white/95 hover:bg-white text-primary hover:text-primary border-0 shadow-md hover:shadow-lg transition-all" onClick={() => scrollToSection("contact")}>
               <Calendar className="mr-2" />
               Spočítat cenu za 30 sekund
             </Button>
