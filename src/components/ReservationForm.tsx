@@ -483,7 +483,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
             <Input
               id="phone"
               type="tel"
-              placeholder="+420 777 888 999"
+              placeholder="+420 739 580 935"
               className={cn("h-12", errors.phone && "border-destructive")}
               value={formData.phone}
               onChange={handleChange}

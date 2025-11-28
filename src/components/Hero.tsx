@@ -56,7 +56,7 @@ const Hero = () => {
               Spočítat cenu za 30 sekund
             </Button>
             
-            <a href="tel:+420777888999" className="sm:hidden">
+            <a href="tel:+420739580935" className="sm:hidden">
               <Button variant="outline" size="lg" className="w-full text-lg bg-white/95 hover:bg-white border-0">
                 <Phone className="mr-2" />
                 Zavolat teď
