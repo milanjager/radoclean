@@ -320,6 +320,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_or_create_referral_code: {
+        Args: { user_email: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -327,6 +331,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      validate_referral_code: { Args: { code_value: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
