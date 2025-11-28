@@ -61,22 +61,15 @@ const LiveChatWidget = () => {
     
     try {
       // Check if conversation exists via edge function
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-chat-conversation`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ visitorId }),
-        }
-      );
+      const { data, error } = await supabase.functions.invoke('get-chat-conversation', {
+        body: { visitorId }
+      });
 
-      const { data: existingConv } = await response.json();
+      if (error) throw error;
 
-      if (existingConv) {
-        setConversationId(existingConv.id);
-        loadMessages(existingConv.id);
+      if (data?.data) {
+        setConversationId(data.data.id);
+        loadMessages(data.data.id);
       }
     } catch (error) {
       console.log("No existing conversation found");
@@ -136,24 +129,15 @@ const LiveChatWidget = () => {
     const visitorId = getVisitorId();
     
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-chat-messages`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            conversationId: convId,
-            visitorId 
-          }),
+      const { data, error } = await supabase.functions.invoke('get-chat-messages', {
+        body: { 
+          conversationId: convId,
+          visitorId 
         }
-      );
-
-      const { data, error } = await response.json();
+      });
 
       if (error) throw error;
-      if (data) setMessages(data as Message[]);
+      if (data?.data) setMessages(data.data as Message[]);
     } catch (error) {
       console.error("Error loading messages:", error);
     }
