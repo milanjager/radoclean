@@ -30,40 +30,29 @@ const NeighborhoodDiscount = () => {
       return;
     }
 
-    const code = generateCode(email);
+    try {
+      const { data, error } = await supabase.rpc('get_or_create_referral_code', {
+        user_email: email
+      });
 
-    const { error } = await supabase
-      .from('referral_codes')
-      .insert({ code, email });
+      if (error) throw error;
 
-    if (error) {
-      if (error.code === '23505') { // Duplicate key
-        // Code already exists, fetch it
-        const { data } = await supabase
-          .from('referral_codes')
-          .select('*')
-          .eq('email', email)
-          .single();
-        
-        if (data) {
-          setReferralCode(data.code);
-          setReferralsCount(data.referrals_count);
-          setDiscountActivated(data.discount_activated);
-        }
-      } else {
+      if (data) {
+        const result = data as { code: string; referrals_count: number; discount_activated: boolean };
+        setReferralCode(result.code);
+        setReferralsCount(result.referrals_count);
+        setDiscountActivated(result.discount_activated);
         toast({
-          title: "Chyba",
-          description: "Nepodařilo se vytvořit referral kód",
-          variant: "destructive",
+          title: "Kód vytvořen!",
+          description: "Sdílejte váš kód s přáteli a získejte slevu",
         });
       }
-    } else {
-      setReferralCode(code);
-      setReferralsCount(0);
-      setDiscountActivated(false);
+    } catch (error) {
+      console.error('Error generating referral code:', error);
       toast({
-        title: "Kód vytvořen!",
-        description: "Sdílejte váš kód s přáteli a získejte slevu",
+        title: "Chyba",
+        description: "Nepodařilo se vytvořit referral kód",
+        variant: "destructive",
       });
     }
   };

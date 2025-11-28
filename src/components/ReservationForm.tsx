@@ -138,13 +138,15 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
   const checkReferralCode = async (code: string) => {
     try {
-      const { data, error } = await supabase
-        .from('referral_codes')
-        .select('*')
-        .eq('code', code)
-        .single();
+      const { data, error } = await supabase.rpc('validate_referral_code', {
+        code_value: code
+      });
 
-      if (error || !data) {
+      if (error) throw error;
+
+      const result = data as { valid: boolean; discount_activated?: boolean; referrals_count?: number };
+
+      if (!result || !result.valid) {
         console.log('Invalid referral code');
         return;
       }
@@ -152,7 +154,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       setReferralCode(code);
       
       // If referral code has 2+ referrals, apply 15% discount
-      if (data.discount_activated) {
+      if (result.discount_activated) {
         setReferralDiscount(0.15);
         toast({
           title: "🎉 Sousedská sleva aktivována!",
@@ -162,7 +164,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       } else {
         toast({
           title: "✓ Referral kód použit",
-          description: `Jste ${data.referrals_count + 1}. v seznamu. Sleva se aktivuje po 3 objednávkách.`,
+          description: `Jste ${(result.referrals_count || 0) + 1}. v seznamu. Sleva se aktivuje po 3 objednávkách.`,
           duration: 5000,
         });
       }
@@ -245,20 +247,35 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
       // Track referral use if referral code was used
       if (referralCode && reservationData && reservationData[0]) {
-        const { data: referralCodeData } = await supabase
-          .from('referral_codes')
-          .select('id')
-          .eq('code', referralCode)
-          .single();
+        try {
+          // Validate the code first to get the ID
+          const { data: validationData } = await supabase.rpc('validate_referral_code', {
+            code_value: referralCode
+          });
 
-        if (referralCodeData) {
-          await supabase.from('referral_uses').insert([
-            {
-              referral_code_id: referralCodeData.id,
-              user_email: validatedData.email,
-              reservation_id: reservationData[0].id,
+          const validationResult = validationData as { valid: boolean };
+
+          if (validationResult?.valid) {
+            // Get the referral code ID (we need admin privileges for this, so keep this query)
+            const { data: referralCodeData } = await supabase
+              .from('referral_codes')
+              .select('id')
+              .eq('code', referralCode)
+              .single();
+
+            if (referralCodeData) {
+              await supabase.from('referral_uses').insert([
+                {
+                  referral_code_id: referralCodeData.id,
+                  user_email: validatedData.email,
+                  reservation_id: reservationData[0].id,
+                }
+              ]);
             }
-          ]);
+          }
+        } catch (refError) {
+          console.error('Error tracking referral use:', refError);
+          // Don't fail the reservation if referral tracking fails
         }
       }
 
