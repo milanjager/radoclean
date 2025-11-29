@@ -2,3 +2,9 @@ project_id = "xeogwgtqbgpthfpxoofw"
 
 [functions.transcribe-audio]
 verify_jwt = true
+
+[functions.notify-new-chat]
+verify_jwt = false
+
+[functions.notify-new-inquiry]
+verify_jwt = false
