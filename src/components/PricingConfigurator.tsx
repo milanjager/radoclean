@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles } from "lucide-react";
+import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -32,6 +32,19 @@ interface FrequencyOption {
   description: string;
   discount: number;
   icon: string;
+}
+
+interface PopularPackage {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: CategoryType;
+  packageSize: PackageType;
+  extras: string[];
+  windowCount?: WindowCountType;
+  savings: number;
+  badge?: string;
 }
 const PricingConfigurator = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("standard");
@@ -105,6 +118,47 @@ const PricingConfigurator = () => {
     name: "11+ oken",
     price: 700
   }];
+
+  const popularPackages: PopularPackage[] = [{
+    id: "spring-cleaning",
+    name: "Jarní úklid",
+    description: "Komplexní úklid pro osvěžení domova",
+    icon: "🌸",
+    category: "general",
+    packageSize: "medium",
+    extras: ["oven-cleaning", "fridge-cleaning"],
+    windowCount: "4-6",
+    savings: 250,
+    badge: "Nejoblíbenější"
+  }, {
+    id: "family-standard",
+    name: "Rodinný standard",
+    description: "Pro rodiny s dětmi a mazlíčky",
+    icon: "👨‍👩‍👧‍👦",
+    category: "standard",
+    packageSize: "medium",
+    extras: ["dog", "balcony-terrace", "dishes"],
+    savings: 150
+  }, {
+    id: "premium-care",
+    name: "Premium péče",
+    description: "Luxusní úklid s organizací",
+    icon: "✨",
+    category: "general",
+    packageSize: "large",
+    extras: ["ironing", "carpet-cleaning", "organizing"],
+    windowCount: "7-10",
+    savings: 400,
+    badge: "VIP"
+  }];
+
+  const competitorComparison = [
+    { service: "Malý byt (do 60m²)", ours: 1890, competition: "2200-2400", status: "cheaper" },
+    { service: "Střední byt (60-100m²)", ours: 2890, competition: "3500-3800", status: "cheaper" },
+    { service: "Rodinný dům (100-150m²)", ours: 4990, competition: "5800-6200", status: "cheaper" },
+    { service: "Generální úklid", ours: "+50%", competition: "+60-80%", status: "better" },
+    { service: "Pravidelný úklid", ours: "až -20%", competition: "-10-15%", status: "better" }
+  ];
   const categories: Category[] = [{
     id: "standard",
     name: "Běžný úklid",
@@ -240,6 +294,51 @@ const PricingConfigurator = () => {
       newExtras.add(extraId);
     }
     setSelectedExtras(newExtras);
+  };
+
+  const applyPopularPackage = (pkg: PopularPackage) => {
+    setSelectedCategory(pkg.category);
+    setSelectedPackage(pkg.packageSize);
+    setSelectedExtras(new Set(pkg.extras));
+    if (pkg.windowCount) {
+      setSelectedWindowCount(pkg.windowCount);
+    }
+    if (pkg.category === "regular") {
+      setSelectedFrequency("weekly");
+    }
+  };
+
+  const getSmartRecommendations = () => {
+    const recommendations: string[] = [];
+    
+    // Based on package size
+    if (selectedPackage === "large" && !selectedExtras.has("garden")) {
+      recommendations.push("garden");
+    }
+    if (selectedPackage === "medium" && !selectedExtras.has("balcony-terrace")) {
+      recommendations.push("balcony-terrace");
+    }
+
+    // Based on category
+    if (selectedCategory === "general" && !selectedExtras.has("oven-cleaning")) {
+      recommendations.push("oven-cleaning");
+    }
+    if (selectedCategory === "post-construction" && !selectedExtras.has("walls-cleaning")) {
+      recommendations.push("walls-cleaning");
+    }
+
+    // Based on existing selections
+    if (selectedExtras.has("dog") && !selectedExtras.has("carpet-cleaning")) {
+      recommendations.push("carpet-cleaning");
+    }
+    if (selectedExtras.has("ironing") && !selectedExtras.has("laundry")) {
+      recommendations.push("laundry");
+    }
+
+    // Return top 3 recommendations that aren't already selected
+    return recommendations
+      .filter(id => !selectedExtras.has(id))
+      .slice(0, 3);
   };
   const calculateTotalPrice = () => {
     const category = categories.find(c => c.id === selectedCategory);
@@ -391,6 +490,178 @@ const PricingConfigurator = () => {
               <div className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-500 ease-out" style={{
               width: `${getProgressPercentage()}%`
             }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Popular Packages Section */}
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
+              <Star className="w-4 h-4" />
+              <span className="text-sm font-semibold">Nejoblíbenější volby</span>
+            </div>
+            <h3 className="text-3xl font-bold text-foreground mb-3">
+              ⚡ Přednastavené balíčky
+            </h3>
+            <p className="text-muted-foreground">
+              Ušetřete čas - vyberte si z našich osvědčených kombinací
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {popularPackages.map(pkg => {
+              const basePrice = packages[pkg.packageSize].basePrice;
+              const category = categories.find(c => c.id === pkg.category);
+              let totalPrice = basePrice * (category?.priceMultiplier || 1);
+              
+              pkg.extras.forEach(extraId => {
+                const extra = extraOptions.find(e => e.id === extraId);
+                if (extra) totalPrice += extra.price;
+              });
+              
+              if (pkg.windowCount) {
+                const windowOption = windowCountOptions.find(w => w.id === pkg.windowCount);
+                if (windowOption) totalPrice += windowOption.price;
+              }
+              
+              const discountedPrice = Math.round(totalPrice - pkg.savings);
+              
+              return (
+                <div
+                  key={pkg.id}
+                  className="relative bg-card rounded-2xl p-6 border-2 border-border hover:border-primary transition-all hover:shadow-lg group"
+                >
+                  {pkg.badge && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-primary to-accent text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">
+                        {pkg.badge}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="text-center mb-4">
+                    <div className="text-5xl mb-3">{pkg.icon}</div>
+                    <h4 className="text-xl font-bold text-foreground mb-2">
+                      {pkg.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {pkg.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span className="text-muted-foreground">
+                        {category?.name} • {packages[pkg.packageSize].name}
+                      </span>
+                    </div>
+                    {pkg.extras.map(extraId => {
+                      const extra = extraOptions.find(e => e.id === extraId);
+                      return extra ? (
+                        <div key={extraId} className="flex items-center gap-2 text-sm">
+                          <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span className="text-muted-foreground">{extra.label}</span>
+                        </div>
+                      ) : null;
+                    })}
+                    {pkg.windowCount && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-muted-foreground">
+                          Mytí oken ({windowCountOptions.find(w => w.id === pkg.windowCount)?.name})
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-4 mb-4">
+                    <div className="flex items-baseline justify-center gap-2 mb-2">
+                      <span className="text-3xl font-bold text-foreground">
+                        {discountedPrice.toLocaleString('cs-CZ')} Kč
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground line-through">
+                        Standardně: {Math.round(totalPrice).toLocaleString('cs-CZ')} Kč
+                      </p>
+                      <p className="text-sm font-semibold text-primary">
+                        Ušetříte {pkg.savings} Kč
+                      </p>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => applyPopularPackage(pkg)}
+                    variant="outline"
+                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    Použít tento balíček
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Price Comparison Section */}
+        <div className="max-w-5xl mx-auto mb-16">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-300 px-4 py-2 rounded-full mb-4">
+              <TrendingDown className="w-4 h-4" />
+              <span className="text-sm font-semibold">Transparentní ceny</span>
+            </div>
+            <h3 className="text-3xl font-bold text-foreground mb-3">
+              Porovnání s konkurencí v Praze
+            </h3>
+            <p className="text-muted-foreground">
+              Ověřte si sami - naše ceny jsou férové a konkurenceschopné
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl border-2 border-border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-muted/50 border-b border-border">
+                    <th className="text-left p-4 font-semibold text-foreground">Služba</th>
+                    <th className="text-center p-4 font-semibold text-foreground">Naše cena</th>
+                    <th className="text-center p-4 font-semibold text-muted-foreground">Konkurence Praha</th>
+                    <th className="text-center p-4 font-semibold text-foreground">Hodnocení</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {competitorComparison.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+                      <td className="p-4 text-foreground">{item.service}</td>
+                      <td className="p-4 text-center">
+                        <span className="font-bold text-primary text-lg">
+                          {typeof item.ours === 'number' ? `${item.ours.toLocaleString('cs-CZ')} Kč` : item.ours}
+                        </span>
+                      </td>
+                      <td className="p-4 text-center text-muted-foreground">
+                        {typeof item.competition === 'string' && item.competition.includes('-') 
+                          ? item.competition 
+                          : `${item.competition} Kč`}
+                      </td>
+                      <td className="p-4 text-center">
+                        <span className="inline-flex items-center gap-1 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-medium">
+                          <Check className="w-4 h-4" />
+                          {item.status === 'cheaper' ? 'Levnější' : 'Lepší'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-6 text-center">
+              <p className="text-sm text-foreground font-medium">
+                💰 <strong>Průměrná úspora oproti konkurenci:</strong> 400-600 Kč na úklid
+              </p>
             </div>
           </div>
         </div>
@@ -638,6 +909,55 @@ const PricingConfigurator = () => {
               </div>
             )}
           </div>
+
+          {/* Smart Recommendations */}
+          {getSmartRecommendations().length > 0 && (
+            <div className="mb-8 p-5 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl border-2 border-blue-200 dark:border-blue-800">
+              <div className="flex items-start gap-3 mb-4">
+                <Lightbulb className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="text-lg font-bold text-foreground mb-2">
+                    💡 Smart doporučení pro vás
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Zákazníci s podobnou konfigurací často přidávají:
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-3">
+                {getSmartRecommendations().map(extraId => {
+                  const extra = extraOptions.find(e => e.id === extraId);
+                  if (!extra) return null;
+                  
+                  return (
+                    <button
+                      key={extraId}
+                      onClick={() => toggleExtra(extraId)}
+                      className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 rounded-lg border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 hover:shadow-md transition-all group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div className="text-left">
+                          <p className="font-semibold text-foreground">{extra.label}</p>
+                          {extra.tooltip && (
+                            <p className="text-xs text-muted-foreground">{extra.tooltip}</p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                          +{extra.price} Kč
+                        </p>
+                        <p className="text-xs text-blue-600 dark:text-blue-400">Klikněte pro přidání</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Other Extras */}
           <h4 className="text-lg font-semibold text-foreground mb-4">Ostatní doplňkové služby</h4>
