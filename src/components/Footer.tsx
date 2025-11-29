@@ -53,6 +53,11 @@ const Footer = () => {
                   Reference
                 </button>
               </li>
+              <li>
+                <Link to="/feedback" className="hover:text-background transition-colors">
+                  Zpětná vazba
+                </Link>
+              </li>
             </ul>
           </div>
           
