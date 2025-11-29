@@ -28,8 +28,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle } from "lucide-react";
 import AvailabilityManager from "./AvailabilityManager";
+import AdminChatManager from "./AdminChatManager";
+import AdminInquiriesManager from "./AdminInquiriesManager";
 
 type Reservation = {
   id: string;
@@ -138,14 +140,22 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="reservations" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 max-w-md">
+        <TabsList className="grid w-full grid-cols-4 max-w-3xl">
           <TabsTrigger value="reservations">
             <Calendar className="w-4 h-4 mr-2" />
             Rezervace
           </TabsTrigger>
           <TabsTrigger value="availability">
             <Clock className="w-4 h-4 mr-2" />
-            Dostupnost termínů
+            Dostupnost
+          </TabsTrigger>
+          <TabsTrigger value="chat">
+            <MessageCircle className="w-4 h-4 mr-2" />
+            Chat
+          </TabsTrigger>
+          <TabsTrigger value="inquiries">
+            <Mail className="w-4 h-4 mr-2" />
+            Dotazy
           </TabsTrigger>
         </TabsList>
 
@@ -331,6 +341,14 @@ const AdminDashboard = () => {
 
         <TabsContent value="availability" className="mt-6">
           <AvailabilityManager />
+        </TabsContent>
+
+        <TabsContent value="chat" className="mt-6">
+          <AdminChatManager />
+        </TabsContent>
+
+        <TabsContent value="inquiries" className="mt-6">
+          <AdminInquiriesManager />
         </TabsContent>
       </Tabs>
 
