@@ -1,20 +1,84 @@
 import { Button } from "@/components/ui/button";
-import { Phone, ShoppingCart, ChevronUp, Info } from "lucide-react";
+import { Phone, ShoppingCart, ChevronUp, Info, Package, X } from "lucide-react";
 import { usePricing } from "@/contexts/PricingContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const StickyMobileCTA = () => {
   const {
     selectedCategory,
     selectedPackage,
     selectedExtras,
+    selectedWindowCount,
     totalPrice,
     isConfigurationComplete,
     openReservation,
   } = usePricing();
   
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showExtrasPopover, setShowExtrasPopover] = useState(false);
+
+  // Define extras options to get labels
+  const extraOptions = [
+    { id: "dog", label: "Mám psa nebo kočku", price: 200 },
+    { id: "dishes", label: "Mytí nádobí", price: 150 },
+    { id: "trash", label: "Vynášení odpadků", price: 50 },
+    { id: "plants", label: "Zalévání květin", price: 50 },
+    { id: "ironing", label: "Žehlení prádla (cca 2 hodiny)", price: 300 },
+    { id: "garden", label: "Kompletní údržba zahrady", price: 600 },
+    { id: "carpet-cleaning", label: "Čištění koberců a čalouněného nábytku", price: 500 },
+    { id: "oven-cleaning", label: "Vyčištění trouby a grilu", price: 350 },
+    { id: "fridge-cleaning", label: "Čištění lednice a mrazáku", price: 250 },
+    { id: "balcony-terrace", label: "Velký balkon nebo terasa (nad 10 m²)", price: 450 },
+    { id: "laundry", label: "Praní a sušení prádla", price: 400 },
+    { id: "organizing", label: "Organizace šatníku nebo skříní", price: 550 },
+    { id: "basement-garage", label: "Sklep / garáž / půda", price: 300 },
+    { id: "wallpaper-cleaning", label: "Čištění tapetovaných stěn", price: 400 },
+    { id: "walls-cleaning", label: "Čištění stěn a stropů (jedna místnost)", price: 600 },
+  ];
+
+  const windowCountOptions = [
+    { id: "1-3", name: "1-3 okna", price: 200 },
+    { id: "4-6", name: "4-6 oken", price: 350 },
+    { id: "7-10", name: "7-10 oken", price: 500 },
+    { id: "11+", name: "11+ oken", price: 700 },
+  ];
+
+  const getSelectedExtrasDetails = () => {
+    const details = [];
+    
+    // Add selected extras
+    selectedExtras.forEach((extraId) => {
+      const extra = extraOptions.find((e) => e.id === extraId);
+      if (extra) {
+        details.push({
+          label: extra.label,
+          price: extra.price,
+        });
+      }
+    });
+
+    // Add window cleaning if selected
+    if (selectedWindowCount) {
+      const windowOption = windowCountOptions.find((w) => w.id === selectedWindowCount);
+      if (windowOption) {
+        details.push({
+          label: `Mytí oken - ${windowOption.name}`,
+          price: windowOption.price,
+        });
+      }
+    }
+
+    return details;
+  };
+
+  const selectedExtrasDetails = getSelectedExtrasDetails();
+  const totalExtras = selectedExtrasDetails.length;
 
   const getCategoryLabel = () => {
     const labels = {
@@ -75,11 +139,73 @@ const StickyMobileCTA = () => {
                       <span className="text-muted-foreground">Prostor:</span>
                       <span className="font-semibold text-foreground">{getPackageLabel()}</span>
                     </div>
-                    {selectedExtras.size > 0 && (
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Extras:</span>
-                        <span className="font-semibold text-primary">{selectedExtras.size}×</span>
-                      </div>
+                    {totalExtras > 0 && (
+                      <Popover open={showExtrasPopover} onOpenChange={setShowExtrasPopover}>
+                        <PopoverTrigger asChild>
+                          <button className="flex items-center justify-between text-sm w-full hover:bg-primary/5 -mx-1 px-1 py-0.5 rounded transition-colors">
+                            <span className="text-muted-foreground flex items-center gap-1">
+                              <Package className="w-3.5 h-3.5" />
+                              Extras:
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-semibold text-primary">{totalExtras}× služeb</span>
+                              <ChevronUp className={`w-3.5 h-3.5 text-primary transition-transform ${showExtrasPopover ? '' : 'rotate-180'}`} />
+                            </div>
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent 
+                          side="top" 
+                          align="center"
+                          className="w-[calc(100vw-2rem)] max-w-sm p-0 mb-2 z-[100] bg-background border-2 border-primary/20 shadow-2xl"
+                        >
+                          <div className="max-h-[60vh] overflow-y-auto">
+                            {/* Header */}
+                            <div className="sticky top-0 bg-gradient-to-br from-primary/10 to-accent/10 px-4 py-3 border-b border-border flex items-center justify-between z-10">
+                              <div className="flex items-center gap-2">
+                                <Package className="w-5 h-5 text-primary" />
+                                <h4 className="font-bold text-foreground">Vybrané služby</h4>
+                              </div>
+                              <button
+                                onClick={() => setShowExtrasPopover(false)}
+                                className="text-muted-foreground hover:text-foreground transition-colors"
+                              >
+                                <X className="w-5 h-5" />
+                              </button>
+                            </div>
+
+                            {/* Extras List */}
+                            <div className="divide-y divide-border">
+                              {selectedExtrasDetails.map((extra, idx) => (
+                                <div
+                                  key={idx}
+                                  className="px-4 py-3 hover:bg-muted/30 transition-colors"
+                                >
+                                  <div className="flex items-start justify-between gap-3">
+                                    <span className="text-sm text-foreground flex-1">
+                                      {extra.label}
+                                    </span>
+                                    <span className="text-sm font-bold text-primary whitespace-nowrap">
+                                      +{extra.price} Kč
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Footer with Total */}
+                            <div className="sticky bottom-0 bg-gradient-to-br from-primary/10 to-accent/10 px-4 py-3 border-t-2 border-primary/20">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-semibold text-foreground">
+                                  Celkem extras:
+                                </span>
+                                <span className="text-lg font-bold text-primary">
+                                  +{selectedExtrasDetails.reduce((sum, e) => sum + e.price, 0)} Kč
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                     )}
                   </div>
                 </div>
