@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle, Plus, Minus, AlertCircle } from "lucide-react";
+import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import ReservationForm from "./ReservationForm";
 type PackageType = "small" | "medium" | "large";
 type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
-type FrequencyType = "weekly" | "biweekly" | "monthly" | null;
+type FrequencyType = "weekly" | "twice-weekly" | "biweekly" | "monthly" | null;
+type UrgentType = "urgent-24h" | "weekend" | "evening" | null;
+type WindowCountType = "1-3" | "4-6" | "7-10" | "11+" | null;
 interface ExtraOption {
   id: string;
   label: string;
@@ -34,25 +38,72 @@ const PricingConfigurator = () => {
   const [selectedPackage, setSelectedPackage] = useState<PackageType>("medium");
   const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set());
   const [selectedFrequency, setSelectedFrequency] = useState<FrequencyType>(null);
+  const [hasOwnSupplies, setHasOwnSupplies] = useState(false);
+  const [selectedUrgent, setSelectedUrgent] = useState<UrgentType>(null);
+  const [selectedWindowCount, setSelectedWindowCount] = useState<WindowCountType>(null);
   const [isReservationOpen, setIsReservationOpen] = useState(false);
   const frequencyOptions: FrequencyOption[] = [{
-    id: "weekly",
-    name: "Týdenní",
-    description: "1x týdně - maximální úspora",
+    id: "twice-weekly",
+    name: "2x týdně",
+    description: "Dvakrát týdně - maximální čistota",
     discount: 0.20,
+    icon: "⭐"
+  }, {
+    id: "weekly",
+    name: "1x týdně",
+    description: "Jednou týdně - ideální volba",
+    discount: 0.15,
     icon: "📆"
   }, {
     id: "biweekly",
-    name: "Každé 2 týdny",
-    description: "2x měsíčně - ideální volba",
-    discount: 0.15,
+    name: "1x za 14 dní",
+    description: "Každé dva týdny",
+    discount: 0.10,
     icon: "📅"
   }, {
     id: "monthly",
-    name: "Měsíční",
-    description: "1x měsíčně - základní servis",
-    discount: 0.10,
+    name: "1x měsíčně",
+    description: "Jednou měsíčně - základní servis",
+    discount: 0.05,
     icon: "🗓️"
+  }];
+
+  const urgentOptions = [{
+    id: "urgent-24h" as UrgentType,
+    name: "Potřebuji do 24 hodin",
+    description: "Express služba",
+    multiplier: 1.30,
+    icon: "⚡"
+  }, {
+    id: "weekend" as UrgentType,
+    name: "Úklid o víkendu",
+    description: "Sobota nebo neděle",
+    multiplier: 1.20,
+    icon: "📅"
+  }, {
+    id: "evening" as UrgentType,
+    name: "Úklid večer (po 18:00)",
+    description: "Večerní hodiny",
+    multiplier: 1.15,
+    icon: "🌙"
+  }];
+
+  const windowCountOptions = [{
+    id: "1-3" as WindowCountType,
+    name: "1-3 okna",
+    price: 200
+  }, {
+    id: "4-6" as WindowCountType,
+    name: "4-6 oken",
+    price: 350
+  }, {
+    id: "7-10" as WindowCountType,
+    name: "7-10 oken",
+    price: 500
+  }, {
+    id: "11+" as WindowCountType,
+    name: "11+ oken",
+    price: 700
   }];
   const categories: Category[] = [{
     id: "standard",
@@ -111,18 +162,25 @@ const PricingConfigurator = () => {
     price: 200,
     tooltip: "Extra čištění od chlupů + hypoalergenní prostředky"
   }, {
-    id: "windows-outside",
-    label: "Mytí oken z vnější strany",
-    price: 400
+    id: "dishes",
+    label: "Mytí nádobí",
+    price: 150,
+    tooltip: "Umytí a utření nádobí"
   }, {
-    id: "deep-cleaning",
-    label: "Hloubkové čištění (po rekonstrukci)",
-    price: 800,
-    tooltip: "Odstranění stavebního prachu, skvrn od barvy, intenzivní čištění"
+    id: "trash",
+    label: "Vynášení odpadků",
+    price: 50,
+    tooltip: "Vynést koše a vyměnit pytlíky"
+  }, {
+    id: "plants",
+    label: "Zalévání květin",
+    price: 50,
+    tooltip: "Péče o pokojové rostliny"
   }, {
     id: "ironing",
     label: "Žehlení prádla (cca 2 hodiny)",
-    price: 300
+    price: 300,
+    tooltip: "Vyžehlení a poskládání prádla"
   }, {
     id: "garden",
     label: "Kompletní údržba zahrady",
@@ -159,8 +217,18 @@ const PricingConfigurator = () => {
     price: 550,
     tooltip: "Přeskládání a uspořádání oblečení nebo kuchyňských skříní"
   }, {
+    id: "basement-garage",
+    label: "Sklep / garáž / půda",
+    price: 300,
+    tooltip: "Úklid vedlejších prostorů"
+  }, {
+    id: "wallpaper-cleaning",
+    label: "Čištění tapetovaných stěn",
+    price: 400,
+    tooltip: "Šetrné čištění tapet a odstranění skvrn"
+  }, {
     id: "walls-cleaning",
-    label: "Čištění stěn a stropů",
+    label: "Čištění stěn a stropů (jedna místnost)",
     price: 600,
     tooltip: "Odstranění pavučin, skvrn a otisků ze stěn"
   }];
@@ -184,11 +252,36 @@ const PricingConfigurator = () => {
         basePrice = basePrice * (1 - frequency.discount);
       }
     }
-    const extrasPrice = Array.from(selectedExtras).reduce((sum, extraId) => {
+
+    // Apply urgent service multiplier
+    if (selectedUrgent) {
+      const urgent = urgentOptions.find(u => u.id === selectedUrgent);
+      if (urgent) {
+        basePrice = basePrice * urgent.multiplier;
+      }
+    }
+
+    // Discount for own supplies
+    let suppliesDiscount = 0;
+    if (hasOwnSupplies) {
+      suppliesDiscount = 200;
+    }
+
+    // Calculate extras price
+    let extrasPrice = Array.from(selectedExtras).reduce((sum, extraId) => {
       const extra = extraOptions.find(e => e.id === extraId);
       return sum + (extra?.price || 0);
     }, 0);
-    return Math.round(basePrice + extrasPrice);
+
+    // Add window cleaning if selected
+    if (selectedWindowCount) {
+      const windowOption = windowCountOptions.find(w => w.id === selectedWindowCount);
+      if (windowOption) {
+        extrasPrice += windowOption.price;
+      }
+    }
+
+    return Math.round(basePrice + extrasPrice - suppliesDiscount);
   };
   const getBasePriceWithCategory = () => {
     const category = categories.find(c => c.id === selectedCategory);
@@ -201,21 +294,51 @@ const PricingConfigurator = () => {
         basePrice = basePrice * (1 - frequency.discount);
       }
     }
+
+    // Apply urgent service multiplier
+    if (selectedUrgent) {
+      const urgent = urgentOptions.find(u => u.id === selectedUrgent);
+      if (urgent) {
+        basePrice = basePrice * urgent.multiplier;
+      }
+    }
+
     return Math.round(basePrice);
   };
-  const getTotalDiscountPercentage = () => {
-    const category = categories.find(c => c.id === selectedCategory);
-    let totalDiscount = 0;
-    if (category && category.priceMultiplier < 1) {
-      totalDiscount += 1 - category.priceMultiplier;
+  const getTotalSavingsAmount = () => {
+    let savings = 0;
+    
+    // Own supplies discount
+    if (hasOwnSupplies) {
+      savings += 200;
     }
+
+    // Frequency discount
     if (selectedCategory === "regular" && selectedFrequency) {
       const frequency = frequencyOptions.find(f => f.id === selectedFrequency);
       if (frequency) {
-        totalDiscount += frequency.discount;
+        savings += Math.round(packages[selectedPackage].basePrice * frequency.discount);
       }
     }
-    return totalDiscount;
+
+    return savings;
+  };
+
+  const getTotalSurchargesAmount = () => {
+    const category = categories.find(c => c.id === selectedCategory);
+    const basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
+    
+    let surcharge = 0;
+    
+    // Urgent service surcharge
+    if (selectedUrgent) {
+      const urgent = urgentOptions.find(u => u.id === selectedUrgent);
+      if (urgent) {
+        surcharge += Math.round(basePrice * (urgent.multiplier - 1));
+      }
+    }
+
+    return surcharge;
   };
   const scrollToContact = () => {
     const element = document.getElementById("contact");
@@ -272,10 +395,92 @@ const PricingConfigurator = () => {
           </div>
         </div>
 
+        {/* Savings Section - Own Supplies */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-2xl p-6 border-2 border-green-200 dark:border-green-800">
+            <div className="flex items-start gap-3 mb-4">
+              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="text-xl font-bold text-foreground mb-2">💰 Ušetřete</h3>
+                <p className="text-sm text-muted-foreground">Máte vlastní čistící pomůcky? Snižte cenu!</p>
+              </div>
+            </div>
+            <div
+              onClick={() => setHasOwnSupplies(!hasOwnSupplies)}
+              className={`cursor-pointer bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${
+                hasOwnSupplies ? 'border-green-500 bg-green-50 dark:bg-green-950/30' : 'border-border hover:border-green-300'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <Checkbox checked={hasOwnSupplies} className="mt-1" />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-foreground">
+                      Mám vlastní čistící prostředky a pomůcky
+                    </span>
+                    <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                      -200 Kč
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    (hadry, mop, vysavač, základní saponáty)
+                  </p>
+                </div>
+              </div>
+            </div>
+            {hasOwnSupplies && (
+              <div className="mt-3 p-3 bg-green-100 dark:bg-green-900/30 rounded-lg border border-green-300 dark:border-green-700">
+                <p className="text-sm text-green-700 dark:text-green-300 font-medium">
+                  ✓ Ušetříte 200 Kč • Doneseme si jen speciální prostředky
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Urgent Services Section */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+            2. Urgentní služby (volitelné)
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {urgentOptions.map(urgent => {
+              const isSelected = selectedUrgent === urgent.id;
+              return (
+                <button
+                  key={urgent.id}
+                  onClick={() => setSelectedUrgent(isSelected ? null : urgent.id)}
+                  className={`text-center bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${
+                    isSelected ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/20 shadow-md' : 'border-border hover:border-orange-300'
+                  }`}
+                >
+                  <div className="text-4xl mb-3">{urgent.icon}</div>
+                  <h4 className="font-bold text-foreground mb-2">
+                    {urgent.name}
+                  </h4>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    {urgent.description}
+                  </p>
+                  <div className="inline-block bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-sm font-bold px-3 py-1 rounded-full">
+                    +{Math.round((urgent.multiplier - 1) * 100)}%
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          {selectedUrgent && (
+            <div className="mt-4 text-center">
+              <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                ⚠️ Příplatek za urgentní službu: +{getTotalSurchargesAmount()} Kč
+              </p>
+            </div>
+          )}
+        </div>
+
         {/* Category Selection */}
         <div className="max-w-6xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            1. Vyberte typ úklidu
+            3. Vyberte typ úklidu
           </h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {categories.map(category => {
@@ -306,7 +511,7 @@ const PricingConfigurator = () => {
         {selectedCategory === "regular" && <div className="max-w-6xl mx-auto mb-12">
             <div className="flex items-center justify-center gap-2 mb-6">
               <h3 className="text-2xl font-bold text-foreground text-center">
-                2. Vyberte frekvenci úklidu
+                4. Vyberte frekvenci úklidu
               </h3>
               <span className="bg-primary/10 text-primary text-xs font-semibold px-2 py-1 rounded-full">
                 Povinné
@@ -320,7 +525,7 @@ const PricingConfigurator = () => {
                 </AlertDescription>
               </Alert>}
             
-            <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
               {frequencyOptions.map(frequency => {
             const isSelected = selectedFrequency === frequency.id;
             return <button key={frequency.id} onClick={() => setSelectedFrequency(frequency.id)} className={`text-center bg-card rounded-xl p-6 border-2 transition-all hover:shadow-md ${isSelected ? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20' : 'border-border hover:border-primary/50'}`}>
@@ -342,7 +547,7 @@ const PricingConfigurator = () => {
         {/* Package Selection */}
         <div className="max-w-6xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            {selectedCategory === "regular" ? "3" : "2"}. Vyberte velikost prostoru
+            {selectedCategory === "regular" ? "5" : "4"}. Vyberte velikost prostoru
           </h3>
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
           {(Object.keys(packages) as PackageType[]).map(key => {
@@ -371,9 +576,6 @@ const PricingConfigurator = () => {
                 {(categories.find(c => c.id === selectedCategory)?.priceMultiplier !== 1 || selectedCategory === "regular" && selectedFrequency) && <p className="text-xs text-muted-foreground mt-1 line-through">
                     Základ: {pkg.basePrice} Kč
                   </p>}
-                {getTotalDiscountPercentage() > 0 && <p className="text-xs font-semibold text-primary mt-1">
-                    Celkem sleva: {Math.round(getTotalDiscountPercentage() * 100)}%
-                  </p>}
               </button>;
           })}
           </div>
@@ -397,8 +599,48 @@ const PricingConfigurator = () => {
         {/* Extra Options */}
         <div className="max-w-4xl mx-auto mb-12">
           <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            {selectedCategory === "regular" ? "4" : "3"}. Přidat extras (volitelné)
+            {selectedCategory === "regular" ? "6" : "5"}. Přidat extras (volitelné)
           </h3>
+          
+          {/* Window Cleaning Section */}
+          <div className="mb-8">
+            <h4 className="text-lg font-semibold text-foreground mb-4">Mytí oken z vnější strany</h4>
+            <RadioGroup value={selectedWindowCount || ""} onValueChange={(value) => setSelectedWindowCount(value as WindowCountType || null)}>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {windowCountOptions.map(option => {
+                  const isSelected = selectedWindowCount === option.id;
+                  return (
+                    <div
+                      key={option.id}
+                      className={`cursor-pointer bg-card rounded-xl p-4 border-2 transition-all hover:shadow-md ${
+                        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value={option.id} id={option.id} />
+                        <Label htmlFor={option.id} className="flex-1 cursor-pointer">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-foreground">{option.name}</span>
+                            <span className="text-lg font-bold text-primary">+{option.price} Kč</span>
+                          </div>
+                        </Label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </RadioGroup>
+            {selectedWindowCount && (
+              <div className="mt-3 p-3 bg-primary/10 rounded-lg">
+                <p className="text-sm text-primary font-medium">
+                  ✓ Přidáno mytí oken: {windowCountOptions.find(w => w.id === selectedWindowCount)?.name}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Other Extras */}
+          <h4 className="text-lg font-semibold text-foreground mb-4">Ostatní doplňkové služby</h4>
           <div className="grid md:grid-cols-2 gap-4">
             {extraOptions.map(extra => {
             const isSelected = selectedExtras.has(extra.id);
@@ -450,18 +692,28 @@ const PricingConfigurator = () => {
                   </div>
                   {selectedExtras.size > 0 && <div className="bg-background/50 rounded-lg p-3">
                       <p className="text-muted-foreground mb-1">Extras</p>
-                      <p className="font-semibold text-foreground">+{Array.from(selectedExtras).reduce((sum, extraId) => {
-                      const extra = extraOptions.find(e => e.id === extraId);
-                      return sum + (extra?.price || 0);
-                    }, 0)} Kč</p>
+                      <p className="font-semibold text-foreground">+{(() => {
+                        let extrasTotal = Array.from(selectedExtras).reduce((sum, extraId) => {
+                          const extra = extraOptions.find(e => e.id === extraId);
+                          return sum + (extra?.price || 0);
+                        }, 0);
+                        if (selectedWindowCount) {
+                          const windowOption = windowCountOptions.find(w => w.id === selectedWindowCount);
+                          if (windowOption) extrasTotal += windowOption.price;
+                        }
+                        return extrasTotal;
+                      })()} Kč</p>
                     </div>}
-                  {getTotalDiscountPercentage() > 0 && <div className="bg-primary/10 rounded-lg p-3 sm:col-span-2">
-                      <p className="text-primary mb-1 font-medium">💰 Vaše úspora</p>
-                      <p className="font-bold text-primary text-lg">
-                        {Math.round(getTotalDiscountPercentage() * 100)}% 
-                        <span className="text-sm font-normal ml-2">
-                          ({Math.round(packages[selectedPackage].basePrice * getTotalDiscountPercentage())} Kč)
-                        </span>
+                  {getTotalSavingsAmount() > 0 && <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-3 border border-green-200 dark:border-green-800">
+                      <p className="text-green-700 dark:text-green-300 mb-1 font-medium">💰 Vaše úspora</p>
+                      <p className="font-bold text-green-700 dark:text-green-300 text-lg">
+                        -{getTotalSavingsAmount()} Kč
+                      </p>
+                    </div>}
+                  {getTotalSurchargesAmount() > 0 && <div className="bg-orange-50 dark:bg-orange-950/30 rounded-lg p-3 border border-orange-200 dark:border-orange-800">
+                      <p className="text-orange-700 dark:text-orange-300 mb-1 font-medium">⚡ Příplatky</p>
+                      <p className="font-bold text-orange-700 dark:text-orange-300 text-lg">
+                        +{getTotalSurchargesAmount()} Kč
                       </p>
                     </div>}
                 </div>
