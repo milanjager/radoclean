@@ -23,6 +23,8 @@ interface PricingContextType {
   setSelectedWindowCount: (count: WindowCountType) => void;
   totalPrice: number;
   setTotalPrice: (price: number) => void;
+  estimatedTime: number;
+  setEstimatedTime: (time: number) => void;
   isConfigurationComplete: boolean;
   setIsConfigurationComplete: (complete: boolean) => void;
   openReservation: () => void;
@@ -39,6 +41,7 @@ export const PricingProvider = ({ children }: { children: ReactNode }) => {
   const [selectedUrgent, setSelectedUrgent] = useState<UrgentType>(null);
   const [selectedWindowCount, setSelectedWindowCount] = useState<WindowCountType>(null);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(0);
   const [isConfigurationComplete, setIsConfigurationComplete] = useState(false);
 
   const openReservation = () => {
@@ -80,6 +83,8 @@ export const PricingProvider = ({ children }: { children: ReactNode }) => {
         setSelectedWindowCount,
         totalPrice,
         setTotalPrice,
+        estimatedTime,
+        setEstimatedTime,
         isConfigurationComplete,
         setIsConfigurationComplete,
         openReservation,
