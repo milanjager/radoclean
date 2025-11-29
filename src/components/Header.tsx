@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 import radotinLogo from "@/assets/radotin-logo.png";
@@ -63,6 +63,12 @@ const Header = () => {
             <Button variant={isScrolled ? "premium" : "hero"} onClick={() => scrollToSection("contact")}>
               Rezervovat
             </Button>
+            <Link to="/auth">
+              <Button variant="outline" size="sm" className={isScrolled ? "" : "border-white text-white hover:bg-white hover:text-foreground"}>
+                <LogIn className="w-4 h-4 mr-2" />
+                Přihlásit se
+              </Button>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -92,6 +98,12 @@ const Header = () => {
             <Button variant="premium" className="mt-2" onClick={() => scrollToSection("contact")}>
               Rezervovat termín
             </Button>
+            <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button variant="outline" className="w-full mt-2">
+                <LogIn className="w-4 h-4 mr-2" />
+                Přihlásit se
+              </Button>
+            </Link>
           </nav>}
       </div>
     </header>;
