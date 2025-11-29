@@ -2,17 +2,35 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 import radotinLogo from "@/assets/radotin-logo.png";
+import UserProfileDropdown from "./UserProfileDropdown";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Check current user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -63,12 +81,16 @@ const Header = () => {
             <Button variant={isScrolled ? "premium" : "hero"} onClick={() => scrollToSection("contact")}>
               Rezervovat
             </Button>
-            <Link to="/auth">
-              <Button variant="outline" size="sm" className={isScrolled ? "" : "border-white text-white hover:bg-white hover:text-foreground"}>
-                <LogIn className="w-4 h-4 mr-2" />
-                Přihlásit se
-              </Button>
-            </Link>
+            {user ? (
+              <UserProfileDropdown user={user} isScrolled={isScrolled} />
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm" className={isScrolled ? "" : "border-white text-white hover:bg-white hover:text-foreground"}>
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Přihlásit se
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -98,12 +120,23 @@ const Header = () => {
             <Button variant="premium" className="mt-2" onClick={() => scrollToSection("contact")}>
               Rezervovat termín
             </Button>
-            <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="outline" className="w-full mt-2">
-                <LogIn className="w-4 h-4 mr-2" />
-                Přihlásit se
-              </Button>
-            </Link>
+            {user ? (
+              <div className="mt-2 p-3 bg-primary/10 rounded-lg">
+                <p className="text-sm font-medium mb-2">{user.email}</p>
+                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full mb-2">
+                    Můj Dashboard
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full mt-2">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Přihlásit se
+                </Button>
+              </Link>
+            )}
           </nav>}
       </div>
     </header>;
