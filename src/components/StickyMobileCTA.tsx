@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone, ShoppingCart, ChevronUp, Info, Package, X } from "lucide-react";
+import { Phone, ShoppingCart, ChevronUp, Info, Package, X, Clock } from "lucide-react";
 import { usePricing } from "@/contexts/PricingContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,6 +16,7 @@ const StickyMobileCTA = () => {
     selectedExtras,
     selectedWindowCount,
     totalPrice,
+    estimatedTime,
     isConfigurationComplete,
     openReservation,
   } = usePricing();
@@ -139,6 +140,15 @@ const StickyMobileCTA = () => {
                       <span className="text-muted-foreground">Prostor:</span>
                       <span className="font-semibold text-foreground">{getPackageLabel()}</span>
                     </div>
+                    {estimatedTime > 0 && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5" />
+                          Čas:
+                        </span>
+                        <span className="font-semibold text-foreground">{estimatedTime}h</span>
+                      </div>
+                    )}
                     {totalExtras > 0 && (
                       <Popover open={showExtrasPopover} onOpenChange={setShowExtrasPopover}>
                         <PopoverTrigger asChild>

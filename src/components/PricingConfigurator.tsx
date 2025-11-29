@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home } from "lucide-react";
+import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home, Clock } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -64,6 +64,7 @@ const PricingConfigurator = () => {
     selectedWindowCount,
     setSelectedWindowCount,
     setTotalPrice,
+    setEstimatedTime,
     setIsConfigurationComplete: setContextConfigComplete,
   } = usePricing();
   
@@ -353,6 +354,65 @@ const PricingConfigurator = () => {
       .filter(id => !selectedExtras.has(id))
       .slice(0, 3);
   };
+
+  const calculateEstimatedTime = () => {
+    // Base time for each package (in hours)
+    const packageBaseTimes = {
+      small: 2,
+      medium: 3,
+      large: 4.5,
+    };
+
+    // Category multipliers
+    const categoryMultipliers = {
+      standard: 1,
+      general: 1.5,
+      "post-construction": 2,
+      "post-moving": 1.8,
+      regular: 0.9, // Regular cleaning is faster
+    };
+
+    let totalTime = packageBaseTimes[selectedPackage] * categoryMultipliers[selectedCategory];
+
+    // Add time for extras (in hours)
+    const extraTimes: Record<string, number> = {
+      dog: 0.5,
+      dishes: 0.5,
+      trash: 0.1,
+      plants: 0.1,
+      ironing: 2,
+      garden: 2,
+      "carpet-cleaning": 1.5,
+      "oven-cleaning": 1,
+      "fridge-cleaning": 0.5,
+      "balcony-terrace": 1,
+      laundry: 1.5,
+      organizing: 2,
+      "basement-garage": 1,
+      "wallpaper-cleaning": 1.5,
+      "walls-cleaning": 2,
+    };
+
+    selectedExtras.forEach((extraId) => {
+      if (extraTimes[extraId]) {
+        totalTime += extraTimes[extraId];
+      }
+    });
+
+    // Add time for window cleaning
+    if (selectedWindowCount) {
+      const windowTimes: Record<string, number> = {
+        "1-3": 0.5,
+        "4-6": 1,
+        "7-10": 1.5,
+        "11+": 2,
+      };
+      totalTime += windowTimes[selectedWindowCount] || 0;
+    }
+
+    return Math.round(totalTime * 10) / 10; // Round to 1 decimal place
+  };
+
   const calculateTotalPrice = () => {
     const category = categories.find(c => c.id === selectedCategory);
     let basePrice = packages[selectedPackage].basePrice * (category?.priceMultiplier || 1);
@@ -475,7 +535,9 @@ const PricingConfigurator = () => {
   // Update context whenever configuration changes
   useEffect(() => {
     const total = calculateTotalPrice();
+    const time = calculateEstimatedTime();
     setTotalPrice(total);
+    setEstimatedTime(time);
     setContextConfigComplete(isConfigurationComplete());
   }, [
     selectedCategory,
@@ -1030,9 +1092,13 @@ const PricingConfigurator = () => {
                 <p className="text-sm text-muted-foreground mb-2 uppercase tracking-wide">
                   Celková cena za úklid
                 </p>
-                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-2">
                   {calculateTotalPrice().toLocaleString('cs-CZ')} <span className="text-xl md:text-2xl text-muted-foreground">Kč</span>
                 </div>
+                <p className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                  <Clock className="w-4 h-4" />
+                  Odhadovaný čas práce: {calculateEstimatedTime()} hodin
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div className="bg-background/50 rounded-lg p-3">
                     <p className="text-muted-foreground mb-1">Základní cena</p>
