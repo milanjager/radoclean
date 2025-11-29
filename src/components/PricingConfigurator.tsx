@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { usePricing } from "@/contexts/PricingContext";
 import ReservationForm from "./ReservationForm";
 type PackageType = "small" | "medium" | "large";
 type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
@@ -47,13 +48,25 @@ interface PopularPackage {
   badge?: string;
 }
 const PricingConfigurator = () => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>("standard");
-  const [selectedPackage, setSelectedPackage] = useState<PackageType>("medium");
-  const [selectedExtras, setSelectedExtras] = useState<Set<string>>(new Set());
-  const [selectedFrequency, setSelectedFrequency] = useState<FrequencyType>(null);
-  const [hasOwnSupplies, setHasOwnSupplies] = useState(false);
-  const [selectedUrgent, setSelectedUrgent] = useState<UrgentType>(null);
-  const [selectedWindowCount, setSelectedWindowCount] = useState<WindowCountType>(null);
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    selectedPackage,
+    setSelectedPackage,
+    selectedExtras,
+    setSelectedExtras,
+    selectedFrequency,
+    setSelectedFrequency,
+    hasOwnSupplies,
+    setHasOwnSupplies,
+    selectedUrgent,
+    setSelectedUrgent,
+    selectedWindowCount,
+    setSelectedWindowCount,
+    setTotalPrice,
+    setIsConfigurationComplete: setContextConfigComplete,
+  } = usePricing();
+  
   const [isReservationOpen, setIsReservationOpen] = useState(false);
   const frequencyOptions: FrequencyOption[] = [{
     id: "twice-weekly",
@@ -458,6 +471,21 @@ const PricingConfigurator = () => {
     }
     return true;
   };
+
+  // Update context whenever configuration changes
+  useEffect(() => {
+    const total = calculateTotalPrice();
+    setTotalPrice(total);
+    setContextConfigComplete(isConfigurationComplete());
+  }, [
+    selectedCategory,
+    selectedPackage,
+    selectedExtras,
+    selectedFrequency,
+    hasOwnSupplies,
+    selectedUrgent,
+    selectedWindowCount,
+  ]);
   const getProgressPercentage = () => {
     let steps = 3; // category, package, extras
     let completed = 1; // category always selected
@@ -1042,7 +1070,13 @@ const PricingConfigurator = () => {
               <div className="flex flex-col gap-3 w-full lg:w-auto">
                 <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
                   <DialogTrigger asChild>
-                    <Button variant="premium" size="lg" className="text-lg px-8 h-14 w-full lg:w-auto min-w-[200px] shadow-lg" disabled={!isConfigurationComplete()}>
+                    <Button 
+                      data-reserve-button
+                      variant="premium" 
+                      size="lg" 
+                      className="text-lg px-8 h-14 w-full lg:w-auto min-w-[200px] shadow-lg" 
+                      disabled={!isConfigurationComplete()}
+                    >
                       ⚡ Rezervovat TEĎ • Zbývá {selectedPackage === 'medium' ? '2 volné dny' : 'omezená kapacita'}
                     </Button>
                   </DialogTrigger>

@@ -21,34 +21,37 @@ import StickyCalculator from "@/components/StickyCalculator";
 import RealtimeSocialProof from "@/components/RealtimeSocialProof";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import LiveChatWidget from "@/components/LiveChatWidget";
+import { PricingProvider } from "@/contexts/PricingContext";
 
 const Index = () => {
   return (
-    <div className="min-h-screen pb-20 md:pb-0">
-      <Header />
-      <Hero />
-      <TrustBadges />
-      <Benefits />
-      <LocalService />
-      <BeforeAfterGallery />
-      <HowItWorks />
-      <PricingConfigurator />
-      <WhyUs />
-      <PriceComparison />
-      <CertificationsAwards />
-      <Team />
-      <GoogleReviews />
-      <FAQ />
-      <Contact />
-      <Footer />
-      <WhatsAppButton />
-      <ScrollToTop />
-      <StickyMobileCTA />
-      <StickyCalculator />
-      <RealtimeSocialProof />
-      <ExitIntentPopup />
-      <LiveChatWidget />
-    </div>
+    <PricingProvider>
+      <div className="min-h-screen pb-20 md:pb-0">
+        <Header />
+        <Hero />
+        <TrustBadges />
+        <Benefits />
+        <LocalService />
+        <BeforeAfterGallery />
+        <HowItWorks />
+        <PricingConfigurator />
+        <WhyUs />
+        <PriceComparison />
+        <CertificationsAwards />
+        <Team />
+        <GoogleReviews />
+        <FAQ />
+        <Contact />
+        <Footer />
+        <WhatsAppButton />
+        <ScrollToTop />
+        <StickyMobileCTA />
+        <StickyCalculator />
+        <RealtimeSocialProof />
+        <ExitIntentPopup />
+        <LiveChatWidget />
+      </div>
+    </PricingProvider>
   );
 };
 
