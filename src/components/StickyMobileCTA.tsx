@@ -104,7 +104,7 @@ const StickyMobileCTA = () => {
   const hasConfiguration = totalPrice > 0;
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-lg border-t-2 border-primary/20 shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-lg border-t-2 border-primary/20 shadow-2xl">
       <AnimatePresence>
         {isExpanded && hasConfiguration && (
           <motion.div
@@ -114,8 +114,8 @@ const StickyMobileCTA = () => {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="container mx-auto px-4 py-4 border-b border-border">
-              <div className="space-y-3">
+            <div className="container mx-auto px-4 md:px-6 py-4 border-b border-border">
+              <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
                 {/* Configuration Summary */}
                 <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-3 border border-primary/20">
                   <div className="flex items-center justify-between mb-2">
@@ -238,13 +238,13 @@ const StickyMobileCTA = () => {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 py-3">
+      <div className="container mx-auto px-4 md:px-6 py-3">
         {hasConfiguration ? (
-          <div className="space-y-3">
+          <div className="space-y-3 md:flex md:items-center md:justify-between md:space-y-0 md:gap-6">
             {/* Collapse/Expand Button */}
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full flex items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-muted-foreground hover:text-foreground transition-colors md:gap-3"
             >
               <div className="flex items-center gap-2">
                 <Info className="w-4 h-4" />
@@ -267,11 +267,11 @@ const StickyMobileCTA = () => {
             </button>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-3">
-              <a href="tel:+420739580935" className="flex-1">
+            <div className="grid grid-cols-2 md:flex gap-3 md:ml-auto">
+              <a href="tel:+420739580935" className="flex-1 md:flex-none">
                 <Button
                   variant="outline"
-                  className="w-full h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   <Phone className="mr-2 w-5 h-5" />
                   Zavolat
@@ -279,7 +279,7 @@ const StickyMobileCTA = () => {
               </a>
               <Button
                 variant="premium"
-                className="w-full h-12 text-base font-semibold"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold"
                 onClick={openReservation}
                 disabled={!isConfigurationComplete}
               >
@@ -289,11 +289,11 @@ const StickyMobileCTA = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            <a href="tel:+420739580935" className="flex-1">
+          <div className="grid grid-cols-2 md:flex md:justify-center gap-3">
+            <a href="tel:+420739580935" className="flex-1 md:flex-none">
               <Button
                 variant="outline"
-                className="w-full h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Zavolat
@@ -301,7 +301,7 @@ const StickyMobileCTA = () => {
             </a>
             <Button
               variant="premium"
-              className="w-full h-12 text-base font-semibold"
+              className="w-full md:w-auto md:px-8 h-12 text-base font-semibold"
               onClick={openReservation}
             >
               <ShoppingCart className="mr-2 w-5 h-5" />
