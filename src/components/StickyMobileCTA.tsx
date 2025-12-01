@@ -104,7 +104,7 @@ const StickyMobileCTA = () => {
   const hasConfiguration = totalPrice > 0;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-lg border-t-2 border-primary/20 shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent/95 backdrop-blur-lg border-t-2 border-accent shadow-2xl">
       <AnimatePresence>
         {isExpanded && hasConfiguration && (
           <motion.div
@@ -114,17 +114,17 @@ const StickyMobileCTA = () => {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="container mx-auto px-4 md:px-6 py-4 border-b border-border">
+            <div className="container mx-auto px-4 md:px-6 py-4 border-b border-accent-foreground/20">
               <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-6">
                 {/* Configuration Summary */}
-                <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-3 border border-primary/20">
+                <div className="bg-accent-foreground/10 rounded-xl p-3 border border-accent-foreground/20">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                    <span className="text-xs font-medium text-accent-foreground uppercase tracking-wide">
                       Vaše konfigurace
                     </span>
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
                       isConfigurationComplete 
-                        ? 'bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-300' 
+                        ? 'bg-accent-foreground/20 text-accent-foreground' 
                         : 'bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300'
                     }`}>
                       {isConfigurationComplete ? '✓ Hotovo' : '⚠ Nedokončeno'}
@@ -133,33 +133,33 @@ const StickyMobileCTA = () => {
                   
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Typ:</span>
-                      <span className="font-semibold text-foreground">{getCategoryLabel()}</span>
+                      <span className="text-accent-foreground/80">Typ:</span>
+                      <span className="font-semibold text-accent-foreground">{getCategoryLabel()}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Prostor:</span>
-                      <span className="font-semibold text-foreground">{getPackageLabel()}</span>
+                      <span className="text-accent-foreground/80">Prostor:</span>
+                      <span className="font-semibold text-accent-foreground">{getPackageLabel()}</span>
                     </div>
                     {estimatedTime > 0 && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground flex items-center gap-1">
+                        <span className="text-accent-foreground/80 flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" />
                           Čas:
                         </span>
-                        <span className="font-semibold text-foreground">{estimatedTime}h</span>
+                        <span className="font-semibold text-accent-foreground">{estimatedTime}h</span>
                       </div>
                     )}
                     {totalExtras > 0 && (
                       <Popover open={showExtrasPopover} onOpenChange={setShowExtrasPopover}>
                         <PopoverTrigger asChild>
-                          <button className="flex items-center justify-between text-sm w-full hover:bg-primary/5 -mx-1 px-1 py-0.5 rounded transition-colors">
-                            <span className="text-muted-foreground flex items-center gap-1">
+                          <button className="flex items-center justify-between text-sm w-full hover:bg-accent-foreground/10 -mx-1 px-1 py-0.5 rounded transition-colors">
+                            <span className="text-accent-foreground/80 flex items-center gap-1">
                               <Package className="w-3.5 h-3.5" />
                               Extras:
                             </span>
                             <div className="flex items-center gap-1.5">
-                              <span className="font-semibold text-primary">{totalExtras}× služeb</span>
-                              <ChevronUp className={`w-3.5 h-3.5 text-primary transition-transform ${showExtrasPopover ? '' : 'rotate-180'}`} />
+                              <span className="font-semibold text-accent-foreground">{totalExtras}× služeb</span>
+                              <ChevronUp className={`w-3.5 h-3.5 text-accent-foreground transition-transform ${showExtrasPopover ? '' : 'rotate-180'}`} />
                             </div>
                           </button>
                         </PopoverTrigger>
@@ -221,14 +221,14 @@ const StickyMobileCTA = () => {
                 </div>
 
                 {/* Price Display */}
-                <div className="bg-card rounded-xl p-3 border-2 border-primary/30">
+                <div className="bg-accent-foreground/10 rounded-xl p-3 border-2 border-accent-foreground/30">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-muted-foreground">Celková cena:</span>
+                    <span className="text-sm text-accent-foreground/80">Celková cena:</span>
                     <div className="text-right">
-                      <span className="text-2xl font-bold text-foreground">
+                      <span className="text-2xl font-bold text-accent-foreground">
                         {totalPrice.toLocaleString('cs-CZ')}
                       </span>
-                      <span className="text-sm text-muted-foreground ml-1">Kč</span>
+                      <span className="text-sm text-accent-foreground/80 ml-1">Kč</span>
                     </div>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ const StickyMobileCTA = () => {
             {/* Collapse/Expand Button */}
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-muted-foreground hover:text-foreground transition-colors md:gap-3"
+              className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-accent-foreground/80 hover:text-accent-foreground transition-colors md:gap-3"
             >
               <div className="flex items-center gap-2">
                 <Info className="w-4 h-4" />
@@ -254,7 +254,7 @@ const StickyMobileCTA = () => {
               </div>
               <div className="flex items-center gap-2">
                 {!isExpanded && (
-                  <span className="text-base font-bold text-primary">
+                  <span className="text-base font-bold text-accent-foreground">
                     {totalPrice.toLocaleString('cs-CZ')} Kč
                   </span>
                 )}
@@ -271,15 +271,14 @@ const StickyMobileCTA = () => {
               <a href="tel:+420739580935" className="flex-1 md:flex-none">
                 <Button
                   variant="outline"
-                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent"
                 >
                   <Phone className="mr-2 w-5 h-5" />
                   Zavolat
                 </Button>
               </a>
               <Button
-                variant="premium"
-                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-accent-foreground text-accent hover:bg-accent-foreground/90"
                 onClick={openReservation}
                 disabled={!isConfigurationComplete}
               >
@@ -293,15 +292,14 @@ const StickyMobileCTA = () => {
             <a href="tel:+420739580935" className="flex-1 md:flex-none">
               <Button
                 variant="outline"
-                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Zavolat
               </Button>
             </a>
             <Button
-              variant="premium"
-              className="w-full md:w-auto md:px-8 h-12 text-base font-semibold"
+              className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-accent-foreground text-accent hover:bg-accent-foreground/90"
               onClick={openReservation}
             >
               <ShoppingCart className="mr-2 w-5 h-5" />

@@ -33,22 +33,21 @@ const StickyCalculator = () => {
         {!isOpen ? (
           <Button
             onClick={() => setIsOpen(true)}
-            variant="premium"
             size="lg"
-            className="rounded-full w-16 h-16 shadow-2xl hover:scale-110 transition-transform"
+            className="rounded-full w-16 h-16 shadow-2xl hover:scale-110 transition-transform bg-accent text-accent-foreground hover:bg-accent/90"
           >
             <Calculator className="w-7 h-7" />
           </Button>
         ) : (
-          <div className="bg-card border-2 border-primary rounded-2xl shadow-2xl p-6 w-80 animate-in slide-in-from-bottom-5">
+          <div className="bg-accent/95 border-2 border-accent rounded-2xl shadow-2xl p-6 w-80 animate-in slide-in-from-bottom-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-                <Calculator className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold text-accent-foreground flex items-center gap-2">
+                <Calculator className="w-5 h-5 text-accent-foreground" />
                 Rychlá kalkulace
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-accent-foreground/80 hover:text-accent-foreground transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -57,10 +56,10 @@ const StickyCalculator = () => {
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-medium text-foreground">
+                  <label className="text-sm font-medium text-accent-foreground">
                     Velikost prostoru
                   </label>
-                  <span className="text-2xl font-bold text-primary">
+                  <span className="text-2xl font-bold text-accent-foreground">
                     {size} m²
                   </span>
                 </div>
@@ -72,21 +71,21 @@ const StickyCalculator = () => {
                   step={5}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                <div className="flex justify-between text-xs text-accent-foreground/70 mt-2">
                   <span>30 m²</span>
                   <span>200 m²</span>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-4 border border-primary/20">
+              <div className="bg-accent-foreground/10 rounded-xl p-4 border border-accent-foreground/30">
                 <div className="text-center">
-                  <p className="text-sm text-muted-foreground mb-1">
+                  <p className="text-sm text-accent-foreground/80 mb-1">
                     Odhadovaná cena
                   </p>
-                  <p className="text-4xl font-bold text-foreground">
-                    {calculatePrice(size).toLocaleString('cs-CZ')} <span className="text-xl text-muted-foreground">Kč</span>
+                  <p className="text-4xl font-bold text-accent-foreground">
+                    {calculatePrice(size).toLocaleString('cs-CZ')} <span className="text-xl text-accent-foreground/80">Kč</span>
                   </p>
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-xs text-accent-foreground/70 mt-2">
                     * Běžný úklid, základní balíček
                   </p>
                 </div>
@@ -94,15 +93,14 @@ const StickyCalculator = () => {
 
               <Button
                 onClick={scrollToPricing}
-                variant="premium"
-                className="w-full"
+                className="w-full bg-accent-foreground text-accent hover:bg-accent-foreground/90"
                 size="lg"
               >
                 Podrobná kalkulace
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
-              <p className="text-xs text-center text-muted-foreground">
+              <p className="text-xs text-center text-accent-foreground/70">
                 💡 Tip: Pravidelný úklid ušetří až 20% ceny
               </p>
             </div>
