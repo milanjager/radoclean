@@ -18,8 +18,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import StickyCalculator from "@/components/StickyCalculator";
-import RealtimeSocialProof from "@/components/RealtimeSocialProof";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
 import LiveChatWidget from "@/components/LiveChatWidget";
 import { PricingProvider } from "@/contexts/PricingContext";
 
@@ -47,8 +45,6 @@ const Index = () => {
         <ScrollToTop />
         <StickyMobileCTA />
         <StickyCalculator />
-        <RealtimeSocialProof />
-        <ExitIntentPopup />
         <LiveChatWidget />
       </div>
     </PricingProvider>
