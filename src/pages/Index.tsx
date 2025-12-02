@@ -1,13 +1,11 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
-import Benefits from "@/components/Benefits";
 import HowItWorks from "@/components/HowItWorks";
 import LocalService from "@/components/LocalService";
-import BeforeAfterGallery from "@/components/BeforeAfterGallery";
+import ResultsWithPricing from "@/components/ResultsWithPricing";
 import PricingConfigurator from "@/components/PricingConfigurator";
-import WhyUs from "@/components/WhyUs";
-import PriceComparison from "@/components/PriceComparison";
+import ValueProposition from "@/components/ValueProposition";
 import CertificationsAwards from "@/components/CertificationsAwards";
 import Team from "@/components/Team";
 import GoogleReviews from "@/components/GoogleReviews";
@@ -28,13 +26,11 @@ const Index = () => {
         <Header />
         <Hero />
         <TrustBadges />
-        <Benefits />
         <LocalService />
-        <BeforeAfterGallery />
         <HowItWorks />
         <PricingConfigurator />
-        <WhyUs />
-        <PriceComparison />
+        <ResultsWithPricing />
+        <ValueProposition />
         <CertificationsAwards />
         <Team />
         <GoogleReviews />
