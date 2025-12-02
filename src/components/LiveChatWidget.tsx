@@ -181,9 +181,49 @@ const LiveChatWidget = () => {
     };
   }, [conversationId, isOpen]);
 
-  // Initialize on mount
+  // Check if user is logged in and auto-fill
   useEffect(() => {
-    initializeConversation();
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setVisitorName(user.user_metadata?.full_name || user.email?.split('@')[0] || "");
+        setVisitorEmail(user.email || "");
+        // Auto-start conversation for logged-in users
+        const visitorId = getVisitorId();
+        try {
+          const { data } = await supabase.functions.invoke('get-chat-conversation', {
+            body: { visitorId }
+          });
+          if (data?.data) {
+            setConversationId(data.data.id);
+            setShowNameForm(false);
+            loadMessages(data.data.id);
+          } else {
+            // Create conversation automatically for logged-in users
+            const { data: newConv, error } = await supabase
+              .from("chat_conversations")
+              .insert({
+                visitor_id: visitorId,
+                visitor_name: user.user_metadata?.full_name || user.email?.split('@')[0] || "",
+                visitor_email: user.email,
+                status: "active"
+              })
+              .select()
+              .single();
+            if (!error && newConv) {
+              setConversationId(newConv.id);
+              setShowNameForm(false);
+              await sendWelcomeMessage(newConv.id);
+            }
+          }
+        } catch (error) {
+          console.log("Error initializing for logged user:", error);
+        }
+      } else {
+        initializeConversation();
+      }
+    };
+    checkUser();
   }, []);
 
   // Handle send message

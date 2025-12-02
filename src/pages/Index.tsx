@@ -10,6 +10,7 @@ import Team from "@/components/Team";
 import GoogleReviews from "@/components/GoogleReviews";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
+import Careers from "@/components/Careers";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -33,6 +34,7 @@ const Index = () => {
         <Team />
         <GoogleReviews />
         <FAQ />
+        <Careers />
         <Contact />
         <Footer />
         <WhatsAppButton />
