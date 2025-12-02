@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Briefcase, CheckCircle, Upload, Send, Phone, Mail, Users, Clock, TrendingUp, Award } from "lucide-react";
+import { Briefcase, CheckCircle, Upload, Send, Phone, Mail, Users, Clock, TrendingUp, Award, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,7 +60,13 @@ const Careers = () => {
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  const scrollToForm = (positionId: string) => {
+    setFormData(prev => ({ ...prev, position: positionId }));
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -206,6 +212,13 @@ const Careers = () => {
                     </ul>
                   </div>
                 </div>
+                <Button 
+                  onClick={() => scrollToForm(position.id)}
+                  className="w-full mt-6 gap-2 bg-accent hover:bg-accent/90"
+                >
+                  Mám zájem o tuto pozici
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
               </CardContent>
             </Card>
           ))}
@@ -230,7 +243,7 @@ const Careers = () => {
         </div>
 
         {/* Application Form */}
-        <Card className="max-w-2xl mx-auto border-2 border-accent/20">
+        <Card ref={formRef} className="max-w-2xl mx-auto border-2 border-accent/20">
           <CardHeader className="text-center bg-accent/5">
             <CardTitle className="text-2xl">Přidejte se k nám!</CardTitle>
             <p className="text-muted-foreground">

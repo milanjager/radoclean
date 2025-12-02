@@ -28,12 +28,13 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare, Briefcase } from "lucide-react";
 import AvailabilityManager from "./AvailabilityManager";
 import AdminChatManager from "./AdminChatManager";
 import AdminInquiriesManager from "./AdminInquiriesManager";
 import AdminUserManagement from "./AdminUserManagement";
 import FeedbackList from "./FeedbackList";
+import AdminJobApplications from "./AdminJobApplications";
 
 type Reservation = {
   id: string;
@@ -142,7 +143,7 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="reservations" className="w-full">
-        <TabsList className="grid w-full grid-cols-6 max-w-5xl">
+        <TabsList className="grid w-full grid-cols-7 max-w-6xl">
           <TabsTrigger value="reservations">
             <Calendar className="w-4 h-4 mr-2" />
             Rezervace
@@ -158,6 +159,10 @@ const AdminDashboard = () => {
           <TabsTrigger value="inquiries">
             <Mail className="w-4 h-4 mr-2" />
             Dotazy
+          </TabsTrigger>
+          <TabsTrigger value="jobs">
+            <Briefcase className="w-4 h-4 mr-2" />
+            Přihlášky
           </TabsTrigger>
           <TabsTrigger value="users">
             <Users className="w-4 h-4 mr-2" />
@@ -359,6 +364,10 @@ const AdminDashboard = () => {
 
         <TabsContent value="inquiries" className="mt-6">
           <AdminInquiriesManager />
+        </TabsContent>
+
+        <TabsContent value="jobs" className="mt-6">
+          <AdminJobApplications />
         </TabsContent>
 
         <TabsContent value="users" className="mt-6">
