@@ -178,6 +178,39 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          created_at: string
+          cv_url: string | null
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          position: string
+        }
+        Insert: {
+          created_at?: string
+          cv_url?: string | null
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          position: string
+        }
+        Update: {
+          created_at?: string
+          cv_url?: string | null
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          position?: string
+        }
+        Relationships: []
+      }
       referral_codes: {
         Row: {
           code: string
