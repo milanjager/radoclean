@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react";
+import { MessageCircle, X, Send, Minimize2, Maximize2, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -35,6 +36,7 @@ const LiveChatWidget = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Get or create visitor ID
   const getVisitorId = () => {
@@ -296,41 +298,34 @@ const LiveChatWidget = () => {
             {!isMinimized && (
               <>
                 {showNameForm ? (
-                  /* Name Form */
-                  <div className="flex-1 p-6 flex flex-col justify-center">
+                  /* Registration Required */
+                  <div className="flex-1 p-6 flex flex-col justify-center items-center text-center">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <UserPlus className="w-8 h-8 text-primary" />
+                    </div>
                     <h4 className="text-xl font-bold text-foreground mb-2">
-                      Začněme chat!
+                      Pro chat je nutná registrace
                     </h4>
                     <p className="text-sm text-muted-foreground mb-6">
-                      Sdělte nám své jméno a email, abychom vás mohli lépe obsloužit.
+                      Pro zahájení chatu se prosím nejprve zaregistrujte nebo přihlaste. 
+                      Díky tomu budete moci sledovat historii konverzací.
                     </p>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (visitorName.trim()) createConversation();
-                      }}
-                      className="space-y-4"
+                    <Button 
+                      onClick={() => {
+                        setIsOpen(false);
+                        navigate('/auth');
+                      }} 
+                      className="w-full gap-2"
                     >
-                      <div>
-                        <Input
-                          placeholder="Vaše jméno *"
-                          value={visitorName}
-                          onChange={(e) => setVisitorName(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Input
-                          type="email"
-                          placeholder="Email (volitelné)"
-                          value={visitorEmail}
-                          onChange={(e) => setVisitorEmail(e.target.value)}
-                        />
-                      </div>
-                      <Button type="submit" className="w-full" disabled={!visitorName.trim()}>
-                        Zahájit chat
-                      </Button>
-                    </form>
+                      <UserPlus className="w-4 h-4" />
+                      Registrovat se / Přihlásit
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-4">
+                      Máte dotaz? Zavolejte nám na{" "}
+                      <a href="tel:+420739580935" className="text-primary hover:underline font-medium">
+                        +420 739 580 935
+                      </a>
+                    </p>
                   </div>
                 ) : (
                   <>
