@@ -46,7 +46,7 @@ All colors MUST be HSL.
     --muted-foreground: 210 20% 35%;
 
     /* Vibrant green accent for CTAs - darkened for WCAG AA compliance */
-    --accent: 145 75% 35%;
+    --accent: 145 75% 25%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
@@ -97,7 +97,7 @@ All colors MUST be HSL.
     --muted: 210 20% 18%;
     --muted-foreground: 200 15% 65%;
 
-    --accent: 145 70% 45%;
+    --accent: 145 70% 35%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 45%;

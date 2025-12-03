@@ -242,8 +242,8 @@ const ResultsWithPricing = () => {
                 <h4 className="font-bold text-foreground">Položka</h4>
               </div>
               <div className="text-center">
-                <div className="inline-block bg-primary/10 px-4 py-2 rounded-lg">
-                  <h4 className="font-bold text-primary">Rado Clean</h4>
+                <div className="inline-block bg-primary px-4 py-2 rounded-lg">
+                  <h4 className="font-bold text-primary-foreground">Rado Clean</h4>
                 </div>
               </div>
               <div className="text-center">

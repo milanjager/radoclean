@@ -765,7 +765,7 @@ const PricingConfigurator = () => {
         <div className="max-w-4xl mx-auto mb-12">
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-2xl p-6 border-2 border-green-200 dark:border-green-800">
             <div className="flex items-start gap-3 mb-4">
-              <Sparkles className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+              <Sparkles className="w-6 h-6 text-green-700 dark:text-green-400 flex-shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl font-bold text-foreground mb-2">💰 Ušetřete</h3>
                 <p className="text-sm text-muted-foreground">Máte vlastní čistící pomůcky? Snižte cenu!</p>
@@ -784,7 +784,7 @@ const PricingConfigurator = () => {
                     <span className="font-semibold text-foreground">
                       Mám vlastní čistící prostředky a pomůcky
                     </span>
-                    <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                    <span className="text-lg font-bold text-green-700 dark:text-green-400">
                       -200 Kč
                     </span>
                   </div>

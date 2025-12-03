@@ -124,7 +124,7 @@ const LocalService = () => {
                     <div className="text-muted-foreground">
                       Reakce: <span className="font-semibold text-foreground">{city.responseTime}</span>
                     </div>
-                    <div className="text-accent font-semibold">
+                    <div className="text-primary font-semibold">
                       {city.customers} zákazníků
                     </div>
                   </div>
