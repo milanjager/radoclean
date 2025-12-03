@@ -152,7 +152,7 @@ const Careers = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
             <Briefcase className="w-4 h-4" />
             Kariéra
           </div>
@@ -199,13 +199,13 @@ const Careers = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                      <Award className="w-4 h-4 text-accent" />
+                      <Award className="w-4 h-4 text-primary" />
                       Nabízíme:
                     </h4>
                     <ul className="space-y-2">
                       {position.benefits.map((benefit, idx) => (
                         <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="text-accent mt-1">✓</span>
+                          <span className="text-primary mt-1">✓</span>
                           {benefit}
                         </li>
                       ))}
@@ -214,7 +214,8 @@ const Careers = () => {
                 </div>
                 <Button 
                   onClick={() => scrollToForm(position.id)}
-                  className="w-full mt-6 gap-2 bg-accent hover:bg-accent/90"
+                  className="w-full mt-6 gap-2"
+                  variant="premium"
                 >
                   Mám zájem o tuto pozici
                   <ArrowRight className="w-4 h-4" />
@@ -233,8 +234,8 @@ const Careers = () => {
             { icon: Award, title: "Růst s námi", desc: "Možnost kariérního postupu" }
           ].map((item, idx) => (
             <div key={idx} className="text-center p-6 bg-card rounded-xl border border-border">
-              <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                <item.icon className="w-7 h-7 text-accent" />
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <item.icon className="w-7 h-7 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
               <p className="text-sm text-muted-foreground">{item.desc}</p>
@@ -347,7 +348,8 @@ const Careers = () => {
 
               <Button
                 type="submit"
-                className="w-full gap-2 bg-accent hover:bg-accent/90"
+                className="w-full gap-2"
+                variant="premium"
                 disabled={isSubmitting}
               >
                 <Send className="w-4 h-4" />
