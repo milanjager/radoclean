@@ -49,9 +49,9 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="m-0">
+            <h1 className="m-0 shrink-0">
               <Link to="/" className="inline-block">
-                <img src={radoCleanLogo} alt="Rado Clean" className={`h-15 md:h-18 w-auto max-w-[35%] transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+                <img src={radoCleanLogo} alt="Rado Clean" className={`h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
               </Link>
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
@@ -88,7 +88,7 @@ const Header = () => {
               <UserProfileDropdown user={user} isScrolled={isScrolled} />
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm" className={isScrolled ? "" : "border-white text-white hover:bg-white hover:text-foreground"}>
+                <Button variant="outline" size="sm" className={isScrolled ? "border-border text-foreground hover:bg-muted" : "border-white text-white hover:bg-white hover:text-foreground"}>
                   <LogIn className="w-4 h-4 mr-2" />
                   Přihlásit se
                 </Button>
