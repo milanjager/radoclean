@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import { useFlyToCart } from "@/hooks/useFlyToCart";
 
 type PackageType = "small" | "medium" | "large";
 type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
@@ -28,6 +29,8 @@ interface PricingContextType {
   isConfigurationComplete: boolean;
   setIsConfigurationComplete: (complete: boolean) => void;
   openReservation: () => void;
+  triggerFlyAnimation: (element: HTMLElement, emoji?: string) => void;
+  FlyingElements: () => React.ReactPortal | null;
 }
 
 const PricingContext = createContext<PricingContextType | undefined>(undefined);
@@ -43,6 +46,8 @@ export const PricingProvider = ({ children }: { children: ReactNode }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [estimatedTime, setEstimatedTime] = useState(0);
   const [isConfigurationComplete, setIsConfigurationComplete] = useState(false);
+  
+  const { triggerFly, FlyingElements } = useFlyToCart();
 
   const openReservation = () => {
     const pricingElement = document.getElementById("pricing");
@@ -63,6 +68,10 @@ export const PricingProvider = ({ children }: { children: ReactNode }) => {
       }, 500);
     }
   };
+
+  const triggerFlyAnimation = useCallback((element: HTMLElement, emoji?: string) => {
+    triggerFly(element, emoji);
+  }, [triggerFly]);
 
   return (
     <PricingContext.Provider
@@ -88,6 +97,8 @@ export const PricingProvider = ({ children }: { children: ReactNode }) => {
         isConfigurationComplete,
         setIsConfigurationComplete,
         openReservation,
+        triggerFlyAnimation,
+        FlyingElements,
       }}
     >
       {children}
