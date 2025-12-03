@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home, Clock } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -66,9 +66,11 @@ const PricingConfigurator = () => {
     setTotalPrice,
     setEstimatedTime,
     setIsConfigurationComplete: setContextConfigComplete,
+    triggerFlyAnimation,
   } = usePricing();
   
   const [isReservationOpen, setIsReservationOpen] = useState(false);
+  const packageRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const frequencyOptions: FrequencyOption[] = [{
     id: "twice-weekly",
     name: "2x týdně",
@@ -683,7 +685,10 @@ const PricingConfigurator = () => {
                   </div>
 
                   <Button
-                    onClick={() => applyPopularPackage(pkg)}
+                    onClick={(e) => {
+                      applyPopularPackage(pkg);
+                      triggerFlyAnimation(e.currentTarget, pkg.icon);
+                    }}
                     variant="outline"
                     className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
                   >
@@ -914,7 +919,19 @@ const PricingConfigurator = () => {
           {(Object.keys(packages) as PackageType[]).map(key => {
             const pkg = packages[key];
             const isSelected = selectedPackage === key;
-            return <button key={key} onClick={() => setSelectedPackage(key)} className={`text-left bg-card rounded-2xl p-6 border-2 transition-all hover:shadow-lg ${isSelected ? 'border-primary shadow-lg scale-105' : 'border-border hover:border-primary/50'}`}>
+            const packageIcons: Record<PackageType, string> = {
+              small: "🏠",
+              medium: "🏡",
+              large: "🏘️",
+            };
+            return <button 
+                key={key} 
+                ref={(el) => { packageRefs.current[key] = el; }}
+                onClick={(e) => {
+                  setSelectedPackage(key);
+                  triggerFlyAnimation(e.currentTarget, packageIcons[key]);
+                }} 
+                className={`text-left bg-card rounded-2xl p-6 border-2 transition-all hover:shadow-lg ${isSelected ? 'border-primary shadow-lg scale-105' : 'border-border hover:border-primary/50'}`}>
                 <h3 className="text-xl font-bold text-foreground mb-1">
                   {pkg.name}
                 </h3>
@@ -1022,7 +1039,10 @@ const PricingConfigurator = () => {
                   return (
                     <button
                       key={extraId}
-                      onClick={() => toggleExtra(extraId)}
+                      onClick={(e) => {
+                        toggleExtra(extraId);
+                        triggerFlyAnimation(e.currentTarget, "💡");
+                      }}
                       className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 rounded-lg border-2 border-blue-300 dark:border-blue-700 hover:border-blue-500 hover:shadow-md transition-all group"
                     >
                       <div className="flex items-center gap-3">
@@ -1054,7 +1074,17 @@ const PricingConfigurator = () => {
           <div className="grid md:grid-cols-2 gap-4">
             {extraOptions.map(extra => {
             const isSelected = selectedExtras.has(extra.id);
-            return <div key={extra.id} onClick={() => toggleExtra(extra.id)} className={`cursor-pointer bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
+            return <div 
+                key={extra.id} 
+                onClick={(e) => {
+                  const wasSelected = selectedExtras.has(extra.id);
+                  toggleExtra(extra.id);
+                  // Only trigger animation when adding, not removing
+                  if (!wasSelected) {
+                    triggerFlyAnimation(e.currentTarget as HTMLElement, "✓");
+                  }
+                }} 
+                className={`cursor-pointer bg-card rounded-xl p-5 border-2 transition-all hover:shadow-md ${isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
                   <div className="flex items-start gap-3">
                     <Checkbox checked={isSelected} className="mt-1" />
                     <div className="flex-1">

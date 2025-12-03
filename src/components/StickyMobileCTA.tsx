@@ -19,6 +19,7 @@ const StickyMobileCTA = () => {
     estimatedTime,
     isConfigurationComplete,
     openReservation,
+    FlyingElements,
   } = usePricing();
   
   const [isExpanded, setIsExpanded] = useState(false);
@@ -308,6 +309,7 @@ const StickyMobileCTA = () => {
           </div>
         )}
       </div>
+      <FlyingElements />
     </div>
   );
 };
