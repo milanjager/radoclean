@@ -271,14 +271,14 @@ const StickyMobileCTA = () => {
               <a href="tel:+420739580935" className="flex-1 md:flex-none">
                 <Button
                   variant="outline"
-                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent"
+                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-white/80 text-white hover:bg-white hover:text-accent"
                 >
                   <Phone className="mr-2 w-5 h-5" />
                   Zavolat
                 </Button>
               </a>
               <Button
-                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-accent-foreground text-accent hover:bg-accent-foreground/90"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-white text-accent hover:bg-white/90"
                 onClick={openReservation}
                 disabled={!isConfigurationComplete}
               >
@@ -292,14 +292,14 @@ const StickyMobileCTA = () => {
             <a href="tel:+420739580935" className="flex-1 md:flex-none">
               <Button
                 variant="outline"
-                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-white/80 text-white hover:bg-white hover:text-accent"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Zavolat
               </Button>
             </a>
             <Button
-              className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-accent-foreground text-accent hover:bg-accent-foreground/90"
+              className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-white text-accent hover:bg-white/90"
               onClick={openReservation}
             >
               <ShoppingCart className="mr-2 w-5 h-5" />
