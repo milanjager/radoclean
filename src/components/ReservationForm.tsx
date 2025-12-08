@@ -198,27 +198,29 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
         preferredDate: date,
       });
 
-      const { data: reservationData, error } = await supabase.from("reservations").insert([
-        {
-          name: validatedData.name,
-          email: validatedData.email,
-          phone: validatedData.phone,
-          address: validatedData.address,
-          city: validatedData.city,
-          postal_code: validatedData.postalCode || null,
-          package_type: frequency ? `${packageType} (${frequency})` : packageType,
-          extras: selectedExtras.map(e => ({ id: e.id, label: e.label, price: e.price })),
-          base_price: basePrice,
-          extras_price: extrasPrice,
-          total_price: getFinalPrice(),
-          preferred_date: format(validatedData.preferredDate, "yyyy-MM-dd"),
-          preferred_time: validatedData.preferredTime,
-          notes: validatedData.notes || null,
-          referral_code: referralCode || null,
-        },
-      ]).select();
+      // Use RPC function to bypass RLS for reservation insert
+      const { data: newReservationId, error } = await supabase.rpc('insert_reservation', {
+        p_name: validatedData.name,
+        p_email: validatedData.email,
+        p_phone: validatedData.phone,
+        p_address: validatedData.address,
+        p_city: validatedData.city,
+        p_postal_code: validatedData.postalCode || null,
+        p_package_type: frequency ? `${packageType} (${frequency})` : packageType,
+        p_extras: selectedExtras.map(e => ({ id: e.id, label: e.label, price: e.price })),
+        p_base_price: basePrice,
+        p_extras_price: extrasPrice,
+        p_total_price: getFinalPrice(),
+        p_preferred_date: format(validatedData.preferredDate, "yyyy-MM-dd"),
+        p_preferred_time: validatedData.preferredTime,
+        p_notes: validatedData.notes || null,
+        p_referral_code: referralCode || null,
+      });
 
       if (error) throw error;
+      
+      // Create reservationData structure for use in referral tracking
+      const reservationData = newReservationId ? [{ id: newReservationId }] : null;
 
       // Send confirmation email
       try {
