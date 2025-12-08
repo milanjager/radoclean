@@ -179,6 +179,7 @@ const StickyMobileCTA = () => {
                               <button
                                 onClick={() => setShowExtrasPopover(false)}
                                 className="text-muted-foreground hover:text-foreground transition-colors"
+                                aria-label="Zavřít seznam služeb"
                               >
                                 <X className="w-5 h-5" />
                               </button>
