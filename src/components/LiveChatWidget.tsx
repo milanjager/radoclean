@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Minimize2, Maximize2, UserPlus } from "lucide-react";
+import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -36,7 +35,6 @@ const LiveChatWidget = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   // Get or create visitor ID
   const getVisitorId = () => {
@@ -181,47 +179,55 @@ const LiveChatWidget = () => {
     };
   }, [conversationId, isOpen]);
 
-  // Check if user is logged in and auto-fill
+  // Check if user is logged in and auto-fill, or check for existing conversation
   useEffect(() => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
+      const visitorId = getVisitorId();
+      
+      // Try to find existing conversation first
+      try {
+        const { data } = await supabase.functions.invoke('get-chat-conversation', {
+          body: { visitorId }
+        });
+        if (data?.data) {
+          setConversationId(data.data.id);
+          setShowNameForm(false);
+          if (data.data.visitor_name) setVisitorName(data.data.visitor_name);
+          if (data.data.visitor_email) setVisitorEmail(data.data.visitor_email);
+          loadMessages(data.data.id);
+          return;
+        }
+      } catch (error) {
+        console.log("No existing conversation found");
+      }
+      
+      // If logged in, auto-fill user info
       if (user) {
         setVisitorName(user.user_metadata?.full_name || user.email?.split('@')[0] || "");
         setVisitorEmail(user.email || "");
-        // Auto-start conversation for logged-in users
-        const visitorId = getVisitorId();
+        // Auto-create conversation for logged-in users
         try {
-          const { data } = await supabase.functions.invoke('get-chat-conversation', {
-            body: { visitorId }
-          });
-          if (data?.data) {
-            setConversationId(data.data.id);
+          const { data: newConv, error } = await supabase
+            .from("chat_conversations")
+            .insert({
+              visitor_id: visitorId,
+              visitor_name: user.user_metadata?.full_name || user.email?.split('@')[0] || "",
+              visitor_email: user.email,
+              status: "active"
+            })
+            .select()
+            .single();
+          if (!error && newConv) {
+            setConversationId(newConv.id);
             setShowNameForm(false);
-            loadMessages(data.data.id);
-          } else {
-            // Create conversation automatically for logged-in users
-            const { data: newConv, error } = await supabase
-              .from("chat_conversations")
-              .insert({
-                visitor_id: visitorId,
-                visitor_name: user.user_metadata?.full_name || user.email?.split('@')[0] || "",
-                visitor_email: user.email,
-                status: "active"
-              })
-              .select()
-              .single();
-            if (!error && newConv) {
-              setConversationId(newConv.id);
-              setShowNameForm(false);
-              await sendWelcomeMessage(newConv.id);
-            }
+            await sendWelcomeMessage(newConv.id);
           }
         } catch (error) {
-          console.log("Error initializing for logged user:", error);
+          console.log("Error creating conversation for logged user:", error);
         }
-      } else {
-        initializeConversation();
       }
+      // For anonymous users, showNameForm stays true - they'll fill in their name
     };
     checkUser();
   }, []);
@@ -341,30 +347,46 @@ const LiveChatWidget = () => {
             {!isMinimized && (
               <>
                 {showNameForm ? (
-                  /* Registration Required */
-                  <div className="flex-1 p-6 flex flex-col justify-center items-center text-center">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                      <UserPlus className="w-8 h-8 text-primary" />
+                  /* Quick Name Form for Anonymous Users */
+                  <div className="flex-1 p-6 flex flex-col justify-center">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 mx-auto">
+                      <MessageCircle className="w-8 h-8 text-primary" />
                     </div>
-                    <h4 className="text-xl font-bold text-foreground mb-2">
-                      Pro chat je nutná registrace
+                    <h4 className="text-xl font-bold text-foreground mb-2 text-center">
+                      Jak vám můžeme pomoci?
                     </h4>
-                    <p className="text-sm text-muted-foreground mb-6">
-                      Pro zahájení chatu se prosím nejprve zaregistrujte nebo přihlaste. 
-                      Díky tomu budete moci sledovat historii konverzací.
+                    <p className="text-sm text-muted-foreground mb-6 text-center">
+                      Zadejte své jméno a zahajte chat s naší podporou.
                     </p>
-                    <Button 
-                      onClick={() => {
-                        setIsOpen(false);
-                        navigate('/auth');
-                      }} 
-                      className="w-full gap-2"
-                    >
-                      <UserPlus className="w-4 h-4" />
-                      Registrovat se / Přihlásit
-                    </Button>
-                    <p className="text-xs text-muted-foreground mt-4">
-                      Máte dotaz? Zavolejte nám na{" "}
+                    <form onSubmit={(e) => { e.preventDefault(); createConversation(); }} className="space-y-4">
+                      <div>
+                        <Input
+                          placeholder="Vaše jméno"
+                          value={visitorName}
+                          onChange={(e) => setVisitorName(e.target.value)}
+                          required
+                          minLength={2}
+                        />
+                      </div>
+                      <div>
+                        <Input
+                          type="email"
+                          placeholder="Email (volitelné)"
+                          value={visitorEmail}
+                          onChange={(e) => setVisitorEmail(e.target.value)}
+                        />
+                      </div>
+                      <Button 
+                        type="submit"
+                        className="w-full gap-2"
+                        disabled={!visitorName.trim()}
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        Zahájit chat
+                      </Button>
+                    </form>
+                    <p className="text-xs text-muted-foreground mt-4 text-center">
+                      Nebo nám zavolejte na{" "}
                       <a href="tel:+420739580935" className="text-primary hover:underline font-medium">
                         +420 739 580 935
                       </a>
