@@ -55,7 +55,7 @@ const Header = () => {
               </Link>
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
-            <button onClick={() => scrollToSection("local-service")} className="inline-block">
+            <button onClick={() => scrollToSection("local-service")} className="inline-block" aria-label="Přejít na místní služby Radotín">
               <img src={radotinLogo} alt="Radotín - místní služby" className={`h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
             </button>
           </div>
@@ -97,7 +97,7 @@ const Header = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label={isMobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}>
             {isMobileMenuOpen ? <X className={isScrolled ? "text-foreground" : "text-white"} /> : <Menu className={isScrolled ? "text-foreground" : "text-white"} />}
           </button>
         </div>

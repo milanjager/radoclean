@@ -280,6 +280,7 @@ const LiveChatWidget = () => {
               onClick={handleOpenChat}
               size="lg"
               className="relative w-16 h-16 rounded-full shadow-2xl bg-primary hover:bg-primary/90 transition-all hover:scale-110"
+              aria-label="Otevřít live chat"
             >
               <MessageCircle className="w-7 h-7 text-primary-foreground" />
               {unreadCount > 0 && (
@@ -320,6 +321,7 @@ const LiveChatWidget = () => {
                   size="sm"
                   onClick={() => setIsMinimized(!isMinimized)}
                   className="text-primary-foreground hover:bg-primary-foreground/20"
+                  aria-label={isMinimized ? "Maximalizovat chat" : "Minimalizovat chat"}
                 >
                   {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                 </Button>
@@ -328,6 +330,7 @@ const LiveChatWidget = () => {
                   size="sm"
                   onClick={() => setIsOpen(false)}
                   className="text-primary-foreground hover:bg-primary-foreground/20"
+                  aria-label="Zavřít chat"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -423,7 +426,7 @@ const LiveChatWidget = () => {
                           onChange={(e) => setNewMessage(e.target.value)}
                           className="flex-1"
                         />
-                        <Button type="submit" size="icon" disabled={!newMessage.trim()}>
+                        <Button type="submit" size="icon" disabled={!newMessage.trim()} aria-label="Odeslat zprávu">
                           <Send className="w-4 h-4" />
                         </Button>
                       </div>
