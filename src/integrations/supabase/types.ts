@@ -391,6 +391,26 @@ export type Database = {
         }
         Returns: boolean
       }
+      insert_reservation: {
+        Args: {
+          p_address: string
+          p_base_price: number
+          p_city: string
+          p_email: string
+          p_extras: Json
+          p_extras_price: number
+          p_name: string
+          p_notes: string
+          p_package_type: string
+          p_phone: string
+          p_postal_code: string
+          p_preferred_date: string
+          p_preferred_time: string
+          p_referral_code: string
+          p_total_price: number
+        }
+        Returns: string
+      }
       validate_referral_code: { Args: { code_value: string }; Returns: Json }
     }
     Enums: {
