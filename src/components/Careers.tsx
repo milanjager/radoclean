@@ -50,6 +50,7 @@ const positions = [
 ];
 
 const Careers = () => {
+  const [showContent, setShowContent] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -159,12 +160,26 @@ const Careers = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Pracuj s námi!
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Hledáme zkušené kolegy do nové společnosti. Platíme nad průměr – chceme nadprůměrné kolegy!
           </p>
+          
+          {!showContent && (
+            <Button 
+              onClick={() => setShowContent(true)}
+              variant="premium"
+              size="lg"
+              className="gap-2"
+            >
+              Mám zájem
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          )}
         </div>
 
-        {/* Job Positions */}
+        {showContent && (
+          <>
+            {/* Job Positions */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {positions.map((position) => (
             <Card key={position.id} className="border-2 hover:border-primary/50 transition-colors">
@@ -372,6 +387,8 @@ const Careers = () => {
             </div>
           </CardContent>
         </Card>
+          </>
+        )}
       </div>
     </section>
   );
