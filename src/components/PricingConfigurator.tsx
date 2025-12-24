@@ -701,7 +701,7 @@ const PricingConfigurator = () => {
           </div>
         </div>
 
-        {/* Price Comparison Section */}
+        {/* Price Comparison Section - COMMENTED OUT
         <div className="max-w-5xl mx-auto mb-16">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-300 px-4 py-2 rounded-full mb-4">
@@ -760,6 +760,7 @@ const PricingConfigurator = () => {
             </div>
           </div>
         </div>
+        */}
 
         {/* Savings Section - Own Supplies */}
         <div className="max-w-4xl mx-auto mb-12">
