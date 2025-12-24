@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
 import HowItWorks from "@/components/HowItWorks";
 import LocalService from "@/components/LocalService";
-import ResultsWithPricing from "@/components/ResultsWithPricing";
+// import ResultsWithPricing from "@/components/ResultsWithPricing";
 import PricingConfigurator from "@/components/PricingConfigurator";
 import ValueProposition from "@/components/ValueProposition";
 import GoogleReviews from "@/components/GoogleReviews";
@@ -28,7 +28,7 @@ const Index = () => {
         <LocalService />
         <HowItWorks />
         <PricingConfigurator />
-        <ResultsWithPricing />
+        {/* <ResultsWithPricing /> */}
         <ValueProposition />
         <GoogleReviews />
         <FAQ />
