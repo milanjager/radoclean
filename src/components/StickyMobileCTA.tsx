@@ -273,7 +273,7 @@ const StickyMobileCTA = () => {
               <a href="tel:+420739580935" className="flex-1 md:flex-none">
                 <Button
                   variant="outline"
-                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-white/80 text-white hover:bg-white hover:text-accent"
+                  className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-500 hover:text-white"
                 >
                   <Phone className="mr-2 w-5 h-5" />
                   Zavolat
@@ -294,7 +294,7 @@ const StickyMobileCTA = () => {
             <a href="tel:+420739580935" className="flex-1 md:flex-none">
               <Button
                 variant="outline"
-                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-white/80 text-white hover:bg-white hover:text-accent"
+                className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-500 hover:text-white"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Zavolat
