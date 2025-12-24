@@ -28,13 +28,14 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare, Briefcase } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare, Briefcase, BarChart3 } from "lucide-react";
 import AvailabilityManager from "./AvailabilityManager";
 import AdminChatManager from "./AdminChatManager";
 import AdminInquiriesManager from "./AdminInquiriesManager";
 import AdminUserManagement from "./AdminUserManagement";
 import FeedbackList from "./FeedbackList";
 import AdminJobApplications from "./AdminJobApplications";
+import AdminAnalytics from "./AdminAnalytics";
 
 type Reservation = {
   id: string;
@@ -142,8 +143,12 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <Tabs defaultValue="reservations" className="w-full">
-        <TabsList className="grid w-full grid-cols-7 max-w-6xl">
+      <Tabs defaultValue="analytics" className="w-full">
+        <TabsList className="grid w-full grid-cols-8 max-w-7xl">
+          <TabsTrigger value="analytics">
+            <BarChart3 className="w-4 h-4 mr-2" />
+            Analytika
+          </TabsTrigger>
           <TabsTrigger value="reservations">
             <Calendar className="w-4 h-4 mr-2" />
             Rezervace
@@ -173,6 +178,10 @@ const AdminDashboard = () => {
             Feedback
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="analytics" className="mt-6">
+          <AdminAnalytics />
+        </TabsContent>
 
         <TabsContent value="reservations" className="mt-6">
           <Card>
