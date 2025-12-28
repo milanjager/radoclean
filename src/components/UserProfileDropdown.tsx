@@ -1,4 +1,5 @@
-import { User, LogOut, LayoutDashboard } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, LogOut, LayoutDashboard, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -15,6 +16,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface UserProfileDropdownProps {
   user: {
+    id?: string;
     email?: string;
   };
   isScrolled: boolean;
@@ -23,6 +25,26 @@ interface UserProfileDropdownProps {
 const UserProfileDropdown = ({ user, isScrolled }: UserProfileDropdownProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminRole = async () => {
+      if (!user?.id) return;
+      
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+      
+      if (!error && data) {
+        setIsAdmin(true);
+      }
+    };
+
+    checkAdminRole();
+  }, [user?.id]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -60,6 +82,12 @@ const UserProfileDropdown = ({ user, isScrolled }: UserProfileDropdownProps) => 
           <LayoutDashboard className="mr-2 h-4 w-4" />
           <span>Můj dashboard</span>
         </DropdownMenuItem>
+        {isAdmin && (
+          <DropdownMenuItem onClick={() => navigate("/admin")} className="cursor-pointer">
+            <Shield className="mr-2 h-4 w-4" />
+            <span>Administrace</span>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
           <LogOut className="mr-2 h-4 w-4" />
