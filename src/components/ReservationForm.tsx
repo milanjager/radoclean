@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import { cs } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { trackReservationConversion } from "@/lib/analytics";
 
 const reservationSchema = z.object({
   name: z.string().min(2, "Jméno musí mít alespoň 2 znaky").max(100),
@@ -280,6 +281,13 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
           // Don't fail the reservation if referral tracking fails
         }
       }
+
+      // Track conversion in Google Analytics
+      trackReservationConversion(
+        packageType,
+        getFinalPrice(),
+        selectedExtras.map(e => e.label)
+      );
 
       setIsSuccess(true);
       toast({
