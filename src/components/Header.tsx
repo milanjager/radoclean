@@ -51,12 +51,12 @@ const Header = () => {
           <div className="flex items-center gap-2">
             <h1 className="m-0 shrink-0">
               <Link to="/" className="inline-block">
-                <img src={radoCleanLogo} alt="Rado Clean" className={`h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+                <img src={radoCleanLogo} alt="Rado Clean" width={120} height={48} className={`h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
               </Link>
             </h1>
             <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
             <button onClick={() => scrollToSection("local-service")} className="inline-block" aria-label="Přejít na místní služby Radotín">
-              <img src={radotinLogo} alt="Radotín - místní služby" className={`h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
+              <img src={radotinLogo} alt="Radotín - místní služby" width={80} height={32} className={`h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
             </button>
           </div>
 
