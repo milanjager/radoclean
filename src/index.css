@@ -143,4 +143,10 @@ All colors MUST be HSL.
     font-family: 'Merriweather', Georgia, serif;
     font-weight: 700;
   }
+
+  /* Reserve space for images to prevent CLS */
+  img {
+    height: auto;
+    max-width: 100%;
+  }
 }
