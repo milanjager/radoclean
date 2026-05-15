@@ -74,6 +74,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("faq")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
               Časté otázky
             </button>
+            <Link to="/b2b" className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+              Pro firmy
+            </Link>
             <button onClick={() => scrollToSection("kariera")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
               Kariéra
             </button>
@@ -116,6 +119,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("faq")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Časté otázky
             </button>
+            <Link to="/b2b" onClick={() => setIsMobileMenuOpen(false)} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
+              Pro firmy
+            </Link>
             <button onClick={() => scrollToSection("kariera")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Kariéra
             </button>
