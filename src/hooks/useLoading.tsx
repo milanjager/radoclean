@@ -18,8 +18,8 @@ export const useLoading = (
   const [loadingStartTime, setLoadingStartTime] = useState<number | null>(null);
 
   useEffect(() => {
-    let delayTimer: NodeJS.Timeout;
-    let minDurationTimer: NodeJS.Timeout;
+    let delayTimer: ReturnType<typeof setTimeout>;
+    let minDurationTimer: ReturnType<typeof setTimeout>;
 
     if (isLoading) {
       // Start delay timer
