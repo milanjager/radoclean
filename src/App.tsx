@@ -10,6 +10,7 @@ import Cenik from "./pages/Cenik";
 import B2B from "./pages/B2B";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/Feedback";
+import CleanerManiacs from "./pages/CleanerManiacs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
