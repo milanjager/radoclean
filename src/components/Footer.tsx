@@ -26,7 +26,7 @@ const Footer = () => {
             <div className="text-background/70 text-sm space-y-1">
               <p><strong>IČO:</strong> 900405</p>
               <p><strong>Sídlo:</strong> Radotín, Praha-západ</p>
-              <p><strong>Tel:</strong> +420 739 580 935</p>
+              <p><strong>Tel:</strong> +420 777 077 414</p>
             </div>
           </div>
           

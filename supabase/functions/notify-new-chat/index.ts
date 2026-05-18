@@ -41,7 +41,8 @@ Deno.serve(async (req) => {
     if (record.sender_type === 'visitor') {
       const { error } = await resend.emails.send({
         from: 'RadoClean Chat <onboarding@resend.dev>',
-        to: ['nango.design@gmail.com'], // Admin email
+        to: ['veronika@radoclean.cz'],
+        cc: ['soused@radoclean.cz'],
         subject: `New Chat Message from ${conversation.visitor_name || 'Visitor'}`,
         html: `
           <h2>New Chat Message Received</h2>

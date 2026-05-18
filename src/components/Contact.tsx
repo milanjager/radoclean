@@ -95,7 +95,7 @@ const Contact = () => {
       } else {
         toast({
           title: "❌ Chyba při odesílání",
-          description: "Zkuste to prosím znovu nebo nám zavolejte na +420 739 580 935",
+          description: "Zkuste to prosím znovu nebo nám zavolejte na +420 777 077 414",
           variant: "destructive"
         });
       }
@@ -147,7 +147,7 @@ const Contact = () => {
                     <Phone className="w-6 h-6 flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold mb-1">Telefon</p>
-                      <a href="tel:+420777888999" className="text-lg hover:underline block">+420 739 580 935</a>
+                      <a href="tel:+420777077414" className="text-lg hover:underline block">+420 777 077 414</a>
                       <p className="text-sm text-primary-foreground/80 mt-1">
                         Po–Pá 8:00–18:00
                       </p>
@@ -158,7 +158,7 @@ const Contact = () => {
                     <Mail className="w-6 h-6 flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold mb-1">Email</p>
-                      <a href="mailto:info@premiumuklid.cz" className="text-lg hover:underline">nango.design@gmail.com</a>
+                      <a href="mailto:veronika@radoclean.cz" className="text-lg hover:underline">veronika@radoclean.cz</a>
                       <p className="text-sm text-primary-foreground/80 mt-1">
                         Odpovíme do 2 hodin
                       </p>
@@ -212,7 +212,7 @@ const Contact = () => {
                     Vaše poptávka byla úspěšně odeslána. Ozveme se vám do 2 hodin ve všední dny.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <a href="tel:+420739580935">
+                    <a href="tel:+420777077414">
                       <Button variant="premium">
                         <Phone className="mr-2 h-5 w-5" />
                         Zavolat teď
@@ -243,7 +243,7 @@ const Contact = () => {
                   <label htmlFor="phone" className="block text-sm font-semibold text-foreground mb-2">
                     Telefon <span className="text-destructive">*</span>
                   </label>
-                  <Input id="phone" type="tel" placeholder="+420 739 580 935" className={`h-12 ${errors.phone ? "border-destructive" : ""}`} value={formData.phone} onChange={handleChange} disabled={isSubmitting} />
+                  <Input id="phone" type="tel" placeholder="+420 777 077 414" className={`h-12 ${errors.phone ? "border-destructive" : ""}`} value={formData.phone} onChange={handleChange} disabled={isSubmitting} />
                   {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone}</p>}
                 </div>
                 
@@ -267,7 +267,7 @@ const Contact = () => {
                 
                 <p className="text-sm text-muted-foreground text-center">
                   Odpovíme vám do 2 hodin ve všední dny. Nebo nám rovnou zavolejte: 
-                  <a href="tel:+420739580935" className="text-primary hover:underline font-semibold ml-1">+420 739 580 935</a>
+                  <a href="tel:+420777077414" className="text-primary hover:underline font-semibold ml-1">+420 777 077 414</a>
                 </p>
               </form>}
             </div>
