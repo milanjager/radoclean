@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import logoKadernictvi from "@/assets/logo-kadernictvi-sokolov.png";
 import logoFitness from "@/assets/logo-fitness-praha10.png";
 import logoSvjMraz from "@/assets/logo-svj-mraz.png";
+import logoDailyFresh from "@/assets/logo-daily-fresh-cernosice.png";
+import logoBrambotin from "@/assets/logo-brambotin.png";
 import {
   Building2,
   Dumbbell,
@@ -299,11 +301,13 @@ const B2B = () => {
             <p className="text-center text-sm uppercase tracking-widest text-muted-foreground mb-8">
               Důvěřují nám
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 items-center justify-items-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
               {[
                 { src: logoKadernictvi, alt: "Kadeřnictví Sokolov" },
                 { src: logoFitness, alt: "Fitness Praha 10" },
                 { src: logoSvjMraz, alt: "SVJ Mráz" },
+                { src: logoDailyFresh, alt: "Daily Fresh Černošice" },
+                { src: logoBrambotin, alt: "Brambotín s.r.o." },
               ].map((logo, i) => (
                 <div key={i} className="h-24 flex items-center justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all">
                   <img
