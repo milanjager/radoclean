@@ -20,7 +20,8 @@ Deno.serve(async (req) => {
 
     const { error } = await resend.emails.send({
       from: 'RadoClean Inquiries <onboarding@resend.dev>',
-      to: ['nango.design@gmail.com'], // Admin email
+      to: ['veronika@radoclean.cz'],
+      cc: ['soused@radoclean.cz'],
       subject: `New Contact Form Inquiry from ${record.name}`,
       html: `
         <h2>New Contact Form Submission</h2>
