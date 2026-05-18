@@ -70,50 +70,22 @@ const ProgressiveImage = ({
       id={`img-${src}`}
       className={`relative overflow-hidden bg-muted ${aspectRatio} ${className}`}
     >
-      {/* LQIP Blur placeholder */}
-      {lqip ? (
-        <div
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            isLoaded ? "opacity-0" : "opacity-100"
-          }`}
-          style={{
-            backgroundImage: `url(${lqip})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "blur(20px)",
-            transform: "scale(1.1)",
-          }}
-        />
-      ) : (
-        <div
-          className={`absolute inset-0 bg-gradient-to-br from-muted via-muted/50 to-muted transition-opacity duration-500 ${
-            isLoaded ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          <div className="absolute inset-0 animate-pulse" />
-        </div>
+      {/* Subtle skeleton until image is loaded (no blur) */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-muted animate-pulse" />
       )}
 
-      {/* Actual image */}
+      {/* Actual image - no blur effect */}
       {imgSrc && (
         <img
           src={imgSrc}
           alt={alt}
-          className={`w-full h-full object-cover transition-all duration-700 ${
-            isLoaded 
-              ? "opacity-100 scale-100 blur-0" 
-              : "opacity-0 scale-105 blur-lg"
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            isLoaded ? "opacity-100" : "opacity-0"
           }`}
           loading={loading}
           decoding="async"
         />
-      )}
-
-      {/* Loading indicator */}
-      {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-        </div>
       )}
     </div>
   );
