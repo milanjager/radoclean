@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const scrollToSection = (id: string) => {
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
