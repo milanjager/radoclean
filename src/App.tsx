@@ -10,6 +10,7 @@ import Cenik from "./pages/Cenik";
 import B2B from "./pages/B2B";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/Feedback";
+import CleanerManiacs from "./pages/CleanerManiacs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/b2b" element={<B2B />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/cleaner-maniacs" element={<CleanerManiacs />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
