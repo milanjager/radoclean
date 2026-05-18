@@ -18,8 +18,23 @@ import StickyCalculator from "@/components/StickyCalculator";
 import LiveChatWidget from "@/components/LiveChatWidget";
 import { PricingProvider } from "@/contexts/PricingContext";
 import ScrollBlurWrapper from "@/components/ScrollBlurWrapper";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [location]);
   return (
     <PricingProvider>
       <div className="min-h-screen pb-20 md:pb-0">

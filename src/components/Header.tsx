@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X, LogIn } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 import radotinLogo from "@/assets/radotin-logo.png";
@@ -10,6 +10,8 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +35,11 @@ const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
   const scrollToSection = (id: string) => {
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+      setIsMobileMenuOpen(false);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
