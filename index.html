@@ -75,37 +75,64 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Lato:wght@300;400;600;700&display=swap" as="style" />
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet" />
     
-    <!-- Structured Data: Organization -->
+    <!-- Structured Data: Organization (legal entity) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://radoclean.cz/#organization",
       "name": "Rado Clean",
-      "alternateName": ["Radoclean s.r.o.", "Radoclean", "Cleaner Maniacs alternativa"],
+      "legalName": "Radoclean s.r.o.",
+      "alternateName": ["Radoclean", "Rado Clean", "Cleaner Maniacs alternativa"],
       "url": "https://radoclean.cz",
       "logo": "https://radoclean.cz/rado-clean-logo.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+420-739-580-935",
-        "contactType": "customer service",
-        "areaServed": "CZ",
-        "availableLanguage": "Czech"
+      "image": "https://radoclean.cz/rado-clean-logo.png",
+      "description": "Radoclean s.r.o. — rodinný úklidový servis pro domácnosti i firmy v Praze-západ (Radotín, Černošice, Zbraslav).",
+      "foundingDate": "2026-02-27",
+      "taxID": "24566241",
+      "vatID": "CZ24566241",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "IČO", "value": "24566241" }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "náměstí 14. října 1307/2",
+        "addressLocality": "Praha 5 - Smíchov",
+        "postalCode": "150 00",
+        "addressRegion": "Hlavní město Praha",
+        "addressCountry": "CZ"
       },
-      "sameAs": []
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+420777077414",
+          "email": "veronika@radoclean.cz",
+          "contactType": "customer service",
+          "areaServed": "CZ",
+          "availableLanguage": ["Czech"]
+        }
+      ],
+      "sameAs": [
+        "https://ares.gov.cz/ekonomicke-subjekty/ros/24566241"
+      ]
     }
     </script>
-    
+
     <!-- Structured Data: Local Business -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "@id": "https://radoclean.cz/#localbusiness",
+      "parentOrganization": { "@id": "https://radoclean.cz/#organization" },
       "name": "Rado Clean",
+      "legalName": "Radoclean s.r.o.",
       "image": "https://radoclean.cz/rado-clean-logo.png",
       "url": "https://radoclean.cz",
       "telephone": "+420777077414",
       "email": "veronika@radoclean.cz",
+      "taxID": "24566241",
+      "vatID": "CZ24566241",
       "priceRange": "1800 Kč - 4000 Kč",
       "currenciesAccepted": "CZK",
       "paymentAccepted": "Cash, Credit Card, Bank Transfer",
