@@ -115,7 +115,7 @@ const CleanerManiacs = () => {
               dostupnost termínů nebo si rezervovat úklid mimo pracovní dobu.
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
-              <strong>Rado Clean s.r.o.</strong> (IČO 24566241) je rodinný
+              <strong>Radoclean s.r.o.</strong> (IČO 24566241) je rodinný
               úklidový servis se sídlem v Praze 5, který nabízí přesný opak —
               veškeré ceny máte předem, rezervaci uděláte online za 2 minuty a
               tým fyzicky pracuje v Radotíně, Černošicích, Zbraslavi a okolí
