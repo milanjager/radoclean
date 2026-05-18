@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home, Clock } from "lucide-react";
+import { Check, HelpCircle, Plus, Minus, AlertCircle, Sparkles, TrendingDown, Lightbulb, Star, Zap, Home, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
