@@ -8,6 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import logoKadernictvi from "@/assets/logo-kadernictvi-sokolov.png";
+import logoFitness from "@/assets/logo-fitness-praha10.png";
+import logoSvjMraz from "@/assets/logo-svj-mraz.png";
 import {
   Building2,
   Dumbbell,
