@@ -82,7 +82,7 @@ const ValueProposition = () => {
                 {value.highlight && (
                   <div className="absolute -top-4 -right-4">
                     <div
-                      className="inline-flex items-center text-base font-bold text-primary backdrop-blur-sm px-4 py-2 rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/30 via-primary-glow/20 to-primary/10 animate-gradient-move"
+                      className="inline-flex items-center text-base font-bold text-primary px-4 py-2 rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/30 via-primary-glow/20 to-primary/10 animate-gradient-move"
                       style={{
                         backgroundSize: '200% 200%',
                         boxShadow:

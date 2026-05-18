@@ -105,7 +105,7 @@ const StickyMobileCTA = () => {
   const hasConfiguration = totalPrice > 0;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent/95 backdrop-blur-lg border-t-2 border-accent shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent/95 border-t-2 border-accent shadow-2xl">
       <AnimatePresence>
         {isExpanded && hasConfiguration && (
           <motion.div

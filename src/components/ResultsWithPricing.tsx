@@ -104,7 +104,7 @@ const ResultsWithPricing = () => {
               
               {/* Before/After Toggle */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-background/90 backdrop-blur-sm rounded-full px-8 py-4 shadow-lg">
+                <div className="bg-background/90 rounded-full px-8 py-4 shadow-lg">
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setShowBefore(true)}
@@ -134,20 +134,20 @@ const ResultsWithPricing = () => {
               {/* Navigation */}
               <button
                 onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
                 aria-label="Předchozí obrázek"
               >
                 <ChevronLeft className="w-6 h-6 text-foreground" />
               </button>
               <button
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/90 backdrop-blur-sm hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/90 hover:bg-background rounded-full p-3 shadow-lg transition-all hover:scale-110"
                 aria-label="Další obrázek"
               >
                 <ChevronRight className="w-6 h-6 text-foreground" />
               </button>
 
-              <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-semibold text-foreground">
+              <div className="absolute top-4 right-4 bg-background/90 rounded-full px-4 py-2 text-sm font-semibold text-foreground">
                 {selectedImage + 1} / {gallery.length}
               </div>
             </div>
