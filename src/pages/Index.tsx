@@ -17,24 +17,27 @@ import StickyMobileCTA from "@/components/StickyMobileCTA";
 import StickyCalculator from "@/components/StickyCalculator";
 import LiveChatWidget from "@/components/LiveChatWidget";
 import { PricingProvider } from "@/contexts/PricingContext";
+import ScrollBlurWrapper from "@/components/ScrollBlurWrapper";
 
 const Index = () => {
   return (
     <PricingProvider>
       <div className="min-h-screen pb-20 md:pb-0">
         <Header />
-        <Hero />
-        <TrustBadges />
-        <LocalService />
-        <HowItWorks />
-        <PricingConfigurator />
-        {/* <ResultsWithPricing /> */}
-        <ValueProposition />
-        <GoogleReviews />
-        <FAQ />
-        <Careers />
-        <Contact />
-        <Footer />
+        <ScrollBlurWrapper>
+          <Hero />
+          <TrustBadges />
+          <LocalService />
+          <HowItWorks />
+          <PricingConfigurator />
+          {/* <ResultsWithPricing /> */}
+          <ValueProposition />
+          <GoogleReviews />
+          <FAQ />
+          <Careers />
+          <Contact />
+          <Footer />
+        </ScrollBlurWrapper>
         <WhatsAppButton />
         <ScrollToTop />
         <StickyMobileCTA />
