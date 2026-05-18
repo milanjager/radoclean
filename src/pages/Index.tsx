@@ -52,6 +52,7 @@ const Index = () => {
           <FAQ />
           <Careers />
           <Contact />
+          <CompanyInfo />
           <Footer />
         </ScrollBlurWrapper>
         <WhatsAppButton />
