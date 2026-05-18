@@ -25,7 +25,7 @@ const Hero = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl">
-          <div className="inline-block mb-4 px-4 py-2 bg-accent/90 backdrop-blur-sm rounded-full">
+          <div className="inline-block mb-4 px-4 py-2 bg-accent/90 rounded-full">
             <span className="text-accent-foreground font-semibold text-sm">
               🏡 Váš místní úklidový partner v Radotíně a okolí
             </span>
@@ -39,7 +39,7 @@ const Hero = () => {
             Super úklid pro sousedy v Radotíně, Černošicích a Zbraslavi
           </p>
           
-          <div className="inline-block mb-8 px-6 py-3 bg-accent/95 backdrop-blur-sm rounded-2xl mt-[62px]">
+          <div className="inline-block mb-8 px-6 py-3 bg-accent/95 rounded-2xl mt-[62px]">
             <p className="text-accent-foreground font-bold text-lg md:text-xl">
               🏠 Od 1 800 Kč • ⏱️ Rezervace za 2 minuty • ✓ Záruka spokojenosti
             </p>
