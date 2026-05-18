@@ -387,8 +387,8 @@ const LiveChatWidget = () => {
                     </form>
                     <p className="text-xs text-muted-foreground mt-4 text-center">
                       Nebo nám zavolejte na{" "}
-                      <a href="tel:+420739580935" className="text-primary hover:underline font-medium">
-                        +420 739 580 935
+                      <a href="tel:+420777077414" className="text-primary hover:underline font-medium">
+                        +420 777 077 414
                       </a>
                     </p>
                   </div>

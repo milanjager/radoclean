@@ -432,10 +432,10 @@ const Cenik = () => {
               🔥 Rezervovat úklid
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <a href="tel:+420739580935">
+            <a href="tel:+420777077414">
               <Button variant="outline" size="lg" className="text-lg w-full sm:w-auto">
                 <Phone className="mr-2 w-5 h-5" />
-                +420 739 580 935
+                +420 777 077 414
               </Button>
             </a>
           </div>
