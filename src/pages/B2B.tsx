@@ -8,6 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import logoKadernictvi from "@/assets/logo-kadernictvi-sokolov.png";
+import logoFitness from "@/assets/logo-fitness-praha10.png";
+import logoSvjMraz from "@/assets/logo-svj-mraz.png";
 import {
   Building2,
   Dumbbell,
@@ -289,6 +292,31 @@ const B2B = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Client logos */}
+          <div className="mt-16 max-w-5xl mx-auto">
+            <p className="text-center text-sm uppercase tracking-widest text-muted-foreground mb-8">
+              Důvěřují nám
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 items-center justify-items-center">
+              {[
+                { src: logoKadernictvi, alt: "Kadeřnictví Sokolov" },
+                { src: logoFitness, alt: "Fitness Praha 10" },
+                { src: logoSvjMraz, alt: "SVJ Mráz" },
+              ].map((logo, i) => (
+                <div key={i} className="h-24 flex items-center justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    width={240}
+                    height={96}
+                    className="max-h-24 w-auto object-contain"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
