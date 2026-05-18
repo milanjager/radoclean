@@ -297,11 +297,33 @@ const B2B = () => {
           </div>
 
           {/* Client logos */}
-          <div className="mt-16 max-w-5xl mx-auto">
+          <div className="mt-16 max-w-6xl mx-auto">
             <p className="text-center text-sm uppercase tracking-widest text-muted-foreground mb-8">
               Důvěřují nám
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+            {/* Mobile / tablet: infinite marquee */}
+            <div className="md:hidden relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+              <div className="flex w-max gap-12 py-2 animate-[marquee_22s_linear_infinite]">
+                {[
+                  { src: logoKadernictvi, alt: "Kadeřnictví Sokolov" },
+                  { src: logoFitness, alt: "Fitness Praha 10" },
+                  { src: logoSvjMraz, alt: "SVJ Mráz" },
+                  { src: logoDailyFresh, alt: "Daily Fresh Černošice" },
+                  { src: logoBrambotin, alt: "Brambotín s.r.o." },
+                  { src: logoKadernictvi, alt: "Kadeřnictví Sokolov" },
+                  { src: logoFitness, alt: "Fitness Praha 10" },
+                  { src: logoSvjMraz, alt: "SVJ Mráz" },
+                  { src: logoDailyFresh, alt: "Daily Fresh Černošice" },
+                  { src: logoBrambotin, alt: "Brambotín s.r.o." },
+                ].map((logo, i) => (
+                  <div key={i} className="h-16 w-32 shrink-0 flex items-center justify-center grayscale opacity-70">
+                    <img src={logo.src} alt={logo.alt} loading="lazy" width={128} height={64} className="max-h-16 w-auto object-contain" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Desktop: grid */}
+            <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
               {[
                 { src: logoKadernictvi, alt: "Kadeřnictví Sokolov" },
                 { src: logoFitness, alt: "Fitness Praha 10" },
@@ -310,14 +332,7 @@ const B2B = () => {
                 { src: logoBrambotin, alt: "Brambotín s.r.o." },
               ].map((logo, i) => (
                 <div key={i} className="h-24 flex items-center justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all">
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    loading="lazy"
-                    width={240}
-                    height={96}
-                    className="max-h-24 w-auto object-contain"
-                  />
+                  <img src={logo.src} alt={logo.alt} loading="lazy" width={240} height={96} className="max-h-24 w-auto object-contain" />
                 </div>
               ))}
             </div>
