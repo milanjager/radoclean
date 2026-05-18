@@ -158,7 +158,7 @@ const Contact = () => {
                     <Mail className="w-6 h-6 flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold mb-1">Email</p>
-                      <a href="mailto:info@premiumuklid.cz" className="text-lg hover:underline">nango.design@gmail.com</a>
+                      <a href="mailto:veronika@radoclean.cz" className="text-lg hover:underline">veronika@radoclean.cz</a>
                       <p className="text-sm text-primary-foreground/80 mt-1">
                         Odpovíme do 2 hodin
                       </p>
