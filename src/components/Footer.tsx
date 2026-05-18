@@ -31,10 +31,11 @@ const Footer = () => {
             </p>
             <div className="text-background/70 text-sm space-y-1">
               <p><strong>Radoclean s.r.o.</strong></p>
+              <p><strong>Právní forma:</strong> společnost s ručením omezeným</p>
               <p><strong>IČO:</strong> 24566241</p>
               <p><strong>Sídlo:</strong> náměstí 14. října 1307/2, Smíchov, 150 00 Praha 5</p>
-              
-              <p><strong>Tel:</strong> +420 777 077 414</p>
+              <p><strong>Tel:</strong> <a href="tel:+420777077414" className="hover:text-background">+420 777 077 414</a></p>
+              <p><strong>Email:</strong> <a href="mailto:veronika@radoclean.cz" className="hover:text-background">veronika@radoclean.cz</a></p>
             </div>
           </div>
           
