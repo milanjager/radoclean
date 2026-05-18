@@ -35,7 +35,6 @@ const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
   const scrollToSection = (id: string) => {
-  const scrollToSection = (id: string) => {
     if (location.pathname !== "/") {
       navigate(`/#${id}`);
       setIsMobileMenuOpen(false);
