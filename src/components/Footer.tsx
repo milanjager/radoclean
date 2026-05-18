@@ -30,7 +30,9 @@ const Footer = () => {
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
             </p>
             <div className="text-background/70 text-sm space-y-1">
-              <p><strong>IČO:</strong> 900405</p>
+              <p><strong>Radoclean s.r.o.</strong></p>
+              <p><strong>IČO:</strong> 24566241</p>
+              <p><strong>Sídlo:</strong> náměstí 14. října 1307/2, Smíchov, 150 00 Praha 5</p>
               <p><strong>Sídlo:</strong> Radotín, Praha-západ</p>
               <p><strong>Tel:</strong> +420 777 077 414</p>
             </div>
