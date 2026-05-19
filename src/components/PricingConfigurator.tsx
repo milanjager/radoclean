@@ -554,6 +554,8 @@ const PricingConfigurator = () => {
   ]);
   // ===== Multi-step wizard =====
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPopular, setShowPopular] = useState(false);
+
   const totalSteps = 5;
   const stepTitles = [
     "Typ úklidu",
