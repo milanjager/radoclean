@@ -14,5 +14,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /auth
 
 Sitemap: https://radoclean.cz/sitemap.xml
