@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -220,6 +221,11 @@ const B2B = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Úklid pro firmy a SVJ | Rado Clean B2B"
+        description="Profesionální úklid kanceláří, fitness center, kadeřnictví a společných prostor SVJ v Praze a okolí. Individuální nabídka pro váš provoz."
+        path="/b2b"
+      />
       <Header />
 
       {/* HERO */}

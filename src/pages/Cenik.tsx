@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Check, ArrowRight, Phone, Clock, Sparkles, Home, Wrench, Package, CalendarDays, AlertTriangle, Droplets } from "lucide-react";
@@ -136,6 +137,11 @@ const Cenik = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Ceník úklidu | Rado Clean — od 1800 Kč"
+        description="Transparentní ceník úklidových služeb Rado Clean. Běžný úklid od 1800 Kč, generální úklid od 2500 Kč, úklid po rekonstrukci od 3500 Kč."
+        path="/cenik"
+      />
       <Header />
 
       {/* Hero */}
