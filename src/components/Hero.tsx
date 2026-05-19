@@ -15,9 +15,29 @@ const Hero = () => {
     }
   };
   return <section className="relative min-h-[85vh] flex items-center pt-20">
-      {/* Video Background */}
+      {/* Video Background with poster image for fast LCP */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <video autoPlay loop muted playsInline preload="metadata" width={1920} height={1080} className="absolute inset-0 w-full h-full object-cover">
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          poster={heroImage}
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover"
+        >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-black/40" />
