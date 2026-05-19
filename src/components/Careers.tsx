@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Briefcase, CheckCircle, Upload, Send, Phone, Mail, Users, Clock, TrendingUp, Award, ArrowRight } from "lucide-react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,6 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+const jobApplicationSchema = z.object({
+  name: z.string().trim().min(2, "Jméno musí mít alespoň 2 znaky").max(100, "Jméno je příliš dlouhé"),
+  email: z.string().trim().email("Neplatný email").max(255, "Email je příliš dlouhý"),
+  phone: z.string().trim().min(9, "Neplatné telefonní číslo").max(20, "Telefonní číslo je příliš dlouhé"),
+  position: z.string().min(1, "Vyberte pozici"),
+  message: z.string().trim().max(1000, "Zpráva je příliš dlouhá").optional(),
+});
 
 const positions = [
   {
@@ -91,13 +100,17 @@ const Careers = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.position) {
+
+    const result = jobApplicationSchema.safeParse(formData);
+    if (!result.success) {
       toast({
-        title: "Vyplňte prosím všechna povinná pole",
-        variant: "destructive"
+        title: "Zkontrolujte prosím formulář",
+        description: result.error.issues[0]?.message ?? "Neplatná data",
+        variant: "destructive",
       });
       return;
     }
+    const validated = result.data;
 
     setIsSubmitting(true);
     let cvUrl = null;
@@ -116,11 +129,11 @@ const Careers = () => {
 
       // Submit application
       const { error } = await supabase.from("job_applications").insert({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        position: formData.position,
-        message: formData.message,
+        name: validated.name,
+        email: validated.email,
+        phone: validated.phone,
+        position: validated.position,
+        message: validated.message ?? "",
         cv_url: cvUrl
       });
 
