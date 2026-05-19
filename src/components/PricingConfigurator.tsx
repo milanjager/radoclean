@@ -592,7 +592,9 @@ const PricingConfigurator = () => {
   const applyPopularAndJump = (pkg: PopularPackage) => {
     applyPopularPackage(pkg);
     setCurrentStep(5);
+    setShowPopular(false);
   };
+
 
   return <section id="pricing" className="py-20 bg-calculator scroll-mt-20" style={{
     background: 'var(--calculator-gradient)'
