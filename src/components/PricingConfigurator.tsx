@@ -8,7 +8,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { usePricing } from "@/contexts/PricingContext";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import ReservationForm from "./ReservationForm";
+
 type PackageType = "small" | "medium" | "large";
 type CategoryType = "standard" | "general" | "post-construction" | "post-moving" | "regular";
 type FrequencyType = "weekly" | "twice-weekly" | "biweekly" | "monthly" | null;
@@ -552,6 +554,8 @@ const PricingConfigurator = () => {
   ]);
   // ===== Multi-step wizard =====
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPopular, setShowPopular] = useState(false);
+
   const totalSteps = 5;
   const stepTitles = [
     "Typ úklidu",
@@ -588,7 +592,9 @@ const PricingConfigurator = () => {
   const applyPopularAndJump = (pkg: PopularPackage) => {
     applyPopularPackage(pkg);
     setCurrentStep(5);
+    setShowPopular(false);
   };
+
 
   return <section id="pricing" className="py-20 bg-calculator scroll-mt-20" style={{
     background: 'var(--calculator-gradient)'
@@ -603,55 +609,64 @@ const PricingConfigurator = () => {
           </p>
         </div>
 
-        {/* Popular Packages – quick start */}
-        <div className="max-w-6xl mx-auto mb-12">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-3">
-              <Star className="w-4 h-4" />
-              <span className="text-sm font-semibold">Rychlá volba</span>
-            </div>
-            <h3 className="text-2xl font-bold text-foreground">Přednastavené balíčky</h3>
-            <p className="text-sm text-muted-foreground">Přeskočte konfiguraci – vyberte hotovou kombinaci</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {popularPackages.map(pkg => {
-              const basePrice = packages[pkg.packageSize].basePrice;
-              const category = categories.find(c => c.id === pkg.category);
-              let total = basePrice * (category?.priceMultiplier || 1);
-              pkg.extras.forEach(extraId => {
-                const extra = extraOptions.find(e => e.id === extraId);
-                if (extra) total += extra.price;
-              });
-              if (pkg.windowCount) {
-                const w = windowCountOptions.find(o => o.id === pkg.windowCount);
-                if (w) total += w.price;
-              }
-              const discountedPrice = Math.round(total - pkg.savings);
-              return (
-                <div key={pkg.id} className="relative bg-card rounded-2xl p-5 border-2 border-border hover:border-primary transition-all hover:shadow-lg">
-                  {pkg.badge && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-primary to-accent text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">{pkg.badge}</span>
-                    </div>
-                  )}
-                  <div className="text-center mb-3">
-                    <div className="text-4xl mb-2">{pkg.icon}</div>
-                    <h4 className="text-lg font-bold text-foreground">{pkg.name}</h4>
-                    <p className="text-xs text-muted-foreground">{pkg.description}</p>
-                  </div>
-                  <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-3 mb-3 text-center">
-                    <div className="text-2xl font-bold text-foreground">{discountedPrice.toLocaleString('cs-CZ')} Kč</div>
-                    <p className="text-xs text-muted-foreground line-through">{Math.round(total).toLocaleString('cs-CZ')} Kč</p>
-                    <p className="text-xs font-semibold text-primary">Ušetříte {pkg.savings} Kč</p>
-                  </div>
-                  <Button onClick={(e) => { applyPopularAndJump(pkg); triggerFlyAnimation(e.currentTarget, pkg.icon); }} variant="outline" className="w-full">
-                    <Zap className="w-4 h-4 mr-2" /> Použít a pokračovat
-                  </Button>
+        {/* Popular Packages – discrete shortcut */}
+        <div className="max-w-5xl mx-auto mb-4">
+          <Collapsible open={showPopular} onOpenChange={setShowPopular}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between gap-3 bg-card/60 hover:bg-card border border-dashed border-border hover:border-primary/50 rounded-xl px-4 py-3 transition-all group">
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <Zap className="w-4 h-4" />
                 </div>
-              );
-            })}
-          </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Nechce se vám konfigurovat? Vyberte hotový balíček</p>
+                  <p className="text-xs text-muted-foreground">3 nejoblíbenější kombinace se slevou – jedním klikem hotovo</p>
+                </div>
+              </div>
+              <ArrowRight className={`w-4 h-4 text-muted-foreground transition-transform ${showPopular ? 'rotate-90' : ''}`} />
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid md:grid-cols-3 gap-4 mt-4">
+                {popularPackages.map(pkg => {
+                  const basePrice = packages[pkg.packageSize].basePrice;
+                  const category = categories.find(c => c.id === pkg.category);
+                  let total = basePrice * (category?.priceMultiplier || 1);
+                  pkg.extras.forEach(extraId => {
+                    const extra = extraOptions.find(e => e.id === extraId);
+                    if (extra) total += extra.price;
+                  });
+                  if (pkg.windowCount) {
+                    const w = windowCountOptions.find(o => o.id === pkg.windowCount);
+                    if (w) total += w.price;
+                  }
+                  const discountedPrice = Math.round(total - pkg.savings);
+                  return (
+                    <div key={pkg.id} className="relative bg-card rounded-2xl p-5 border-2 border-border hover:border-primary transition-all hover:shadow-lg">
+                      {pkg.badge && (
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                          <span className="bg-gradient-to-r from-primary to-accent text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg">{pkg.badge}</span>
+                        </div>
+                      )}
+                      <div className="text-center mb-3">
+                        <div className="text-4xl mb-2">{pkg.icon}</div>
+                        <h4 className="text-lg font-bold text-foreground">{pkg.name}</h4>
+                        <p className="text-xs text-muted-foreground">{pkg.description}</p>
+                      </div>
+                      <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl p-3 mb-3 text-center">
+                        <div className="text-2xl font-bold text-foreground">{discountedPrice.toLocaleString('cs-CZ')} Kč</div>
+                        <p className="text-xs text-muted-foreground line-through">{Math.round(total).toLocaleString('cs-CZ')} Kč</p>
+                        <p className="text-xs font-semibold text-primary">Ušetříte {pkg.savings} Kč</p>
+                      </div>
+                      <Button onClick={(e) => { applyPopularAndJump(pkg); triggerFlyAnimation(e.currentTarget, pkg.icon); }} variant="outline" className="w-full">
+                        <Zap className="w-4 h-4 mr-2" /> Použít a pokračovat
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
+
 
         {/* Wizard container */}
         <div className="max-w-5xl mx-auto bg-card rounded-2xl border-2 border-border shadow-sm p-6 md:p-8">
