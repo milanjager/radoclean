@@ -145,6 +145,27 @@ export type Database = {
         }
         Relationships: []
       }
+      gsc_snapshots: {
+        Row: {
+          fetched_at: string
+          id: string
+          kind: string
+          payload: Json
+        }
+        Insert: {
+          fetched_at?: string
+          id?: string
+          kind: string
+          payload: Json
+        }
+        Update: {
+          fetched_at?: string
+          id?: string
+          kind?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
       inquiries: {
         Row: {
           created_at: string | null
