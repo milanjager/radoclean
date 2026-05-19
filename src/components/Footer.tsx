@@ -83,20 +83,19 @@ const Footer = () => {
           
           <div>
             <h4 className="font-semibold mb-4">Právní informace</h4>
-            <ul className="space-y-2 text-background/80">
-              <li>
-                <a href="#" className="hover:text-background transition-colors">
-                  Obchodní podmínky
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-background transition-colors">
-                  Ochrana osobních údajů
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-background transition-colors">
-                  Reklamační řád
+            <ul className="space-y-2 text-background/80 text-sm">
+              <li><strong>Radoclean s.r.o.</strong></li>
+              <li>IČO: 24566241</li>
+              <li>DIČ: CZ24566241</li>
+              <li>Sídlo: nám. 14. října 1307/2,<br />150 00 Praha 5 – Smíchov</li>
+              <li className="pt-2">
+                <a
+                  href="https://ares.gov.cz/ekonomicke-subjekty/ros/24566241"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-background transition-colors underline"
+                >
+                  Záznam v ARES
                 </a>
               </li>
             </ul>
