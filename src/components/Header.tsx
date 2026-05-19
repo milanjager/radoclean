@@ -52,53 +52,53 @@ const Header = () => {
       setIsMobileMenuOpen(false);
     }
   };
-  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/95 shadow-md py-3" : "bg-transparent py-4"}`}>
+  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/95 backdrop-blur-sm ${isScrolled ? "shadow-md py-3" : "py-4 shadow-sm"}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h1 className="m-0 shrink-0">
               <Link to="/" className="inline-block">
-                <img src={radoCleanLogo} alt="Rado Clean" width={120} height={48} className={`h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in ${isScrolled ? "brightness-0" : ""}`} />
+                <img src={radoCleanLogo} alt="Rado Clean" width={120} height={48} className="h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in brightness-0" />
               </Link>
             </h1>
-            <div className={`h-12 w-px ${isScrolled ? "bg-foreground/20" : "bg-white/30"}`} />
+            <div className="h-12 w-px bg-foreground/20" />
             <button onClick={() => scrollToSection("local-service")} className="inline-block" aria-label="Přejít na místní služby Radotín">
-              <img src={radotinLogo} alt="Radotín - místní služby" width={80} height={32} className={`h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80 ${isScrolled ? "" : "brightness-0 invert"}`} />
+              <img src={radotinLogo} alt="Radotín - místní služby" width={80} height={32} className="h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80" />
             </button>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <button onClick={() => scrollToSection("pricing")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <button onClick={() => scrollToSection("pricing")} className="font-medium transition-colors hover:text-primary text-foreground">
               Spočítat cenu
             </button>
-            <button onClick={() => scrollToSection("team")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <button onClick={() => scrollToSection("team")} className="font-medium transition-colors hover:text-primary text-foreground">
               Seznamte se s námi
             </button>
-            <button onClick={() => scrollToSection("testimonials")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <button onClick={() => scrollToSection("testimonials")} className="font-medium transition-colors hover:text-primary text-foreground">
               Reference
             </button>
-            <button onClick={() => scrollToSection("faq")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <button onClick={() => scrollToSection("faq")} className="font-medium transition-colors hover:text-primary text-foreground">
               Časté otázky
             </button>
-            <Link to="/b2b" className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <Link to="/b2b" className="font-medium transition-colors hover:text-primary text-foreground">
               Pro firmy
             </Link>
-            <button onClick={() => scrollToSection("kariera")} className={`font-medium transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <button onClick={() => scrollToSection("kariera")} className="font-medium transition-colors hover:text-primary text-foreground">
               Kariéra
             </button>
-            <a href="tel:+420777077414" className={`flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary ${isScrolled ? "text-foreground" : "text-white"}`}>
+            <a href="tel:+420777077414" className="flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary text-foreground">
               <Phone className="w-5 h-5" />
               +420 777 077 414
             </a>
-            <Button variant={isScrolled ? "premium" : "hero"} onClick={() => scrollToSection("contact")}>
+            <Button variant="premium" onClick={() => scrollToSection("contact")}>
               Rezervovat
             </Button>
             {user ? (
-              <UserProfileDropdown user={user} isScrolled={isScrolled} />
+              <UserProfileDropdown user={user} isScrolled={true} />
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm" className={isScrolled ? "border-border text-foreground hover:bg-muted" : "border-white text-white hover:bg-white hover:text-foreground"}>
+                <Button variant="outline" size="sm" className="border-border text-foreground hover:bg-muted">
                   <LogIn className="w-4 h-4 mr-2" />
                   Přihlásit se
                 </Button>
@@ -108,7 +108,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label={isMobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}>
-            {isMobileMenuOpen ? <X className={isScrolled ? "text-foreground" : "text-white"} /> : <Menu className={isScrolled ? "text-foreground" : "text-white"} />}
+            {isMobileMenuOpen ? <X className="text-foreground" /> : <Menu className="text-foreground" />}
           </button>
         </div>
 
