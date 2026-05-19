@@ -219,7 +219,7 @@ const ResultsWithPricing = () => {
                   <p className="text-white text-xs font-semibold truncate">
                     {item.title}
                   </p>
-                  <p className="text-white/80 text-xs">{item.location}</p>
+                  <p className="text-white/90 text-xs">{item.location}</p>
                 </div>
               </button>
             ))}

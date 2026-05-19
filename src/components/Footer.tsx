@@ -103,10 +103,10 @@ const Footer = () => {
         </div>
         
         <div className="pt-8 border-t border-background/20 text-center">
-          <p className="text-background/60 text-sm">
+          <p className="text-background/80 text-sm">
             © 2024 Rado Clean • Radotín, Černošice, Zbraslav
           </p>
-          <p className="text-background/50 text-xs mt-2">
+          <p className="text-background/70 text-xs mt-2">
             Vytvořeno s 💙💚 pro rodiny a sousedy v Poberouní
           </p>
         </div>
