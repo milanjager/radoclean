@@ -80,7 +80,7 @@ const Hero = () => {
             
           </div>
 
-          <p className="text-white/80 text-sm mt-4">
+          <p className="text-white/90 text-sm mt-4">
             📞 <strong>Volat můžete i o víkendu</strong> - odpovídáme 7 dní v týdnu
           </p>
         </div>

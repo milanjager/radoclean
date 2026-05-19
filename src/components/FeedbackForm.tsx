@@ -155,7 +155,7 @@ const FeedbackForm = () => {
                     className={`w-8 h-8 ${
                       (hoveredStar !== null ? star <= hoveredStar : formData.rating && star <= formData.rating)
                         ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
+                        : "text-muted-foreground"
                     }`}
                   />
                 </button>
