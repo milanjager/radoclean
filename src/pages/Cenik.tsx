@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Check, ArrowRight, Phone, Clock, Sparkles, Home, Wrench, Package, CalendarDays, AlertTriangle, Droplets } from "lucide-react";

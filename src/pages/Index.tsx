@@ -21,6 +21,7 @@ import { PricingProvider } from "@/contexts/PricingContext";
 import ScrollBlurWrapper from "@/components/ScrollBlurWrapper";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   const location = useLocation();
@@ -38,6 +39,11 @@ const Index = () => {
   }, [location]);
   return (
     <PricingProvider>
+      <SEO
+        title="Rado Clean — Úklid Radotín, Černošice, Zbraslav"
+        description="Profesionální úklid domácností v Radotíně, Zbraslavi a Černošicích. Transparentní ceny od 1800 Kč. Online rezervace za 2 minuty."
+        path="/"
+      />
       <div className="min-h-screen pb-20 md:pb-0">
         <Header />
         <ScrollBlurWrapper>
