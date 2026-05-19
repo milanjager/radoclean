@@ -100,13 +100,17 @@ const Careers = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.position) {
+
+    const result = jobApplicationSchema.safeParse(formData);
+    if (!result.success) {
       toast({
-        title: "Vyplňte prosím všechna povinná pole",
-        variant: "destructive"
+        title: "Zkontrolujte prosím formulář",
+        description: result.error.issues[0]?.message ?? "Neplatná data",
+        variant: "destructive",
       });
       return;
     }
+    const validated = result.data;
 
     setIsSubmitting(true);
     let cvUrl = null;
@@ -125,11 +129,11 @@ const Careers = () => {
 
       // Submit application
       const { error } = await supabase.from("job_applications").insert({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        position: formData.position,
-        message: formData.message,
+        name: validated.name,
+        email: validated.email,
+        phone: validated.phone,
+        position: validated.position,
+        message: validated.message ?? "",
         cv_url: cvUrl
       });
 
