@@ -111,12 +111,6 @@ const Header = () => {
             <button onClick={() => scrollToSection("pricing")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Spočítat cenu
             </button>
-            <button onClick={() => scrollToSection("team")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
-              Seznamte se s námi
-            </button>
-            <button onClick={() => scrollToSection("testimonials")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
-              Reference
-            </button>
             <button onClick={() => scrollToSection("faq")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Časté otázky
             </button>
