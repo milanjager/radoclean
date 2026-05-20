@@ -72,12 +72,6 @@ const Header = () => {
             <button onClick={() => scrollToSection("pricing")} className="font-medium transition-colors hover:text-primary text-foreground">
               Spočítat cenu
             </button>
-            <button onClick={() => scrollToSection("team")} className="font-medium transition-colors hover:text-primary text-foreground">
-              Seznamte se s námi
-            </button>
-            <button onClick={() => scrollToSection("testimonials")} className="font-medium transition-colors hover:text-primary text-foreground">
-              Reference
-            </button>
             <button onClick={() => scrollToSection("faq")} className="font-medium transition-colors hover:text-primary text-foreground">
               Časté otázky
             </button>
@@ -116,12 +110,6 @@ const Header = () => {
         {isMobileMenuOpen && <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 bg-background rounded-xl p-4 shadow-lg">
             <button onClick={() => scrollToSection("pricing")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Spočítat cenu
-            </button>
-            <button onClick={() => scrollToSection("team")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
-              Seznamte se s námi
-            </button>
-            <button onClick={() => scrollToSection("testimonials")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
-              Reference
             </button>
             <button onClick={() => scrollToSection("faq")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Časté otázky
