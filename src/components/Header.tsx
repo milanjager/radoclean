@@ -69,8 +69,14 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
+            <button onClick={() => scrollToSection("how-it-works")} className="font-medium transition-colors hover:text-primary text-foreground">
+              Jak to funguje
+            </button>
             <button onClick={() => scrollToSection("pricing")} className="font-medium transition-colors hover:text-primary text-foreground">
               Spočítat cenu
+            </button>
+            <button onClick={() => scrollToSection("reviews")} className="font-medium transition-colors hover:text-primary text-foreground">
+              Reference
             </button>
             <button onClick={() => scrollToSection("faq")} className="font-medium transition-colors hover:text-primary text-foreground">
               Časté otázky
