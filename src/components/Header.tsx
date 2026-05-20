@@ -114,8 +114,14 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 bg-background rounded-xl p-4 shadow-lg">
+            <button onClick={() => scrollToSection("how-it-works")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
+              Jak to funguje
+            </button>
             <button onClick={() => scrollToSection("pricing")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Spočítat cenu
+            </button>
+            <button onClick={() => scrollToSection("reviews")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
+              Reference
             </button>
             <button onClick={() => scrollToSection("faq")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Časté otázky
