@@ -53,8 +53,8 @@ const CompanyInfo = () => {
                 <Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-foreground">Telefon</p>
-                  <a href="tel:+420777077414" className="text-muted-foreground hover:text-primary">
-                    +420 777 077 414
+                  <a href="tel:+420603425692" className="text-muted-foreground hover:text-primary">
+                    +420 603 425 692
                   </a>
                 </div>
               </li>

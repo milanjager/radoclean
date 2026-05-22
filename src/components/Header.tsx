@@ -87,9 +87,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("kariera")} className="font-medium transition-colors hover:text-primary text-foreground">
               Kariéra
             </button>
-            <a href="tel:+420777077414" className="flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary text-foreground">
+            <a href="tel:+420603425692" className="flex items-center gap-2 text-lg font-bold transition-colors hover:text-primary text-foreground">
               <Phone className="w-5 h-5" />
-              +420 777 077 414
+              +420 603 425 692
             </a>
             <Button variant="premium" onClick={() => scrollToSection("contact")}>
               Rezervovat
@@ -132,9 +132,9 @@ const Header = () => {
             <button onClick={() => scrollToSection("kariera")} className="text-foreground font-medium text-left py-2 hover:text-primary transition-colors">
               Kariéra
             </button>
-            <a href="tel:+420777077414" className="flex items-center gap-2 text-foreground font-semibold py-3 px-4 rounded-xl bg-accent/10 hover:bg-accent/20 transition-colors">
+            <a href="tel:+420603425692" className="flex items-center gap-2 text-foreground font-semibold py-3 px-4 rounded-xl bg-accent/10 hover:bg-accent/20 transition-colors">
               <Phone className="w-5 h-5" />
-              <span className="text-lg">+420 777 077 414</span>
+              <span className="text-lg">+420 603 425 692</span>
             </a>
             <Button variant="premium" className="mt-2" onClick={() => scrollToSection("contact")}>
               Rezervovat termín

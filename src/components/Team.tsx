@@ -99,9 +99,9 @@ const Team = () => {
             <p className="text-lg mb-6 opacity-95">
               Volejte přímo Janě a domluvte si první schůzku
             </p>
-            <a href="tel:+420777077414" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-white/90 transition-colors shadow-lg">
+            <a href="tel:+420603425692" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-white/90 transition-colors shadow-lg">
               <Phone className="w-5 h-5" />
-              +420 777 077 414
+              +420 603 425 692
             </a>
             <p className="text-sm mt-4 opacity-90">
               💬 "Uklidíme váš domov tak, jako bychom uklízeli vlastní. Protože jsme sousedé."

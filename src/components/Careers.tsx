@@ -388,9 +388,9 @@ const Careers = () => {
             <div className="mt-6 pt-6 border-t border-border text-center">
               <p className="text-sm text-muted-foreground mb-2">Nebo nás kontaktujte přímo:</p>
               <div className="flex justify-center gap-6">
-                <a href="tel:+420777077414" className="flex items-center gap-2 text-primary hover:underline">
+                <a href="tel:+420603425692" className="flex items-center gap-2 text-primary hover:underline">
                   <Phone className="w-4 h-4" />
-                  +420 777 077 414
+                  +420 603 425 692
                 </a>
                 <a href="mailto:veronika@radoclean.cz" className="flex items-center gap-2 text-primary hover:underline">
                   <Mail className="w-4 h-4" />
