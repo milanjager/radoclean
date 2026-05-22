@@ -25,13 +25,9 @@ const CompanyInfo = () => {
                 <dt className="text-muted-foreground">IČO</dt>
                 <dd className="font-medium text-foreground">24566241</dd>
               </div>
-              <div className="flex justify-between gap-4 border-b border-border pb-2">
+              <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">DIČ</dt>
                 <dd className="font-medium text-foreground">Neplátce DPH</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Datum vzniku</dt>
-                <dd className="font-medium text-foreground">27. 2. 2026</dd>
               </div>
             </dl>
           </div>
