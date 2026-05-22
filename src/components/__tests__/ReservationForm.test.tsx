@@ -116,7 +116,7 @@ describe('ReservationForm', () => {
     // Vyplnění formuláře
     await user.type(screen.getByLabelText(/jméno a příjmení/i), 'Jan Novák');
     await user.type(screen.getByLabelText(/e-mail/i), 'jan@example.com');
-    await user.type(screen.getByLabelText(/telefon/i), '+420777077414');
+    await user.type(screen.getByLabelText(/telefon/i), '+420603425692');
     await user.type(screen.getByLabelText(/ulice a číslo popisné/i), 'Hlavní 123');
     await user.type(screen.getByLabelText(/psč/i), '15600');
 
