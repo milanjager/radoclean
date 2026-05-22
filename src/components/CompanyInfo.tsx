@@ -62,7 +62,7 @@ const CompanyInfo = () => {
                 <Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-foreground">Email</p>
-                  <a href="mailto:veronika@radoclean.cz" className="text-muted-foreground hover:text-primary">
+                  <a href="mailto:veronika@radoclean.cz?bcc=soused@radoclean.cz" className="text-muted-foreground hover:text-primary">
                     veronika@radoclean.cz
                   </a>
                 </div>
