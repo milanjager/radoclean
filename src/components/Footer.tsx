@@ -35,7 +35,7 @@ const Footer = () => {
               <p><strong>IČO:</strong> 24566241</p>
               <p><strong>Sídlo:</strong> náměstí 14. října 1307/2, Smíchov, 150 00 Praha 5</p>
               <p><strong>Tel:</strong> <a href="tel:+420603425692" className="hover:text-background">+420 603 425 692</a></p>
-              <p><strong>Email:</strong> <a href="mailto:veronika@radoclean.cz" className="hover:text-background">veronika@radoclean.cz</a></p>
+              <p><strong>Email:</strong> <a href="mailto:veronika@radoclean.cz?bcc=soused@radoclean.cz" className="hover:text-background">veronika@radoclean.cz</a></p>
             </div>
           </div>
           

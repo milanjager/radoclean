@@ -392,7 +392,7 @@ const Careers = () => {
                   <Phone className="w-4 h-4" />
                   +420 603 425 692
                 </a>
-                <a href="mailto:veronika@radoclean.cz" className="flex items-center gap-2 text-primary hover:underline">
+                <a href="mailto:veronika@radoclean.cz?bcc=soused@radoclean.cz" className="flex items-center gap-2 text-primary hover:underline">
                   <Mail className="w-4 h-4" />
                   veronika@radoclean.cz
                 </a>

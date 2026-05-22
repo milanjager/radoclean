@@ -689,7 +689,7 @@ const B2B = () => {
                   </div>
                 </a>
                 <a
-                  href="mailto:veronika@radoclean.cz"
+                  href="mailto:veronika@radoclean.cz?bcc=soused@radoclean.cz"
                   className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
                   <Mail className="w-5 h-5 text-primary" />
