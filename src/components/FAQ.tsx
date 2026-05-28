@@ -30,6 +30,9 @@ const FAQ = () => {
   }, {
     question: "Jste pojištění?",
     answer: "Ano, máme pojištění odpovědnosti za škody. Pracujeme pečlivě, ale pokud by se přesto něco stalo, jsme kryti pojištěním až do výše 2 milionů Kč."
+  }, {
+    question: "Jaká je alternativa k Cleaner Maniacs v Praze a okolí?",
+    answer: "Rado Clean je lokální alternativa k větším úklidovým službám jako Cleaner Maniacs. Specializujeme se na Radotín, Černošice, Zbraslav a Prahu-západ. Nabízíme transparentní ceny od 1 800 Kč, online rezervaci za 2 minuty, vlastní profesionální vybavení i ekologické prostředky v ceně a 100% garanci spokojenosti. Jsme menší rodinný tým, takže získáte osobní přístup a stejné uklízečky při každé návštěvě."
   }];
   return <section id="faq" className="py-20 bg-secondary/30 scroll-mt-20">
       <div className="container mx-auto px-4">
