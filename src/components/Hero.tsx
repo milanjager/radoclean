@@ -52,7 +52,7 @@ const Hero = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight my-[57px] mb-[12px] lg:text-6xl">
-            Více času pro rodinu
+            Profesionální úklid domácností v Radotíně a okolí
           </h1>
           
           <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">

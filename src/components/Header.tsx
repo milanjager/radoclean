@@ -56,11 +56,11 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="m-0 shrink-0">
-              <Link to="/" className="inline-block">
+            <div className="m-0 shrink-0">
+              <Link to="/" className="inline-block" aria-label="Rado Clean - úvodní stránka">
                 <img src={radoCleanLogo} alt="Rado Clean" width={120} height={48} className="h-10 md:h-12 w-auto transition-all duration-300 animate-fade-in brightness-0" />
               </Link>
-            </h1>
+            </div>
             <div className="h-12 w-px bg-foreground/20" />
             <button onClick={() => scrollToSection("local-service")} className="inline-block" aria-label="Přejít na místní služby Radotín">
               <img src={radotinLogo} alt="Radotín - místní služby" width={80} height={32} className="h-6 md:h-8 w-auto transition-all duration-300 animate-fade-in hover:opacity-80" />
