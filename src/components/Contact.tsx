@@ -50,15 +50,41 @@ const Contact = () => {
       const validatedData = contactSchema.parse(formData);
 
       // Uložení do databáze
+      const inquiryId = crypto.randomUUID();
       const {
         error
       } = await supabase.from('inquiries').insert([{
+        id: inquiryId,
         name: validatedData.name,
         email: validatedData.email,
         phone: validatedData.phone,
         message: validatedData.message
       }]);
       if (error) throw error;
+
+      // Potvrzení zákazníkovi
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'inquiry-confirmation',
+          recipientEmail: validatedData.email,
+          idempotencyKey: `inquiry-confirm-${inquiryId}`,
+          templateData: { name: validatedData.name, message: validatedData.message },
+        },
+      }).catch((e) => console.error('Customer email failed', e));
+
+      // Notifikace adminovi
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'inquiry-admin-notification',
+          idempotencyKey: `inquiry-admin-${inquiryId}`,
+          templateData: {
+            name: validatedData.name,
+            email: validatedData.email,
+            phone: validatedData.phone,
+            message: validatedData.message,
+          },
+        },
+      }).catch((e) => console.error('Admin email failed', e));
 
       // Success
       setIsSuccess(true);
