@@ -259,22 +259,11 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
           const validationResult = validationData as { valid: boolean };
 
           if (validationResult?.valid) {
-            // Get the referral code ID (we need admin privileges for this, so keep this query)
-            const { data: referralCodeData } = await supabase
-              .from('referral_codes')
-              .select('id')
-              .eq('code', referralCode)
-              .single();
-
-            if (referralCodeData) {
-              await supabase.from('referral_uses').insert([
-                {
-                  referral_code_id: referralCodeData.id,
-                  user_email: validatedData.email,
-                  reservation_id: reservationData[0].id,
-                }
-              ]);
-            }
+            await supabase.rpc('record_referral_use', {
+              p_referral_code: referralCode,
+              p_user_email: validatedData.email,
+              p_reservation_id: reservationData[0].id,
+            });
           }
         } catch (refError) {
           console.error('Error tracking referral use:', refError);
