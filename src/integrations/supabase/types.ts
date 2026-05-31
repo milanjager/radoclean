@@ -568,6 +568,14 @@ export type Database = {
           read_ct: number
         }[]
       }
+      record_referral_use: {
+        Args: {
+          p_referral_code: string
+          p_reservation_id: string
+          p_user_email: string
+        }
+        Returns: string
+      }
       validate_referral_code: { Args: { code_value: string }; Returns: Json }
     }
     Enums: {
