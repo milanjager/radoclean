@@ -1,50 +1,28 @@
 /// <reference types="npm:@types/react@18.3.1" />
 
 import * as React from 'npm:react@18.3.1'
-
 import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Link,
-  Preview,
-  Text,
+  Body, Button, Container, Head, Heading, Html, Link, Preview, Text, Hr,
 } from 'npm:@react-email/components@0.0.22'
 
-interface InviteEmailProps {
-  siteName: string
-  siteUrl: string
-  confirmationUrl: string
-}
+interface Props { siteName: string; siteUrl: string; confirmationUrl: string }
 
-export const InviteEmail = ({
-  siteName,
-  siteUrl,
-  confirmationUrl,
-}: InviteEmailProps) => (
-  <Html lang="en" dir="ltr">
+export const InviteEmail = ({ siteUrl, confirmationUrl }: Props) => (
+  <Html lang="cs" dir="ltr">
     <Head />
-    <Preview>You've been invited to join {siteName}</Preview>
+    <Preview>Pozvánka do RadoClean</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>You've been invited</Heading>
+        <Heading style={h1}>Byli jste pozváni do RadoClean</Heading>
         <Text style={text}>
-          You've been invited to join{' '}
-          <Link href={siteUrl} style={link}>
-            <strong>{siteName}</strong>
-          </Link>
-          . Click the button below to accept the invitation and create your
-          account.
+          Byli jste pozváni do <Link href={siteUrl} style={brandLink}><strong>RadoClean</strong></Link>.
+          Klikněte níže pro přijetí pozvánky a vytvoření účtu.
         </Text>
-        <Button style={button} href={confirmationUrl}>
-          Accept Invitation
-        </Button>
+        <Button style={button} href={confirmationUrl}>Přijmout pozvánku</Button>
+        <Hr style={hr} />
         <Text style={footer}>
-          If you weren't expecting this invitation, you can safely ignore this
-          email.
+          Pokud jste pozvánku nečekali, tento email ignorujte.<br />
+          <Link href="https://radoclean.cz" style={brandLink}>radoclean.cz</Link> · +420 603 425 692
         </Text>
       </Container>
     </Body>
@@ -53,27 +31,11 @@ export const InviteEmail = ({
 
 export default InviteEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
-}
-const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
-}
-const link = { color: 'inherit', textDecoration: 'underline' }
-const button = {
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  fontSize: '14px',
-  borderRadius: '8px',
-  padding: '12px 20px',
-  textDecoration: 'none',
-}
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif' }
+const container = { padding: '24px', maxWidth: '560px', margin: '0 auto' }
+const h1 = { fontSize: '24px', fontWeight: 'bold' as const, color: '#0f172a', margin: '0 0 20px' }
+const text = { fontSize: '15px', color: '#334155', lineHeight: '1.6', margin: '0 0 24px' }
+const brandLink = { color: '#16a34a', textDecoration: 'none' }
+const button = { backgroundColor: '#16a34a', color: '#ffffff', fontSize: '15px', fontWeight: 'bold' as const, borderRadius: '8px', padding: '14px 24px', textDecoration: 'none', display: 'inline-block' }
+const hr = { borderColor: '#e2e8f0', margin: '32px 0 16px' }
+const footer = { fontSize: '12px', color: '#64748b', lineHeight: '1.6', margin: '0' }
