@@ -44,9 +44,9 @@ const ScrollToTop = () => {
           className="fixed bottom-6 left-6 z-50 h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
           variant="secondary"
           size="icon"
-          aria-label="Scroll to top"
+          aria-label="Zpět nahoru"
         >
-          <ArrowUp className="h-5 w-5" />
+          <ArrowUp className="h-5 w-5" aria-hidden="true" />
         </Button>
       )}
     </>
