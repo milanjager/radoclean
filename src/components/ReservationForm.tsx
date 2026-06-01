@@ -223,25 +223,16 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       // Create reservationData structure for use in referral tracking
       const reservationData = newReservationId ? [{ id: newReservationId }] : null;
 
-      // Send confirmation email
+      // Send confirmation email — server re-reads the reservation by id and
+      // uses stored fields only (prevents arbitrary email abuse).
       try {
-        const emailData = {
-          name: validatedData.name,
-          email: validatedData.email,
-          phone: validatedData.phone,
-          address: validatedData.address,
-          city: validatedData.city,
-          packageType: frequency ? `${packageType} (${frequency})` : packageType,
-          preferredDate: format(validatedData.preferredDate, "yyyy-MM-dd"),
-          preferredTime: validatedData.preferredTime,
-          totalPrice: getFinalPrice(),
-          extras: selectedExtras.map(e => e.label),
-        };
-
         await supabase.functions.invoke('send-reservation-confirmation', {
-          body: emailData,
+          body: {
+            reservationId: newReservationId,
+            email: validatedData.email,
+          },
         });
-        
+
         console.log("Confirmation email sent successfully");
       } catch (emailError) {
         console.error("Error sending confirmation email:", emailError);

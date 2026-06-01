@@ -8,29 +8,64 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// HTML-escape user-supplied values before injecting into email markup.
+const esc = (v: unknown): string =>
+  String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
 
   try {
-    const { record } = await req.json()
-    
-    console.log('New inquiry received:', record)
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+    )
+
+    const body = await req.json().catch(() => ({}))
+    const recordId = body?.record?.id
+
+    if (!recordId || typeof recordId !== 'string') {
+      return new Response(JSON.stringify({ error: 'invalid payload' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Re-fetch the row from the DB instead of trusting caller-supplied content.
+    // This prevents attackers from POSTing arbitrary HTML to admin inboxes.
+    const { data: record, error: fetchError } = await supabase
+      .from('inquiries')
+      .select('id, name, email, phone, message, created_at')
+      .eq('id', recordId)
+      .single()
+
+    if (fetchError || !record) {
+      return new Response(JSON.stringify({ error: 'inquiry not found' }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     const { error } = await resend.emails.send({
       from: 'RadoClean Inquiries <onboarding@resend.dev>',
       to: ['veronika@radoclean.cz'],
       cc: ['soused@radoclean.cz'],
-      subject: `New Contact Form Inquiry from ${record.name}`,
+      subject: `New Contact Form Inquiry from ${esc(record.name)}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${record.name}</p>
-        <p><strong>Email:</strong> ${record.email}</p>
-        <p><strong>Phone:</strong> ${record.phone}</p>
+        <p><strong>Name:</strong> ${esc(record.name)}</p>
+        <p><strong>Email:</strong> ${esc(record.email)}</p>
+        <p><strong>Phone:</strong> ${esc(record.phone)}</p>
         <p><strong>Message:</strong></p>
-        <p>${record.message}</p>
-        <p><strong>Submitted:</strong> ${new Date(record.created_at).toLocaleString('cs-CZ')}</p>
+        <p>${esc(record.message)}</p>
+        <p><strong>Submitted:</strong> ${esc(new Date(record.created_at).toLocaleString('cs-CZ'))}</p>
         <hr/>
         <p>Log in to your admin dashboard to respond: <a href="https://xeogwgtqbgpthfpxoofw.lovable.app/admin">View Dashboard</a></p>
       `,
@@ -41,14 +76,12 @@ Deno.serve(async (req) => {
       throw error
     }
 
-    console.log('Email notification sent successfully')
-
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   } catch (error) {
     console.error('Error in notify-new-inquiry:', error)
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: 'internal error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
