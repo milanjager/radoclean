@@ -296,7 +296,7 @@ const B2B = () => {
                   </div>
                   <h3 className="text-xl font-bold text-foreground mb-2">{s.title}</h3>
                   <p className="text-muted-foreground text-sm mb-4">{s.desc}</p>
-                  <p className="text-xs text-muted-foreground/80 italic">Reference: {s.examples}</p>
+                  <p className="text-xs text-muted-foreground italic">Reference: {s.examples}</p>
                 </div>
               );
             })}
