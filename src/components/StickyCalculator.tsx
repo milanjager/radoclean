@@ -34,22 +34,24 @@ const StickyCalculator = () => {
           <Button
             onClick={() => setIsOpen(true)}
             size="lg"
+            aria-label="Otevřít kalkulačku"
             className="rounded-full w-16 h-16 shadow-2xl hover:scale-110 transition-transform bg-accent text-accent-foreground hover:bg-accent/90"
           >
-            <Calculator className="w-7 h-7" />
+            <Calculator className="w-7 h-7" aria-hidden="true" />
           </Button>
         ) : (
           <div className="bg-accent/95 border-2 border-accent rounded-2xl shadow-2xl p-6 w-80 animate-in slide-in-from-bottom-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-accent-foreground flex items-center gap-2">
-                <Calculator className="w-5 h-5 text-accent-foreground" />
+                <Calculator className="w-5 h-5 text-accent-foreground" aria-hidden="true" />
                 Rychlá kalkulace
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
+                aria-label="Zavřít"
                 className="text-accent-foreground/80 hover:text-accent-foreground transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
 
