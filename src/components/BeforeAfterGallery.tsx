@@ -153,7 +153,7 @@ const BeforeAfterGallery = () => {
                   <p className="text-white text-xs font-semibold truncate">
                     {item.title}
                   </p>
-                  <p className="text-white/90 text-xs">
+                  <p className="text-white text-xs">
                     {item.location}
                   </p>
                 </div>

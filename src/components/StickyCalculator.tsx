@@ -49,7 +49,7 @@ const StickyCalculator = () => {
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Zavřít"
-                className="text-accent-foreground/80 hover:text-accent-foreground transition-colors"
+                className="text-accent-foreground hover:text-accent-foreground transition-colors"
               >
                 <X className="w-5 h-5" aria-hidden="true" />
               </button>
@@ -73,7 +73,7 @@ const StickyCalculator = () => {
                   step={5}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-accent-foreground/70 mt-2">
+                <div className="flex justify-between text-xs text-accent-foreground mt-2">
                   <span>30 m²</span>
                   <span>200 m²</span>
                 </div>
@@ -81,13 +81,13 @@ const StickyCalculator = () => {
 
               <div className="bg-accent-foreground/10 rounded-xl p-4 border border-accent-foreground/30">
                 <div className="text-center">
-                  <p className="text-sm text-accent-foreground/80 mb-1">
+                  <p className="text-sm text-accent-foreground mb-1">
                     Odhadovaná cena
                   </p>
                   <p className="text-4xl font-bold text-accent-foreground">
-                    {calculatePrice(size).toLocaleString('cs-CZ')} <span className="text-xl text-accent-foreground/80">Kč</span>
+                    {calculatePrice(size).toLocaleString('cs-CZ')} <span className="text-xl text-accent-foreground">Kč</span>
                   </p>
-                  <p className="text-xs text-accent-foreground/70 mt-2">
+                  <p className="text-xs text-accent-foreground mt-2">
                     * Běžný úklid, základní balíček
                   </p>
                 </div>
@@ -102,7 +102,7 @@ const StickyCalculator = () => {
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
 
-              <p className="text-xs text-center text-accent-foreground/70">
+              <p className="text-xs text-center text-accent-foreground">
                 💡 Tip: Pravidelný úklid ušetří až 20% ceny
               </p>
             </div>
