@@ -55,7 +55,7 @@ const Hero = () => {
             Profesionální úklid domácností v Radotíně a okolí
           </h1>
           
-          <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-4 leading-relaxed">
+          <p className="text-lg md:text-xl lg:text-2xl text-white mb-4 leading-relaxed">
             Super úklid pro sousedy v Radotíně, Černošicích a Zbraslavi
           </p>
           
@@ -84,7 +84,7 @@ const Hero = () => {
             </a>
           </div>
           
-          <div className="flex flex-wrap gap-6 text-white/90 mt-[76px]">
+          <div className="flex flex-wrap gap-6 text-white mt-[76px]">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center">
                 <span className="text-accent-foreground text-xs">✓</span>
@@ -100,7 +100,7 @@ const Hero = () => {
             
           </div>
 
-          <p className="text-white/90 text-sm mt-4">
+          <p className="text-white text-sm mt-4">
             📞 <strong>Volat můžete i o víkendu</strong> - odpovídáme 7 dní v týdnu
           </p>
         </div>

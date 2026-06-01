@@ -134,16 +134,16 @@ const StickyMobileCTA = () => {
                   
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-accent-foreground/80">Typ:</span>
+                      <span className="text-accent-foreground">Typ:</span>
                       <span className="font-semibold text-accent-foreground">{getCategoryLabel()}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-accent-foreground/80">Prostor:</span>
+                      <span className="text-accent-foreground">Prostor:</span>
                       <span className="font-semibold text-accent-foreground">{getPackageLabel()}</span>
                     </div>
                     {estimatedTime > 0 && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-accent-foreground/80 flex items-center gap-1">
+                        <span className="text-accent-foreground flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" />
                           Čas:
                         </span>
@@ -154,7 +154,7 @@ const StickyMobileCTA = () => {
                       <Popover open={showExtrasPopover} onOpenChange={setShowExtrasPopover}>
                         <PopoverTrigger asChild>
                           <button className="flex items-center justify-between text-sm w-full hover:bg-accent-foreground/10 -mx-1 px-1 py-0.5 rounded transition-colors">
-                            <span className="text-accent-foreground/80 flex items-center gap-1">
+                            <span className="text-accent-foreground flex items-center gap-1">
                               <Package className="w-3.5 h-3.5" />
                               Extras:
                             </span>
@@ -225,12 +225,12 @@ const StickyMobileCTA = () => {
                 {/* Price Display */}
                 <div className="bg-accent-foreground/10 rounded-xl p-3 border-2 border-accent-foreground/30">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-accent-foreground/80">Celková cena:</span>
+                    <span className="text-sm text-accent-foreground">Celková cena:</span>
                     <div className="text-right">
                       <span className="text-2xl font-bold text-accent-foreground">
                         {totalPrice.toLocaleString('cs-CZ')}
                       </span>
-                      <span className="text-sm text-accent-foreground/80 ml-1">Kč</span>
+                      <span className="text-sm text-accent-foreground ml-1">Kč</span>
                     </div>
                   </div>
                 </div>
@@ -246,7 +246,7 @@ const StickyMobileCTA = () => {
             {/* Collapse/Expand Button */}
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-accent-foreground/80 hover:text-accent-foreground transition-colors md:gap-3"
+              className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-accent-foreground hover:text-accent-foreground transition-colors md:gap-3"
             >
               <div className="flex items-center gap-2">
                 <Info className="w-4 h-4" />

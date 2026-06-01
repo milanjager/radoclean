@@ -174,7 +174,7 @@ const Contact = () => {
                     <div>
                       <p className="font-semibold mb-1">Telefon</p>
                       <a href="tel:+420603425692" className="text-lg hover:underline block">+420 603 425 692</a>
-                      <p className="text-sm text-primary-foreground/80 mt-1">
+                      <p className="text-sm text-primary-foreground mt-1">
                         Po–Pá 8:00–18:00
                       </p>
                     </div>
@@ -185,7 +185,7 @@ const Contact = () => {
                     <div>
                       <p className="font-semibold mb-1">Email</p>
                       <a href="mailto:veronika@radoclean.cz?bcc=soused@radoclean.cz" className="text-lg hover:underline">veronika@radoclean.cz</a>
-                      <p className="text-sm text-primary-foreground/80 mt-1">
+                      <p className="text-sm text-primary-foreground mt-1">
                         Odpovíme do 2 hodin
                       </p>
                     </div>
@@ -198,7 +198,7 @@ const Contact = () => {
                       <p className="text-lg">
                         Černošice, Radotín, Zbraslav
                       </p>
-                      <p className="text-sm text-primary-foreground/80 mt-1">
+                      <p className="text-sm text-primary-foreground mt-1">
                         a přilehlé oblasti Praha-západ
                       </p>
                     </div>
@@ -220,7 +220,7 @@ const Contact = () => {
                       <Calendar className="mr-2" />
                       Online rezervace termínu
                     </Button>
-                    <p className="text-sm text-center text-primary-foreground/80 mt-3">
+                    <p className="text-sm text-center text-primary-foreground mt-3">
                       Rezervujte si termín během 2 minut
                     </p>
                   </div>
