@@ -85,9 +85,10 @@ const handler = async (req: Request): Promise<Response> => {
       : "<p>Žádné</p>";
 
     const emailResponse = await resend.emails.send({
-      from: "Úklidová služba Radotín <onboarding@resend.dev>",
+      from: "Radoclean <noreply@notify.radoclean.cz>",
       to: [reservation.email],
       cc: ["veronika@radoclean.cz", "soused@radoclean.cz"],
+      reply_to: "info@radoclean.cz",
       subject: "Potvrzení rezervace úklidu",
       html: `
         <!DOCTYPE html>
