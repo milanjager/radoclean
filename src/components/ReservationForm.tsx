@@ -105,23 +105,14 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
     setLoadingSlots(true);
     try {
-      const dateStr = format(date, "yyyy-MM-dd");
-      const { data, error } = await supabase
-        .from("availability_slots")
-        .select("time_slot, max_bookings, current_bookings, is_available")
-        .eq("date", dateStr)
-        .eq("is_available", true)
-        .order("time_slot");
-
-      if (error) throw error;
-
-      const slots = (data || []).map((slot) => ({
-        time_slot: slot.time_slot,
-        available_capacity: slot.max_bookings - slot.current_bookings,
-        is_available: slot.is_available && slot.current_bookings < slot.max_bookings,
-      }));
-
-      setAvailableSlots(slots);
+      // Vždy zobrazit všechny sloty jako volné
+      setAvailableSlots(
+        timeSlots.map((slot) => ({
+          time_slot: slot.value,
+          available_capacity: 2,
+          is_available: true,
+        }))
+      );
     } catch (error) {
       console.error("Error loading available slots:", error);
       // Fallback to default slots if error
