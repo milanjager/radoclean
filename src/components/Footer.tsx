@@ -48,7 +48,12 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection("team")} className="hover:text-background transition-colors">
+                <button onClick={() => scrollToSection("how-it-works")} className="hover:text-background transition-colors">
+                  Jak to funguje
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("o-firme")} className="hover:text-background transition-colors">
                   O nás
                 </button>
               </li>
@@ -58,8 +63,18 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection("testimonials")} className="hover:text-background transition-colors">
+                <button onClick={() => scrollToSection("reviews")} className="hover:text-background transition-colors">
                   Reference
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("faq")} className="hover:text-background transition-colors">
+                  Časté otázky
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection("kariera")} className="hover:text-background transition-colors">
+                  Kariéra
                 </button>
               </li>
               <li>
