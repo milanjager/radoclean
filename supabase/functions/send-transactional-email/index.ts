@@ -180,8 +180,6 @@ Deno.serve(async (req) => {
   // Use the DB-derived template data when available
   templateData = resolvedTemplateData
 
-  // Create Supabase client with service role (bypasses RLS)
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   // 2. Check suppression list (fail-closed: if we can't verify, don't send)
   const { data: suppressed, error: suppressionError } = await supabase
