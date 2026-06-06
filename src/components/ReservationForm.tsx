@@ -60,6 +60,9 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     is_available: boolean;
   }>>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  // Anti-spam: honeypot field + form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const [formLoadedAt] = useState<number>(() => Date.now());
 
   // Check for referral code in URL on mount
   useEffect(() => {
