@@ -141,6 +141,14 @@ const Cenik = () => {
         title="Ceník úklidu | Rado Clean — od 1800 Kč"
         description="Transparentní ceník úklidových služeb Rado Clean. Běžný úklid od 1800 Kč, generální úklid od 2500 Kč, úklid po rekonstrukci od 3500 Kč."
         path="/cenik"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Domů", item: "https://radoclean.cz/" },
+            { "@type": "ListItem", position: 2, name: "Ceník", item: "https://radoclean.cz/cenik" },
+          ],
+        }}
       />
       <Header />
 
