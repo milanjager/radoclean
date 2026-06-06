@@ -60,6 +60,9 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     is_available: boolean;
   }>>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  // Anti-spam: honeypot field + form load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const [formLoadedAt] = useState<number>(() => Date.now());
 
   // Check for referral code in URL on mount
   useEffect(() => {
@@ -183,6 +186,17 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     e.preventDefault();
     setErrors({});
     setIsSubmitting(true);
+
+    // Anti-spam: honeypot must be empty and form must have been visible >3s
+    if (honeypot.trim() !== "" || Date.now() - formLoadedAt < 3000) {
+      console.warn("Reservation blocked: spam heuristic triggered");
+      // Silent fake-success so bots don't learn what tripped them
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+      }, 800);
+      return;
+    }
 
     try {
       const validatedData = reservationSchema.parse({
@@ -342,6 +356,29 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot pole – skryté pro lidi, viditelné pro boty. Pokud je vyplněné, zahodíme submit. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-10000px",
+          top: "auto",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        <label htmlFor="website-url">Nevyplňujte toto pole</label>
+        <input
+          type="text"
+          id="website-url"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
       {/* Info Panel */}
       <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800">
         <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
