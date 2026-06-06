@@ -225,6 +225,14 @@ const B2B = () => {
         title="Úklid pro firmy a SVJ | Rado Clean B2B"
         description="Profesionální úklid kanceláří, fitness center, kadeřnictví a společných prostor SVJ v Praze a okolí. Individuální nabídka pro váš provoz."
         path="/b2b"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Domů", item: "https://radoclean.cz/" },
+            { "@type": "ListItem", position: 2, name: "B2B", item: "https://radoclean.cz/b2b" },
+          ],
+        }}
       />
       <Header />
 

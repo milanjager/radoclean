@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "@/components/SEO";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
@@ -107,6 +108,12 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <SEO
+        title="Přihlášení k účtu | Rado Clean"
+        description="Přihlaste se nebo si vytvořte účet u Rado Clean a spravujte své rezervace úklidu v Praze."
+        path="/auth"
+        noindex
+      />
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>

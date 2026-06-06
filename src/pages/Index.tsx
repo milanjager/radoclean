@@ -43,6 +43,38 @@ const Index = () => {
         title="Rado Clean — Úklid Radotín, Černošice, Zbraslav"
         description="Profesionální úklid domácností v Radotíně, Zbraslavi a Černošicích. Transparentní ceny od 1800 Kč. Online rezervace za 2 minuty."
         path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Kolik stojí úklid domácnosti v Radotíně?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Ceny úklidu začínají od 1800 Kč za běžný úklid bytu. Generální úklid stojí od 2500 Kč a úklid po rekonstrukci od 3500 Kč. Všechny ceny jsou transparentní a konečné.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Jak si mohu rezervovat úklid?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Rezervaci můžete provést online za 2 minuty přímo na našem webu. Stačí vybrat balíček, datum a čas. Potvrzení obdržíte ihned na email.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "V jakých oblastech poskytujete úklidové služby?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Poskytujeme úklidové služby v Radotíně, Černošicích, Zbraslavi, Dobřichovicích a okolí Prahy-západ.",
+                },
+              },
+            ],
+          },
+        ]}
       />
       <div className="min-h-screen pb-20 md:pb-0">
         <Header />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "@/components/SEO";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -140,6 +141,12 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Můj účet | Rado Clean"
+        description="Přehled vašich rezervací úklidu a zpráv s týmem Rado Clean."
+        path="/dashboard"
+        noindex
+      />
       <Header />
       <main className="container mx-auto px-4 pt-32 pb-16">
         <div className="mb-8">
