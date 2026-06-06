@@ -62,27 +62,21 @@ const Contact = () => {
       }]);
       if (error) throw error;
 
-      // Potvrzení zákazníkovi
+      // Potvrzení zákazníkovi — server načte data z DB podle inquiryId
       supabase.functions.invoke('send-transactional-email', {
         body: {
           templateName: 'inquiry-confirmation',
-          recipientEmail: validatedData.email,
+          inquiryId,
           idempotencyKey: `inquiry-confirm-${inquiryId}`,
-          templateData: { name: validatedData.name, message: validatedData.message },
         },
       }).catch((e) => console.error('Customer email failed', e));
 
-      // Notifikace adminovi
+      // Notifikace adminovi — server načte data z DB podle inquiryId
       supabase.functions.invoke('send-transactional-email', {
         body: {
           templateName: 'inquiry-admin-notification',
+          inquiryId,
           idempotencyKey: `inquiry-admin-${inquiryId}`,
-          templateData: {
-            name: validatedData.name,
-            email: validatedData.email,
-            phone: validatedData.phone,
-            message: validatedData.message,
-          },
         },
       }).catch((e) => console.error('Admin email failed', e));
 
