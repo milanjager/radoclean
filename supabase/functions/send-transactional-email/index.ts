@@ -51,7 +51,8 @@ Deno.serve(async (req) => {
 
   // Parse request body
   let templateName: string
-  let recipientEmail: string
+  let recipientEmail: string | undefined
+  let inquiryId: string | undefined
   let idempotencyKey: string
   let messageId: string
   let templateData: Record<string, any> = {}
@@ -59,6 +60,7 @@ Deno.serve(async (req) => {
     const body = await req.json()
     templateName = body.templateName || body.template_name
     recipientEmail = body.recipientEmail || body.recipient_email
+    inquiryId = body.inquiryId || body.inquiry_id
     messageId = crypto.randomUUID()
     idempotencyKey = body.idempotencyKey || body.idempotency_key || messageId
     if (body.templateData && typeof body.templateData === 'object') {
@@ -100,10 +102,68 @@ Deno.serve(async (req) => {
     )
   }
 
-  // Resolve effective recipient: template-level `to` takes precedence over
-  // the caller-provided recipientEmail. This allows notification templates
-  // to always send to a fixed address (e.g., site owner from env var).
-  const effectiveRecipient = template.to || recipientEmail
+  // Create Supabase client with service role (bypasses RLS) — needed early for
+  // DB-derived recipient lookup below.
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+  // SECURITY: For customer-facing inquiry templates we MUST NOT trust caller-
+  // supplied recipientEmail/templateData. The anon JWT (public) lets any
+  // visitor call this function; if we honored arbitrary recipients the site's
+  // verified email domain could be used as a phishing/spam relay.
+  //
+  // For these templates we require `inquiryId` and re-read the row from the
+  // `inquiries` table using the service role, then derive recipient and
+  // template data exclusively from stored fields.
+  const DB_DERIVED_TEMPLATES: Record<string, 'inquiries'> = {
+    'inquiry-confirmation': 'inquiries',
+    'inquiry-admin-notification': 'inquiries',
+  }
+
+  let resolvedRecipient: string | undefined
+  let resolvedTemplateData: Record<string, any> = templateData
+
+  if (DB_DERIVED_TEMPLATES[templateName]) {
+    if (!inquiryId || typeof inquiryId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'inquiryId is required for this template' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    const { data: inquiryRow, error: inquiryError } = await supabase
+      .from('inquiries')
+      .select('id, name, email, phone, message')
+      .eq('id', inquiryId)
+      .maybeSingle()
+
+    if (inquiryError || !inquiryRow) {
+      return new Response(
+        JSON.stringify({ error: 'inquiry not found' }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    // Overwrite any caller-supplied recipient/data with values from DB.
+    resolvedRecipient = inquiryRow.email
+    resolvedTemplateData = {
+      name: inquiryRow.name,
+      email: inquiryRow.email,
+      phone: inquiryRow.phone,
+      message: inquiryRow.message,
+    }
+  }
+
+  // Template-level `to` always wins (e.g. admin notifications hard-coded
+  // to the operator inbox). Otherwise prefer DB-derived recipient, and only
+  // fall back to caller-supplied recipientEmail for templates that opt out
+  // of DB derivation (none today — kept as a safety net for future templates).
+  const effectiveRecipient = template.to || resolvedRecipient || recipientEmail
 
   if (!effectiveRecipient) {
     return new Response(
@@ -117,8 +177,9 @@ Deno.serve(async (req) => {
     )
   }
 
-  // Create Supabase client with service role (bypasses RLS)
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  // Use the DB-derived template data when available
+  templateData = resolvedTemplateData
+
 
   // 2. Check suppression list (fail-closed: if we can't verify, don't send)
   const { data: suppressed, error: suppressionError } = await supabase
