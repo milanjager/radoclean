@@ -4,12 +4,15 @@ interface SEOProps {
   title: string;
   description: string;
   path: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const SITE = "https://radoclean.cz";
 
-const SEO = ({ title, description, path }: SEOProps) => {
+const SEO = ({ title, description, path, noindex, jsonLd }: SEOProps) => {
   const url = `${SITE}${path}`;
+  const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
   return (
     <Helmet>
       <title>{title}</title>
@@ -21,6 +24,12 @@ const SEO = ({ title, description, path }: SEOProps) => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:url" content={url} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      {blocks.map((block, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(block)}
+        </script>
+      ))}
     </Helmet>
   );
 };
