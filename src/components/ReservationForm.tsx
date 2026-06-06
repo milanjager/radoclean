@@ -356,6 +356,29 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot pole – skryté pro lidi, viditelné pro boty. Pokud je vyplněné, zahodíme submit. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-10000px",
+          top: "auto",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        <label htmlFor="website-url">Nevyplňujte toto pole</label>
+        <input
+          type="text"
+          id="website-url"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
       {/* Info Panel */}
       <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800">
         <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
