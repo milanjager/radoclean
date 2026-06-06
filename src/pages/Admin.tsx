@@ -70,6 +70,12 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Administrace | Rado Clean"
+        description="Interní administrační rozhraní Rado Clean pro správu rezervací, konverzací a obsahu webu."
+        path="/admin"
+        noindex
+      />
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
