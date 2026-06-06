@@ -52,6 +52,12 @@ const Unsubscribe = () => {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-background p-4">
+      <SEO
+        title="Odhlášení z e-mailů | Rado Clean"
+        description="Odhlaste se z e-mailové komunikace Rado Clean jedním kliknutím."
+        path="/unsubscribe"
+        noindex
+      />
       <div className="max-w-md w-full bg-card border rounded-2xl p-8 text-center">
         {state === "loading" && (
           <>
