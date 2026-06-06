@@ -187,6 +187,17 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
     setErrors({});
     setIsSubmitting(true);
 
+    // Anti-spam: honeypot must be empty and form must have been visible >3s
+    if (honeypot.trim() !== "" || Date.now() - formLoadedAt < 3000) {
+      console.warn("Reservation blocked: spam heuristic triggered");
+      // Silent fake-success so bots don't learn what tripped them
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+      }, 800);
+      return;
+    }
+
     try {
       const validatedData = reservationSchema.parse({
         ...formData,
