@@ -405,6 +405,41 @@ Deno.serve(async (req) => {
 
   console.log('Transactional email enqueued', { templateName, effectiveRecipient })
 
+  // Send a fixed BCC-style copy of every email to soused@radoclean.cz so the
+  // back-office always gets a parallel copy. Skip when the primary recipient
+  // already IS that address to avoid duplicates.
+  const COPY_TO = 'soused@radoclean.cz'
+  if (effectiveRecipient.toLowerCase() !== COPY_TO) {
+    const copyMessageId = `${messageId}-copy`
+    try {
+      await supabase.from('email_send_log').insert({
+        message_id: copyMessageId,
+        template_name: templateName,
+        recipient_email: COPY_TO,
+        status: 'pending',
+      })
+      await supabase.rpc('enqueue_email', {
+        queue_name: 'transactional_emails',
+        payload: {
+          message_id: copyMessageId,
+          to: COPY_TO,
+          from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+          sender_domain: SENDER_DOMAIN,
+          subject: `[kopie → ${effectiveRecipient}] ${resolvedSubject}`,
+          html,
+          text: plainText,
+          purpose: 'transactional',
+          label: `${templateName}-copy`,
+          idempotency_key: `${idempotencyKey}-copy`,
+          unsubscribe_token: unsubscribeToken,
+          queued_at: new Date().toISOString(),
+        },
+      })
+    } catch (copyErr) {
+      console.error('Failed to enqueue BCC copy to soused', copyErr)
+    }
+  }
+
   return new Response(
     JSON.stringify({ success: true, queued: true }),
     {
