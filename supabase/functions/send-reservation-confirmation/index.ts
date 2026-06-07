@@ -136,9 +136,17 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
+    if (emailResponse?.error) {
+      console.error("Resend error:", JSON.stringify(emailResponse.error));
+      return new Response(
+        JSON.stringify({ error: "send_failed", details: emailResponse.error }),
+        { status: 502, headers: { "Content-Type": "application/json", ...corsHeaders } },
+      );
+    }
+
     console.log("Confirmation email sent:", emailResponse?.data?.id);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, id: emailResponse?.data?.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
