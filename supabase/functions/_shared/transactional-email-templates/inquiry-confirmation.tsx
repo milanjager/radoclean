@@ -1,7 +1,9 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr,
+  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr, Img,
 } from 'npm:@react-email/components@0.0.22'
+
+const LOGO_URL = 'https://radoclean.cz/rado-clean-logo.png'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = 'RadoClean'
@@ -17,6 +19,7 @@ const InquiryConfirmationEmail = ({ name, message }: Props) => (
     <Preview>Děkujeme za vaši poptávku — ozveme se vám do 2 hodin</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="RadoClean" width="160" height="auto" style={{ margin: '0 0 20px', display: 'block' }} />
         <Heading style={h1}>
           {name ? `Děkujeme, ${name}!` : 'Děkujeme za vaši poptávku!'}
         </Heading>
