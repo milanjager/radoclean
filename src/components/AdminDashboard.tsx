@@ -37,6 +37,7 @@ import FeedbackList from "./FeedbackList";
 import AdminJobApplications from "./AdminJobApplications";
 import AdminAnalytics from "./AdminAnalytics";
 import AdminSeoDashboard from "./AdminSeoDashboard";
+import EmailDeliveryLog from "./EmailDeliveryLog";
 
 type Reservation = {
   id: string;
@@ -514,6 +515,8 @@ const AdminDashboard = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              <EmailDeliveryLog kind="reservation" entityId={selectedReservation.id} />
             </div>
           )}
         </DialogContent>

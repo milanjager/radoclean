@@ -26,6 +26,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, Eye, Clock } from "lucide-react";
+import EmailDeliveryLog from "./EmailDeliveryLog";
 
 type Inquiry = {
   id: string;
@@ -308,6 +309,8 @@ const AdminInquiriesManager = () => {
                 <p className="text-sm font-semibold text-muted-foreground">Received</p>
                 <p>{new Date(selectedInquiry.created_at).toLocaleString("cs-CZ")}</p>
               </div>
+
+              <EmailDeliveryLog kind="inquiry" entityId={selectedInquiry.id} />
             </div>
           )}
         </DialogContent>
