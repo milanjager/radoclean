@@ -28,7 +28,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare, Briefcase, BarChart3, Search } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, Package, DollarSign, Eye, FileText, Clock, MessageCircle, Users, MessageSquare, Briefcase, BarChart3, Search, Flame } from "lucide-react";
+import ReservationsHeatmap from "./ReservationsHeatmap";
 import AvailabilityManager from "./AvailabilityManager";
 import AdminChatManager from "./AdminChatManager";
 import AdminInquiriesManager from "./AdminInquiriesManager";
@@ -146,10 +147,14 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="analytics" className="w-full">
-        <TabsList className="grid w-full grid-cols-9 max-w-7xl">
+        <TabsList className="grid w-full grid-cols-10 max-w-7xl">
           <TabsTrigger value="analytics">
             <BarChart3 className="w-4 h-4 mr-2" />
             Analytika
+          </TabsTrigger>
+          <TabsTrigger value="heatmap">
+            <Flame className="w-4 h-4 mr-2" />
+            Heatmapa
           </TabsTrigger>
           <TabsTrigger value="seo">
             <Search className="w-4 h-4 mr-2" />
@@ -187,6 +192,10 @@ const AdminDashboard = () => {
 
         <TabsContent value="analytics" className="mt-6">
           <AdminAnalytics />
+        </TabsContent>
+
+        <TabsContent value="heatmap" className="mt-6">
+          <ReservationsHeatmap />
         </TabsContent>
 
         <TabsContent value="seo" className="mt-6">
