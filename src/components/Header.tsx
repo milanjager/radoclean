@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, Menu, X, LogIn } from "lucide-react";
+import { Phone, Menu, X, LogIn, LogOut, LayoutDashboard, Shield } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import radoCleanLogo from "@/assets/rado-clean-logo.png";
 import radotinLogo from "@/assets/radotin-logo.png";
 import UserProfileDropdown from "./UserProfileDropdown";
@@ -10,8 +11,10 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +37,30 @@ const Header = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!user?.id) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+    checkAdmin();
+  }, [user?.id]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({ title: "Odhlášeno", description: "Byli jste úspěšně odhlášeni" });
+    setIsMobileMenuOpen(false);
+    navigate("/");
+  };
   const scrollToSection = (id: string) => {
     if (location.pathname !== "/") {
       navigate(`/#${id}`);
