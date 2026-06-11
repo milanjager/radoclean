@@ -11,7 +11,8 @@ import B2B from "./pages/B2B";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/Feedback";
 import Unsubscribe from "./pages/Unsubscribe";
-
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
