@@ -115,11 +115,8 @@ const ReservationsHeatmap = () => {
                 </div>
 
                 {DAYS.map((day, di) => (
-                  <>
-                    <div
-                      key={`d-${di}`}
-                      className="text-xs text-muted-foreground font-medium flex items-center"
-                    >
+                  <div key={`row-${di}`} className="contents">
+                    <div className="text-xs text-muted-foreground font-medium flex items-center">
                       {day}
                     </div>
                     {HOURS.map((_, hi) => {
@@ -135,13 +132,10 @@ const ReservationsHeatmap = () => {
                         </div>
                       );
                     })}
-                    <div
-                      key={`s-${di}`}
-                      className="text-xs text-center font-semibold flex items-center justify-center text-muted-foreground"
-                    >
+                    <div className="text-xs text-center font-semibold flex items-center justify-center text-muted-foreground">
                       {totalsByDay[di]}
                     </div>
-                  </>
+                  </div>
                 ))}
 
                 <div className="text-xs text-muted-foreground font-semibold pt-1">
