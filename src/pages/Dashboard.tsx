@@ -150,11 +150,24 @@ const Dashboard = () => {
       />
       <Header />
       <main className="container mx-auto px-4 pt-32 pb-16">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Vítejte zpět!</h1>
-          <p className="text-muted-foreground">
-            Zde najdete přehled vašich rezervací a zpráv
-          </p>
+        <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Vítejte zpět!</h1>
+            <p className="text-muted-foreground">
+              Zde najdete přehled vašich rezervací a zpráv
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              toast({ title: "Odhlášeno", description: "Byli jste úspěšně odhlášeni" });
+              navigate("/");
+            }}
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            Odhlásit se
+          </Button>
         </div>
 
         <Tabs defaultValue="reservations" className="space-y-6">
