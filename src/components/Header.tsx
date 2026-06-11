@@ -167,13 +167,30 @@ const Header = () => {
               Rezervovat termín
             </Button>
             {user ? (
-              <div className="mt-2 p-3 bg-primary/10 rounded-lg">
-                <p className="text-sm font-medium mb-2">{user.email}</p>
+              <div className="mt-2 p-3 bg-primary/10 rounded-lg space-y-2">
+                <p className="text-sm font-medium truncate">{user.email}</p>
                 <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full mb-2">
-                    Můj Dashboard
+                  <Button variant="outline" className="w-full justify-start">
+                    <LayoutDashboard className="w-4 h-4 mr-2" />
+                    Můj dashboard
                   </Button>
                 </Link>
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Shield className="w-4 h-4 mr-2" />
+                      Administrace
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-destructive hover:text-destructive"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Odhlásit se
+                </Button>
               </div>
             ) : (
               <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
