@@ -147,10 +147,14 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="analytics" className="w-full">
-        <TabsList className="grid w-full grid-cols-9 max-w-7xl">
+        <TabsList className="grid w-full grid-cols-10 max-w-7xl">
           <TabsTrigger value="analytics">
             <BarChart3 className="w-4 h-4 mr-2" />
             Analytika
+          </TabsTrigger>
+          <TabsTrigger value="heatmap">
+            <Flame className="w-4 h-4 mr-2" />
+            Heatmapa
           </TabsTrigger>
           <TabsTrigger value="seo">
             <Search className="w-4 h-4 mr-2" />
