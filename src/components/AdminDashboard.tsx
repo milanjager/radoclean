@@ -194,6 +194,10 @@ const AdminDashboard = () => {
           <AdminAnalytics />
         </TabsContent>
 
+        <TabsContent value="heatmap" className="mt-6">
+          <ReservationsHeatmap />
+        </TabsContent>
+
         <TabsContent value="seo" className="mt-6">
           <AdminSeoDashboard />
         </TabsContent>
