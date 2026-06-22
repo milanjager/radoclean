@@ -40,8 +40,8 @@ const Index = () => {
   return (
     <PricingProvider>
       <SEO
-        title="Cleaner Maniacs Prague | Rado Clean — Úklid Praha, Radotín"
-        description="Cleaner Maniacs Prague = profesionální úklid v Praze a Radotíně. Online rezervace za 2 minuty. Transparentní ceny od 1800 Kč."
+        title="Rado Clean — Profesionální úklid v Radotíně, Praze a okolí"
+        description="Rado Clean — profesionální úklid domácností v Radotíně, Černošicích a Zbraslavi. Online rezervace za 2 minuty. Transparentní ceny od 1800 Kč."
         path="/"
         jsonLd={[
           {
