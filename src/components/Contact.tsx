@@ -6,6 +6,7 @@ import { Phone, Mail, MapPin, Calendar, Loader2, CheckCircle2 } from "lucide-rea
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { trackContactSubmission, trackReservationCTAClick } from "@/lib/analytics";
 const contactSchema = z.object({
   name: z.string().trim().min(2, {
     message: "Jméno musí mít alespoň 2 znaky"
@@ -82,6 +83,7 @@ const Contact = () => {
 
       // Success
       setIsSuccess(true);
+      trackContactSubmission();
       toast({
         title: "✅ Zpráva úspěšně odeslána!",
         description: "Ozveme se vám do 2 hodin ve všední dny.",
@@ -200,6 +202,7 @@ const Contact = () => {
                   
                   <div className="pt-6 mt-6 border-t border-primary-foreground/20">
                     <Button variant="outline" size="lg" className="w-full bg-white/10 border-white/20 hover:bg-white hover:text-primary text-white" onClick={() => {
+                    trackReservationCTAClick('contact_section');
                     const element = document.getElementById("pricing");
                     if (element) {
                       const offset = 80;

@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Star, MessageSquare } from "lucide-react";
 import { z } from "zod";
+import { trackClarityEvent } from "@/lib/analytics";
 
 const feedbackSchema = z.object({
   name: z.string().trim().min(1, "Jméno je povinné").max(100, "Jméno musí být kratší než 100 znaků"),
@@ -45,6 +46,8 @@ const FeedbackForm = () => {
       });
 
       if (error) throw error;
+
+      trackClarityEvent('feedback_submitted');
 
       toast({
         title: "Děkujeme za zpětnou vazbu!",

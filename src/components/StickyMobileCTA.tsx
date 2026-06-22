@@ -3,6 +3,7 @@ import { Phone, ShoppingCart, ChevronUp, Info, Package, X, Clock } from "lucide-
 import { usePricing } from "@/contexts/PricingContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackReservationCTAClick } from "@/lib/analytics";
 import {
   Popover,
   PopoverContent,
@@ -281,7 +282,10 @@ const StickyMobileCTA = () => {
               </a>
               <Button
                 className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-white text-accent hover:bg-white/90"
-                onClick={openReservation}
+                onClick={() => {
+                  trackReservationCTAClick('sticky_mobile_cta');
+                  openReservation();
+                }}
                 disabled={!isConfigurationComplete}
               >
                 <ShoppingCart className="mr-2 w-5 h-5" />
@@ -302,7 +306,10 @@ const StickyMobileCTA = () => {
             </a>
             <Button
               className="w-full md:w-auto md:px-8 h-12 text-base font-semibold bg-white text-accent hover:bg-white/90"
-              onClick={openReservation}
+              onClick={() => {
+                trackReservationCTAClick('sticky_mobile_cta');
+                openReservation();
+              }}
             >
               <ShoppingCart className="mr-2 w-5 h-5" />
               Rezervovat

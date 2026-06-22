@@ -267,7 +267,7 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
         }
       }
 
-      // Track conversion in Google Analytics
+      // Track conversion in Google Analytics + Clarity
       trackReservationConversion(
         packageType,
         getFinalPrice(),

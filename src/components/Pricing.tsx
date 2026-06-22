@@ -7,9 +7,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import { trackReservationCTAClick } from "@/lib/analytics";
 
 const Pricing = () => {
   const scrollToContact = () => {
+    trackReservationCTAClick('pricing_card');
     const element = document.getElementById("contact");
     if (element) {
       const offset = 80;
