@@ -551,6 +551,28 @@ export type Database = {
         }
         Returns: string
       }
+      insert_reservation_secure: {
+        Args: {
+          p_address: string
+          p_category: string
+          p_city: string
+          p_email: string
+          p_extras_ids: string[]
+          p_frequency: string
+          p_has_supplies: boolean
+          p_name: string
+          p_notes: string
+          p_package_size: string
+          p_phone: string
+          p_postal_code: string
+          p_preferred_date: string
+          p_preferred_time: string
+          p_referral_code: string
+          p_urgent: string
+          p_window_count: string
+        }
+        Returns: string
+      }
       move_to_dlq: {
         Args: {
           dlq_name: string
