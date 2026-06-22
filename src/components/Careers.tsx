@@ -92,6 +92,24 @@ const Careers = () => {
           description: "Maximální velikost CV je 5 MB",
           variant: "destructive"
         });
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+      const allowedMimes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      const allowedExts = [".pdf", ".doc", ".docx"];
+      const nameLower = file.name.toLowerCase();
+      const extOk = allowedExts.some((ext) => nameLower.endsWith(ext));
+      if (!allowedMimes.includes(file.type) || !extOk) {
+        toast({
+          title: "Nepodporovaný formát souboru",
+          description: "Nahrát lze pouze PDF, DOC nebo DOCX.",
+          variant: "destructive"
+        });
+        if (fileInputRef.current) fileInputRef.current.value = "";
         return;
       }
       setCvFile(file);
