@@ -15,6 +15,7 @@ import { cs } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { trackReservationConversion } from "@/lib/analytics";
+import { usePricing } from "@/contexts/PricingContext";
 
 const reservationSchema = z.object({
   name: z.string().min(2, "Jméno musí mít alespoň 2 znaky").max(100),
@@ -37,6 +38,15 @@ interface ReservationFormProps {
 }
 
 const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, frequency }: ReservationFormProps) => {
+  const {
+    selectedCategory,
+    selectedPackage,
+    selectedFrequency,
+    selectedUrgent,
+    selectedWindowCount,
+    selectedExtras: contextExtras,
+    hasOwnSupplies,
+  } = usePricing();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -204,19 +214,22 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
         preferredDate: date,
       });
 
-      // Use RPC function to bypass RLS for reservation insert
-      const { data: newReservationId, error } = await supabase.rpc('insert_reservation', {
+      // Use secure RPC: server computes all prices from structured inputs.
+      // Client-supplied prices are no longer trusted.
+      const { data: newReservationId, error } = await supabase.rpc('insert_reservation_secure', {
         p_name: validatedData.name,
         p_email: validatedData.email,
         p_phone: validatedData.phone,
         p_address: validatedData.address,
         p_city: validatedData.city,
         p_postal_code: validatedData.postalCode || null,
-        p_package_type: frequency ? `${packageType} (${frequency})` : packageType,
-        p_extras: selectedExtras.map(e => ({ id: e.id, label: e.label, price: e.price })),
-        p_base_price: basePrice,
-        p_extras_price: extrasPrice,
-        p_total_price: getFinalPrice(),
+        p_package_size: selectedPackage,
+        p_category: selectedCategory,
+        p_frequency: selectedFrequency,
+        p_urgent: selectedUrgent,
+        p_has_supplies: hasOwnSupplies,
+        p_window_count: selectedWindowCount,
+        p_extras_ids: Array.from(contextExtras),
         p_preferred_date: format(validatedData.preferredDate, "yyyy-MM-dd"),
         p_preferred_time: validatedData.preferredTime,
         p_notes: validatedData.notes || null,
