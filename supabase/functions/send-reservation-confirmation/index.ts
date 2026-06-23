@@ -86,27 +86,23 @@ const handler = async (req: Request): Promise<Response> => {
       totalPrice: reservation.total_price,
     };
 
-    // Customer confirmation
+    // Customer confirmation — recipient + content derived server-side from
+    // reservations table via reservationId (anon callers cannot inject either)
     const { error: customerErr } = await supabase.functions.invoke("send-transactional-email", {
       body: {
         templateName: "reservation-confirmation",
-        recipientEmail: reservation.email,
+        reservationId: reservation.id,
         idempotencyKey: `reservation-confirm-${reservation.id}`,
-        templateData: sharedData,
       },
     });
     if (customerErr) console.error("Customer email enqueue failed:", customerErr);
 
-    // Admin notification (uses template `to`)
+    // Admin notification — same DB-derived path; template has hard-coded `to`
     const { error: adminErr } = await supabase.functions.invoke("send-transactional-email", {
       body: {
         templateName: "reservation-admin-notification",
+        reservationId: reservation.id,
         idempotencyKey: `reservation-admin-${reservation.id}`,
-        templateData: {
-          ...sharedData,
-          email: reservation.email,
-          notes: reservation.notes,
-        },
       },
     });
     if (adminErr) console.error("Admin email enqueue failed:", adminErr);
