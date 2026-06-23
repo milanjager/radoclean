@@ -5,12 +5,13 @@ interface SEOProps {
   description: string;
   path: string;
   noindex?: boolean;
+  ogType?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const SITE = "https://radoclean.cz";
 
-const SEO = ({ title, description, path, noindex, jsonLd }: SEOProps) => {
+const SEO = ({ title, description, path, noindex, ogType = "website", jsonLd }: SEOProps) => {
   const url = `${SITE}${path}`;
   const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
   return (
@@ -21,6 +22,7 @@ const SEO = ({ title, description, path, noindex, jsonLd }: SEOProps) => {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
+      <meta property="og:type" content={ogType} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:url" content={url} />
@@ -33,5 +35,6 @@ const SEO = ({ title, description, path, noindex, jsonLd }: SEOProps) => {
     </Helmet>
   );
 };
+
 
 export default SEO;
