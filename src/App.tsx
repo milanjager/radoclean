@@ -11,6 +11,7 @@ import B2B from "./pages/B2B";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/Feedback";
 import Unsubscribe from "./pages/Unsubscribe";
+import BlogPlanUkliduDomacnosti from "./pages/BlogPlanUkliduDomacnosti";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/unsubscribe" element={<Unsubscribe />} />
+          <Route path="/blog/plan-uklidu-domacnosti" element={<BlogPlanUkliduDomacnosti />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
