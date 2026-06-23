@@ -297,7 +297,7 @@ const StickyMobileCTA = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:flex md:justify-center gap-3">
-            <a href="tel:+420603425692" className="flex-1 md:flex-none">
+            <a href="tel:+420603425692" className="flex-1 md:flex-none" aria-label="Zavolat na +420 603 425 692">
               <Button
                 variant="outline"
                 className="w-full md:w-auto md:px-8 h-12 text-base font-semibold border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-500 hover:text-white"
