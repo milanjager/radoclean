@@ -1,18 +1,25 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
-import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
+import { corsHeaders as baseCors } from 'npm:@supabase/supabase-js@2/cors'
+import { verifyWebhookSecret } from '../_shared/webhook-auth.ts'
 
-// On a new inquiry row this function enqueues TWO emails through the
-// shared transactional pipeline:
-//   1) Customer confirmation (`inquiry-confirmation`)
-//   2) Admin notification    (`inquiry-admin-notification`, hard-coded recipient)
-//
-// Both sends use stable idempotency keys (`inquiry-confirm-<id>` /
-// `inquiry-admin-<id>`) so the admin Email Delivery panel can correlate
-// every queued / sent / failed row back to the originating inquiry.
+const corsHeaders = {
+  ...baseCors,
+  'Access-Control-Allow-Headers':
+    (baseCors as Record<string, string>)['Access-Control-Allow-Headers']
+      ? `${(baseCors as Record<string, string>)['Access-Control-Allow-Headers']}, x-webhook-secret`
+      : 'authorization, x-client-info, apikey, content-type, x-webhook-secret',
+}
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
+  }
+
+  if (!(await verifyWebhookSecret(req))) {
+    return new Response(JSON.stringify({ error: 'unauthorized' }), {
+      status: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
   }
 
   try {
