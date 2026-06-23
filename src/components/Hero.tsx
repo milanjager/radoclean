@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone } from "lucide-react";
-import heroImage from "@/assets/hero-clean-room.jpg";
+const heroImage = "/hero-clean-room.jpg";
 const Hero = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
