@@ -228,7 +228,118 @@
     }
     </script>
 
+    <!-- Structured Data: Services -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "@id": "https://radoclean.cz/#service-standard",
+          "serviceType": "Běžný úklid domácnosti",
+          "name": "Běžný úklid",
+          "description": "Pravidelný profesionální úklid bytů a domů — vysávání, vytírání, prach, koupelna, kuchyně.",
+          "provider": { "@id": "https://radoclean.cz/#localbusiness" },
+          "areaServed": [
+            {"@type": "City", "name": "Praha"},
+            {"@type": "City", "name": "Radotín"},
+            {"@type": "City", "name": "Černošice"},
+            {"@type": "City", "name": "Zbraslav"}
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "1800",
+            "priceCurrency": "CZK",
+            "availability": "https://schema.org/InStock",
+            "url": "https://radoclean.cz/cenik"
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://radoclean.cz/#service-general",
+          "serviceType": "Generální úklid",
+          "name": "Generální úklid",
+          "description": "Hloubkový úklid včetně oken, lišt, dvířek, spotřebičů a obtížně dostupných míst.",
+          "provider": { "@id": "https://radoclean.cz/#localbusiness" },
+          "areaServed": [
+            {"@type": "City", "name": "Praha"},
+            {"@type": "City", "name": "Radotín"},
+            {"@type": "City", "name": "Černošice"},
+            {"@type": "City", "name": "Zbraslav"}
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "2500",
+            "priceCurrency": "CZK",
+            "availability": "https://schema.org/InStock",
+            "url": "https://radoclean.cz/cenik"
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://radoclean.cz/#service-post-construction",
+          "serviceType": "Úklid po rekonstrukci",
+          "name": "Úklid po rekonstrukci",
+          "description": "Odstranění stavebního prachu, zbytků malby a nečistot po rekonstrukci nebo novostavbě.",
+          "provider": { "@id": "https://radoclean.cz/#localbusiness" },
+          "areaServed": [
+            {"@type": "City", "name": "Praha"},
+            {"@type": "City", "name": "Radotín"},
+            {"@type": "City", "name": "Černošice"},
+            {"@type": "City", "name": "Zbraslav"}
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "3500",
+            "priceCurrency": "CZK",
+            "availability": "https://schema.org/InStock",
+            "url": "https://radoclean.cz/cenik"
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://radoclean.cz/#service-windows",
+          "serviceType": "Mytí oken",
+          "name": "Mytí oken",
+          "description": "Profesionální mytí oken, rámů a parapetů včetně leštění bez šmouh.",
+          "provider": { "@id": "https://radoclean.cz/#localbusiness" },
+          "areaServed": [
+            {"@type": "City", "name": "Praha"},
+            {"@type": "City", "name": "Radotín"},
+            {"@type": "City", "name": "Černošice"},
+            {"@type": "City", "name": "Zbraslav"}
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "200",
+            "priceCurrency": "CZK",
+            "availability": "https://schema.org/InStock",
+            "url": "https://radoclean.cz/cenik"
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://radoclean.cz/#service-b2b",
+          "serviceType": "Úklid firem a kanceláří",
+          "name": "Úklid kanceláří (B2B)",
+          "description": "Pravidelný úklid kanceláří, ordinací a komerčních prostor s individuální cenovou nabídkou.",
+          "provider": { "@id": "https://radoclean.cz/#localbusiness" },
+          "areaServed": [
+            {"@type": "City", "name": "Praha"}
+          ],
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "CZK",
+            "availability": "https://schema.org/InStock",
+            "url": "https://radoclean.cz/b2b"
+          }
+        }
+      ]
+    }
+    </script>
+
     <!-- FAQ + Breadcrumb JSON-LD are injected per-route via the SEO component -->
+
 
 
     <!-- Structured Data: WebSite with SearchAction -->
