@@ -36,7 +36,7 @@ const Hero = () => {
           poster={heroImage}
           width={1920}
           height={1080}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover hidden md:block"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
