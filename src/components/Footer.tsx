@@ -26,10 +26,10 @@ const Footer = () => {
             <Link to="/" className="inline-block mb-4">
               <img src={radoCleanLogo} alt="Rado Clean" className="h-16 w-auto" />
             </Link>
-            <p className="text-background/80 mb-3">
+            <p className="text-background/90 mb-3">
               Rodinný úklidový servis pro sousedy v Radotíně, Černošicích a Zbraslavi.
             </p>
-            <div className="text-background/70 text-sm space-y-1">
+            <div className="text-background/90 text-sm space-y-1">
               <p><strong>Radoclean s.r.o.</strong></p>
               <p><strong>Právní forma:</strong> společnost s ručením omezeným</p>
               <p><strong>IČO:</strong> 24566241</p>
@@ -41,7 +41,7 @@ const Footer = () => {
           
           <div>
             <h4 className="font-semibold mb-4">Rychlé odkazy</h4>
-            <ul className="space-y-2 text-background/80">
+            <ul className="space-y-2 text-background/90">
               <li>
                 <button onClick={() => scrollToSection("pricing")} className="hover:text-background transition-colors">
                   Ceník
@@ -87,7 +87,7 @@ const Footer = () => {
           
           <div>
             <h4 className="font-semibold mb-4">Služby</h4>
-            <ul className="space-y-2 text-background/80 text-sm">
+            <ul className="space-y-2 text-background/90 text-sm">
               <li>• Běžný úklid domácností</li>
               <li>• Generální úklid</li>
               <li>• Úklid po rekonstrukci</li>
@@ -98,7 +98,7 @@ const Footer = () => {
           
           <div>
             <h4 className="font-semibold mb-4">Právní informace</h4>
-            <ul className="space-y-2 text-background/80 text-sm">
+            <ul className="space-y-2 text-background/90 text-sm">
               <li><strong>Radoclean s.r.o.</strong></li>
               <li>IČO: 24566241</li>
               <li>DIČ: CZ24566241</li>
@@ -118,10 +118,10 @@ const Footer = () => {
         </div>
         
         <div className="pt-8 border-t border-background/20 text-center">
-          <p className="text-background/80 text-sm">
+          <p className="text-background/90 text-sm">
             © 2024 Rado Clean • Radotín, Černošice, Zbraslav
           </p>
-          <p className="text-background/70 text-xs mt-2">
+          <p className="text-background/90 text-xs mt-2">
             Vytvořeno s 💙💚 pro rodiny a sousedy v Poberouní
           </p>
         </div>
