@@ -74,6 +74,13 @@ const Index = () => {
               },
             ],
           },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Domů", item: "https://radoclean.cz/" },
+            ],
+          },
         ]}
       />
       <div className="min-h-screen pb-20 md:pb-0">
