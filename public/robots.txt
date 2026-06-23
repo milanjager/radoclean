@@ -1,8 +1,16 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /unsubscribe
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /unsubscribe
 
 User-agent: Twitterbot
 Allow: /
@@ -15,5 +23,7 @@ Allow: /
 Disallow: /admin
 Disallow: /dashboard
 Disallow: /auth
+Disallow: /unsubscribe
 
+Host: https://radoclean.cz
 Sitemap: https://radoclean.cz/sitemap.xml
