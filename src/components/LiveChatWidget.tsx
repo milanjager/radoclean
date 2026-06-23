@@ -143,40 +143,33 @@ const LiveChatWidget = () => {
     }
   };
 
-  // Subscribe to real-time messages
+  // Poll for new messages every 3s. We intentionally do NOT use Supabase
+  // Realtime here because chat_messages has no anon SELECT RLS policy
+  // (only admins can read directly). The get-chat-messages edge function
+  // verifies the caller's visitorId against the conversation server-side,
+  // so polling is the safe channel for anonymous visitors.
   useEffect(() => {
     if (!conversationId) return;
 
-    const channel = supabase
-      .channel(`chat:${conversationId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "chat_messages",
-          filter: `conversation_id=eq.${conversationId}`
-        },
-        (payload) => {
-          const newMsg = payload.new as Message;
-          setMessages((prev) => [...prev, newMsg]);
-          
-          // Show notification if chat is closed
-          if (!isOpen && newMsg.sender_type === "agent") {
-            setUnreadCount((prev) => prev + 1);
-          }
-          
-          // Simulate typing indicator
-          if (newMsg.sender_type === "agent") {
-            setIsTyping(false);
-          }
+    const interval = setInterval(async () => {
+      const prevLen = messages.length;
+      await loadMessages(conversationId);
+      // Detect newly-arrived agent message for notification/typing UI.
+      setMessages((curr) => {
+        const newest = curr[curr.length - 1];
+        if (
+          curr.length > prevLen &&
+          newest?.sender_type === "agent"
+        ) {
+          if (!isOpen) setUnreadCount((u) => u + 1);
+          setIsTyping(false);
         }
-      )
-      .subscribe();
+        return curr;
+      });
+    }, 3000);
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversationId, isOpen]);
 
   // Check if user is logged in and auto-fill, or check for existing conversation
