@@ -53,6 +53,7 @@ Deno.serve(async (req) => {
   let templateName: string
   let recipientEmail: string | undefined
   let inquiryId: string | undefined
+  let reservationId: string | undefined
   let idempotencyKey: string
   let messageId: string
   let templateData: Record<string, any> = {}
@@ -61,6 +62,7 @@ Deno.serve(async (req) => {
     templateName = body.templateName || body.template_name
     recipientEmail = body.recipientEmail || body.recipient_email
     inquiryId = body.inquiryId || body.inquiry_id
+    reservationId = body.reservationId || body.reservation_id
     messageId = crypto.randomUUID()
     idempotencyKey = body.idempotencyKey || body.idempotency_key || messageId
     if (body.templateData && typeof body.templateData === 'object') {
@@ -106,23 +108,26 @@ Deno.serve(async (req) => {
   // DB-derived recipient lookup below.
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-  // SECURITY: For customer-facing inquiry templates we MUST NOT trust caller-
+  // SECURITY: For all customer-facing templates we MUST NOT trust caller-
   // supplied recipientEmail/templateData. The anon JWT (public) lets any
   // visitor call this function; if we honored arbitrary recipients the site's
   // verified email domain could be used as a phishing/spam relay.
   //
-  // For these templates we require `inquiryId` and re-read the row from the
-  // `inquiries` table using the service role, then derive recipient and
-  // template data exclusively from stored fields.
-  const DB_DERIVED_TEMPLATES: Record<string, 'inquiries'> = {
+  // For each entry we require the matching id parameter and re-read the row
+  // from the underlying table using the service role, then derive recipient
+  // and template data exclusively from stored fields.
+  const DB_DERIVED_TEMPLATES: Record<string, 'inquiries' | 'reservations'> = {
     'inquiry-confirmation': 'inquiries',
     'inquiry-admin-notification': 'inquiries',
+    'reservation-confirmation': 'reservations',
+    'reservation-admin-notification': 'reservations',
   }
 
   let resolvedRecipient: string | undefined
   let resolvedTemplateData: Record<string, any> = templateData
 
-  if (DB_DERIVED_TEMPLATES[templateName]) {
+  const sourceTable = DB_DERIVED_TEMPLATES[templateName]
+  if (sourceTable === 'inquiries') {
     if (!inquiryId || typeof inquiryId !== 'string') {
       return new Response(
         JSON.stringify({ error: 'inquiryId is required for this template' }),
@@ -149,7 +154,6 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Overwrite any caller-supplied recipient/data with values from DB.
     resolvedRecipient = inquiryRow.email
     resolvedTemplateData = {
       name: inquiryRow.name,
@@ -157,7 +161,56 @@ Deno.serve(async (req) => {
       phone: inquiryRow.phone,
       message: inquiryRow.message,
     }
+  } else if (sourceTable === 'reservations') {
+    if (!reservationId || typeof reservationId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'reservationId is required for this template' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    const { data: r, error: rErr } = await supabase
+      .from('reservations')
+      .select('id, name, email, phone, address, city, postal_code, package_type, extras, total_price, preferred_date, preferred_time, notes')
+      .eq('id', reservationId)
+      .maybeSingle()
+
+    if (rErr || !r) {
+      return new Response(
+        JSON.stringify({ error: 'reservation not found' }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    const formattedDate = r.preferred_date
+      ? new Date(r.preferred_date).toLocaleDateString('cs-CZ', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        })
+      : ''
+
+    resolvedRecipient = r.email
+    resolvedTemplateData = {
+      name: r.name,
+      email: r.email,
+      phone: r.phone,
+      address: r.address,
+      city: r.city,
+      postalCode: r.postal_code,
+      packageType: r.package_type,
+      extras: Array.isArray(r.extras) ? r.extras : [],
+      totalPrice: r.total_price,
+      formattedDate,
+      preferredTime: r.preferred_time,
+      notes: r.notes,
+    }
   }
+
 
   // Template-level `to` always wins (e.g. admin notifications hard-coded
   // to the operator inbox). Otherwise prefer DB-derived recipient, and only
