@@ -114,15 +114,11 @@ const LiveChatWidget = () => {
     }
   };
 
-  // Send welcome message from "agent"
-  const sendWelcomeMessage = async (convId: string) => {
-    await supabase.from("chat_messages").insert({
-      conversation_id: convId,
-      sender_type: "agent",
-      sender_name: "Podpora",
-      message: `Ahoj ${visitorName}! 👋 Jsme tu pro vás. Jak vám můžeme pomoci?`
-    });
+  // Welcome message is sent by an admin/agent — no client insert.
+  const sendWelcomeMessage = async (_convId: string) => {
+    // no-op: visitors cannot insert agent messages; admins reply from the dashboard.
   };
+
 
   // Load messages
   const loadMessages = async (convId: string) => {
@@ -234,14 +230,16 @@ const LiveChatWidget = () => {
     setNewMessage("");
 
     try {
-      const { error } = await supabase.from("chat_messages").insert({
-        conversation_id: conversationId,
-        sender_type: "visitor",
-        sender_name: visitorName,
-        message: messageText
+      const visitorId = getVisitorId();
+      const { error } = await supabase.rpc("insert_visitor_chat_message", {
+        p_conversation_id: conversationId,
+        p_visitor_id: visitorId,
+        p_sender_name: visitorName,
+        p_message: messageText,
       });
 
       if (error) throw error;
+
 
       // Simulate agent typing
       setIsTyping(true);
