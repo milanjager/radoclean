@@ -103,9 +103,10 @@ const BlogPlanUkliduDomacnosti = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Plán úklidu domácnosti: kompletní checklist (denní, týdenní, měsíční) | Radoclean"
+        title="Plán úklidu domácnosti: kompletní checklist | Radoclean"
         description="Praktický plán úklidu domácnosti od profesionálů. Denní, týdenní, měsíční a sezónní checklist, který vás zbaví chaosu. Bonus: kdy se vyplatí úklidová firma."
         path="/blog/plan-uklidu-domacnosti"
+        ogType="article"
         jsonLd={[articleJsonLd, breadcrumbJsonLd]}
       />
       <Header />
