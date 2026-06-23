@@ -591,6 +591,15 @@ export type Database = {
         }
         Returns: string
       }
+      insert_visitor_chat_message: {
+        Args: {
+          p_conversation_id: string
+          p_message: string
+          p_sender_name: string
+          p_visitor_id: string
+        }
+        Returns: string
+      }
       move_to_dlq: {
         Args: {
           dlq_name: string
