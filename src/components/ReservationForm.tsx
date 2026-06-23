@@ -241,21 +241,9 @@ const ReservationForm = ({ packageType, basePrice, selectedExtras, totalPrice, f
       // Create reservationData structure for use in referral tracking
       const reservationData = newReservationId ? [{ id: newReservationId }] : null;
 
-      // Send confirmation email — server re-reads the reservation by id and
-      // uses stored fields only (prevents arbitrary email abuse).
-      try {
-        await supabase.functions.invoke('send-reservation-confirmation', {
-          body: {
-            reservationId: newReservationId,
-            email: validatedData.email,
-          },
-        });
-
-        console.log("Confirmation email sent successfully");
-      } catch (emailError) {
-        console.error("Error sending confirmation email:", emailError);
-        // Don't fail the reservation if email fails
-      }
+      // Confirmation email is now sent automatically by a DB trigger
+      // (trigger_notify_new_reservation) that calls send-reservation-confirmation
+      // with an X-Webhook-Secret header. No client-side invocation needed.
 
       // Track referral use if referral code was used
       if (referralCode && reservationData && reservationData[0]) {
