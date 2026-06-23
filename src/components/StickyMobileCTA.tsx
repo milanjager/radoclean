@@ -247,6 +247,8 @@ const StickyMobileCTA = () => {
             {/* Collapse/Expand Button */}
             <button
               onClick={() => setIsExpanded(!isExpanded)}
+              aria-label={isExpanded ? 'Skrýt detaily konfigurace' : 'Zobrazit detaily konfigurace'}
+              aria-expanded={isExpanded}
               className="w-full md:w-auto flex items-center justify-between md:justify-start text-sm text-accent-foreground hover:text-accent-foreground transition-colors md:gap-3"
             >
               <div className="flex items-center gap-2">
