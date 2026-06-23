@@ -23,7 +23,7 @@ const BlogPlanUkliduDomacnosti = () => {
     "Setřít pracovní desku a stůl po každém jídle",
     "Vynést odpadky, pokud jsou plné",
     "Rychlý úklid koupelny – setřít umyvadlo a zrcadlo",
-    "Roztřídit poštu a věci, které se „povalují" po obýváku",
+    "Roztřídit poštu a věci, které se povalují po obýváku",
   ];
 
   const weekly = [
