@@ -230,14 +230,16 @@ const LiveChatWidget = () => {
     setNewMessage("");
 
     try {
-      const { error } = await supabase.from("chat_messages").insert({
-        conversation_id: conversationId,
-        sender_type: "visitor",
-        sender_name: visitorName,
-        message: messageText
+      const visitorId = getVisitorId();
+      const { error } = await supabase.rpc("insert_visitor_chat_message", {
+        p_conversation_id: conversationId,
+        p_visitor_id: visitorId,
+        p_sender_name: visitorName,
+        p_message: messageText,
       });
 
       if (error) throw error;
+
 
       // Simulate agent typing
       setIsTyping(true);
