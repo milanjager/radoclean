@@ -10,6 +10,14 @@ const Feedback = () => {
         title="Zpětná vazba | Rado Clean"
         description="Podělte se s námi o svůj názor na úklidové služby Rado Clean. Vaše zpětná vazba nám pomáhá zlepšovat naše služby."
         path="/feedback"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Domů", item: "https://radoclean.cz/" },
+            { "@type": "ListItem", position: 2, name: "Zpětná vazba", item: "https://radoclean.cz/feedback" },
+          ],
+        }}
       />
       <Header />
       <main className="flex-1 pt-24 pb-16">
